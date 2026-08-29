@@ -8,7 +8,10 @@ const services = siteConfig.nav.filter((n) => n.href.startsWith("/services") || 
 /** Clean four-column footer with legal links and social profiles. */
 export function Footer() {
   return (
-    <footer className="bg-abyss text-teal-100/75">
+    <footer
+      className="relative text-teal-100/75"
+      style={{ backgroundImage: `linear-gradient(rgb(14 14 14 / 0.88), rgb(14 14 14 / 0.94)), url(${withBasePath("/images/bg-black-marble.jpg")})`, backgroundSize: "auto, 420px" }}
+    >
       <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6">
         <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
           <div>

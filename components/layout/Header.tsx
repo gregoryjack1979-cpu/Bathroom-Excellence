@@ -4,7 +4,7 @@ import Link from "next/link";
 import clsx from "clsx";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-import { siteConfig } from "@/config/site";
+import { siteConfig, withBasePath } from "@/config/site";
 import { Button } from "@/components/ui/Button";
 import { Logo } from "./Logo";
 import { MobileNav } from "./MobileNav";
@@ -39,9 +39,10 @@ export function Header() {
   return (
     <header
       className={clsx(
-        "fixed inset-x-0 top-0 z-50 transition-all duration-300",
-        scrolled ? "glass-panel shadow-card" : "border-b border-white/40 bg-white/38 backdrop-blur-md",
+        "fixed inset-x-0 top-0 z-50 border-b border-white/10 text-white transition-all duration-300",
+        scrolled ? "shadow-lift" : "",
       )}
+      style={{ backgroundImage: `linear-gradient(rgb(16 16 16 / ${scrolled ? 0.86 : 0.72}), rgb(16 16 16 / ${scrolled ? 0.86 : 0.72})), url(${withBasePath("/images/bg-black-marble.jpg")})`, backgroundSize: "auto, 420px", backdropFilter: "blur(8px)" }}
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         {/* top row */}
@@ -52,20 +53,20 @@ export function Header() {
           )}
         >
           <Link href="/" aria-label={`${siteConfig.name} — home`} className="shrink-0">
-            <Logo />
+            <Logo tone="dark" />
           </Link>
 
           <div className="hidden items-center gap-5 lg:flex">
             <a
               href={siteConfig.phoneHref}
-              className="group inline-flex items-center gap-2 text-sm font-semibold text-ink transition-colors hover:text-teal-600"
+              className="group inline-flex items-center gap-2 text-sm font-semibold text-white transition-colors hover:text-teal-300"
             >
-              <span className="grid h-9 w-9 place-items-center rounded-full bg-teal-50 text-teal-600 transition-transform group-hover:scale-110">
+              <span className="grid h-9 w-9 place-items-center rounded-full bg-white/10 text-teal-300 transition-transform group-hover:scale-110">
                 {PhoneIcon}
               </span>
               {siteConfig.phoneDisplay}
             </a>
-            <Button href="/#free-estimate" size="md">
+            <Button href="/#free-estimate" size="md" variant="light">
               Get a Free Estimate
             </Button>
           </div>
@@ -75,7 +76,7 @@ export function Header() {
             <a
               href={siteConfig.phoneHref}
               aria-label={`Call ${siteConfig.phoneDisplay}`}
-              className="grid h-11 w-11 place-items-center rounded-full bg-teal-50 text-teal-700"
+              className="grid h-11 w-11 place-items-center rounded-full bg-white/10 text-teal-300"
             >
               {PhoneIcon}
             </a>
@@ -85,7 +86,7 @@ export function Header() {
               aria-expanded={menuOpen}
               aria-controls="mobile-nav"
               onClick={() => setMenuOpen(true)}
-              className="grid h-11 w-11 place-items-center rounded-full border border-chrome/70 bg-white/70 text-ink"
+              className="grid h-11 w-11 place-items-center rounded-full border border-white/25 bg-white/10 text-white"
             >
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                 <path d="M4 7h16M4 12h16M4 17h10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
@@ -98,7 +99,7 @@ export function Header() {
         <nav aria-label="Primary" className="hidden lg:block">
           <ul
             className={clsx(
-              "-mx-2 flex flex-wrap items-center justify-center gap-x-0.5 border-t border-ink/5 transition-[padding] duration-300",
+              "-mx-2 flex flex-wrap items-center justify-center gap-x-0.5 border-t border-white/10 transition-[padding] duration-300",
               scrolled ? "py-1.5" : "py-2.5",
             )}
           >
@@ -110,8 +111,8 @@ export function Header() {
                   className={clsx(
                     "relative rounded-full px-2 py-1.5 text-xs font-medium transition-colors xl:px-3 xl:text-[13px]",
                     isActive(item.href)
-                      ? "bg-teal-600/10 text-teal-700"
-                      : "text-body hover:bg-ink/5 hover:text-ink",
+                      ? "bg-teal-400/15 text-teal-300"
+                      : "text-white/75 hover:bg-white/10 hover:text-white",
                   )}
                 >
                   {item.label}

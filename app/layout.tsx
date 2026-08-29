@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Playfair_Display } from "next/font/google";
+import { Lora, Mulish } from "next/font/google";
 import { siteConfig, withBasePath } from "@/config/site";
 import { MotionPrefsProvider } from "@/lib/hooks/useMotionPrefs";
 import { JsonLd } from "@/components/ui/JsonLd";
@@ -7,15 +7,15 @@ import { EffectsMount } from "@/components/effects/EffectsMount";
 import { PageLoader } from "@/components/effects/PageLoader";
 import "./globals.css";
 
-const inter = Inter({
+const mulish = Mulish({
   subsets: ["latin"],
-  variable: "--font-inter",
+  variable: "--font-mulish",
   display: "swap",
 });
 
-const playfair = Playfair_Display({
+const lora = Lora({
   subsets: ["latin"],
-  variable: "--font-playfair",
+  variable: "--font-lora",
   display: "swap",
 });
 
@@ -46,14 +46,14 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#0b3542",
+  themeColor: "#161616",
 };
 
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${playfair.variable}`}>
+    <html lang="en" className={`${mulish.variable} ${lora.variable}`}>
       <body>
         <MotionPrefsProvider>
           <PageLoader />

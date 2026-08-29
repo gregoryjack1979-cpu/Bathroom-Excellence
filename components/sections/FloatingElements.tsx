@@ -4,7 +4,7 @@
  * motion is CSS (auto-paused under reduced motion via the global kill-switch).
  */
 export function FloatingElements({ variant = "light" }: { variant?: "light" | "dark" }) {
-  const stroke = variant === "dark" ? "#57b1c4" : "#8ccbd8";
+  const stroke = variant === "dark" ? "#c9a86a" : "#d9bd8c";
   return (
     <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
       {/* chrome ring */}

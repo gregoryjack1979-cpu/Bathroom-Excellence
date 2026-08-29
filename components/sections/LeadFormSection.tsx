@@ -6,7 +6,7 @@ const points = [
   "Free in-home design consultation",
   "Exact written quote — no surprises",
   "Flexible financing options",
-  "Most installs done in 2–4 days",
+  "Many projects done in as little as a day",
 ];
 
 /** Estimate wizard wrapped with trust copy — the primary conversion point. */

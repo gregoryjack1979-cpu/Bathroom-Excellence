@@ -130,8 +130,8 @@ export function CustomCursor() {
             <defs>
               <radialGradient id="cursor-drop" cx="38%" cy="30%" r="75%">
                 <stop offset="0%" stopColor="#ffffff" stopOpacity="0.95" />
-                <stop offset="42%" stopColor="#bfe3ec" stopOpacity="0.75" />
-                <stop offset="100%" stopColor="#2a93ac" stopOpacity="0.85" />
+                <stop offset="42%" stopColor="#d5e2e7" stopOpacity="0.75" />
+                <stop offset="100%" stopColor="#7e97a1" stopOpacity="0.9" />
               </radialGradient>
             </defs>
             <path

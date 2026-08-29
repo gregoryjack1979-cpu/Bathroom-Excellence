@@ -1,6 +1,20 @@
 import clsx from "clsx";
 import type { ReactNode } from "react";
 
+function Flourish({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 140 18" width="120" height="16" fill="none" aria-hidden="true" className={className}>
+      <g stroke="currentColor" strokeWidth="1.6" strokeLinecap="round">
+        <path d="M64 9 C 50 16, 34 16, 29 10 C 25 5, 30 1, 35 4 C 39 7, 35 12, 28 10" />
+        <path d="M76 9 C 90 16, 106 16, 111 10 C 115 5, 110 1, 105 4 C 101 7, 105 12, 112 10" />
+        <path d="M20 9 C 14 9, 8 9, 3 9" opacity="0.7" />
+        <path d="M120 9 C 126 9, 132 9, 137 9" opacity="0.7" />
+      </g>
+      <path d="M70 3.5 L74 9 L70 14.5 L66 9 Z" fill="currentColor" />
+    </svg>
+  );
+}
+
 interface SectionHeadingProps {
   eyebrow?: string;
   title: ReactNode;
@@ -44,6 +58,13 @@ export function SectionHeading({
       >
         {title}
       </h2>
+      <Flourish
+        className={clsx(
+          "mt-4",
+          align === "center" && "mx-auto",
+          tone === "dark" ? "text-teal-300" : "text-teal-600",
+        )}
+      />
       {subtitle && (
         <p
           className={clsx(

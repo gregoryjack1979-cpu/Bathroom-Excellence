@@ -2,31 +2,34 @@
 
 /* ───────────────────────────── Design tokens ───────────────────────────── */
 @theme {
-  /* Palette: deep water teal + chrome silver + warm porcelain white */
-  --color-ink: #13272f;
-  --color-deep: #0b3542;
-  --color-abyss: #082830;
-  --color-teal-700: #0f5e73;
-  --color-teal-600: #17758d;
-  --color-teal-500: #2a93ac;
-  --color-teal-400: #57b1c4;
-  --color-teal-300: #8ccbd8;
-  --color-teal-100: #d8edf2;
-  --color-teal-50: #eff7f9;
-  --color-mist: #f4f8f9;
-  --color-porcelain: #fbfcfc;
-  --color-chrome-light: #f2f5f7;
-  --color-chrome: #c6d0d7;
-  --color-chrome-dark: #8d9ba5;
-  --color-body: #46606c;
+  /* Palette matched to the original Bathroom Excellence site:
+     black marble + charcoal panels, warm ivory paper, silver chrome,
+     antique-gold accents (the "teal-*" token names are kept so existing
+     utility classes restyle site-wide). */
+  --color-ink: #1a1a1a;
+  --color-deep: #232323;
+  --color-abyss: #161616;
+  --color-teal-700: #8a6a3b;
+  --color-teal-600: #a8834e;
+  --color-teal-500: #b8965e;
+  --color-teal-400: #cbaa72;
+  --color-teal-300: #d9bd8c;
+  --color-teal-100: #eee5d2;
+  --color-teal-50: #f3efe6;
+  --color-mist: #f1ede4;
+  --color-porcelain: #faf8f3;
+  --color-chrome-light: #f2f4f5;
+  --color-chrome: #c9ced3;
+  --color-chrome-dark: #8f979e;
+  --color-body: #4d4d4d;
   --color-sand: #efe9df;
 
-  --font-display: var(--font-playfair), Georgia, "Times New Roman", serif;
-  --font-sans: var(--font-inter), system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: var(--font-lora), Georgia, "Times New Roman", serif;
+  --font-sans: var(--font-mulish), system-ui, -apple-system, "Segoe UI", sans-serif;
 
-  --shadow-card: 0 2px 6px rgb(19 39 47 / 0.05), 0 12px 32px -8px rgb(19 39 47 / 0.14);
-  --shadow-lift: 0 6px 14px rgb(19 39 47 / 0.08), 0 28px 56px -14px rgb(19 39 47 / 0.25);
-  --shadow-glow: 0 0 0 1px rgb(42 147 172 / 0.15), 0 10px 40px -8px rgb(42 147 172 / 0.35);
+  --shadow-card: 0 2px 6px rgb(20 20 20 / 0.05), 0 12px 32px -8px rgb(20 20 20 / 0.14);
+  --shadow-lift: 0 6px 14px rgb(20 20 20 / 0.08), 0 28px 56px -14px rgb(20 20 20 / 0.25);
+  --shadow-glow: 0 0 0 1px rgb(168 131 78 / 0.2), 0 10px 40px -8px rgb(168 131 78 / 0.4);
 
   --radius-card: 1.25rem;
 
@@ -52,7 +55,7 @@ body {
 }
 
 ::selection {
-  background: color-mix(in srgb, var(--color-teal-400) 35%, transparent);
+  background: color-mix(in srgb, var(--color-teal-400) 40%, transparent);
 }
 
 h1, h2, h3, .font-display {
@@ -79,7 +82,7 @@ h1, h2, h3, .font-display {
 }
 
 .glass-dark {
-  background: rgb(8 40 48 / 0.55);
+  background: rgb(22 22 22 / 0.62);
   backdrop-filter: blur(14px) saturate(1.2);
   -webkit-backdrop-filter: blur(14px) saturate(1.2);
   border: 1px solid rgb(255 255 255 / 0.12);
@@ -164,8 +167,8 @@ h1, h2, h3, .font-display {
   width: 110px;
   height: 110px;
   border-radius: 9999px;
-  border: 2px solid rgb(87 177 196 / 0.9);
-  box-shadow: 0 0 18px rgb(87 177 196 / 0.35) inset;
+  border: 2px solid rgb(176 196 205 / 0.95);
+  box-shadow: 0 0 18px rgb(176 196 205 / 0.4) inset;
   animation: ripple-ring 480ms cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
   pointer-events: none;
 }
@@ -177,7 +180,7 @@ h1, h2, h3, .font-display {
   height: 44px;
   border-radius: 9999px;
   transform: translate(-50%, -50%);
-  background: radial-gradient(circle, rgb(255 255 255 / 0.9) 0%, rgb(199 231 238 / 0.4) 45%, transparent 70%);
+  background: radial-gradient(circle, rgb(255 255 255 / 0.9) 0%, rgb(214 226 231 / 0.45) 45%, transparent 70%);
   animation: glass-flash 420ms ease-out forwards;
   pointer-events: none;
 }
@@ -207,8 +210,8 @@ h1, h2, h3, .font-display {
   width: 150px;
   height: 150px;
   border-radius: 9999px;
-  border: 2.5px solid rgb(87 177 196 / 0.9);
-  box-shadow: 0 0 22px rgb(87 177 196 / 0.4) inset, 0 0 14px rgb(87 177 196 / 0.3);
+  border: 2.5px solid rgb(176 196 205 / 0.95);
+  box-shadow: 0 0 22px rgb(176 196 205 / 0.45) inset, 0 0 14px rgb(176 196 205 / 0.35);
   animation: splash-ring 620ms cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
   animation-delay: var(--delay, 0ms);
   opacity: 0;
@@ -221,7 +224,7 @@ h1, h2, h3, .font-display {
   width: var(--size, 10px);
   height: var(--size, 10px);
   border-radius: 60% 60% 65% 65%;
-  background: radial-gradient(circle at 35% 30%, rgb(255 255 255 / 0.95), rgb(159 211 224 / 0.9) 45%, rgb(42 147 172 / 0.85));
+  background: radial-gradient(circle at 35% 30%, rgb(255 255 255 / 0.95), rgb(205 219 224 / 0.9) 45%, rgb(126 151 161 / 0.9));
   animation: splash-drop 560ms cubic-bezier(0.18, 0.7, 0.45, 1) forwards;
   pointer-events: none;
 }
@@ -232,7 +235,7 @@ h1, h2, h3, .font-display {
   width: 130px;
   height: 130px;
   border-radius: 9999px;
-  background: radial-gradient(circle, rgb(255 255 255 / 0.95) 0%, rgb(199 231 238 / 0.5) 40%, transparent 68%);
+  background: radial-gradient(circle, rgb(255 255 255 / 0.95) 0%, rgb(214 226 231 / 0.5) 40%, transparent 68%);
   animation: splash-flash 460ms ease-out forwards;
   pointer-events: none;
 }

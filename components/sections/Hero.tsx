@@ -71,7 +71,7 @@ export function Hero() {
           className="absolute inset-0 opacity-[0.5]"
           style={{
             backgroundImage:
-              "linear-gradient(rgba(23,117,141,0.055) 1.5px, transparent 1.5px), linear-gradient(90deg, rgba(23,117,141,0.055) 1.5px, transparent 1.5px)",
+              "linear-gradient(rgba(70,70,70,0.05) 1.5px, transparent 1.5px), linear-gradient(90deg, rgba(70,70,70,0.05) 1.5px, transparent 1.5px)",
             backgroundSize: "72px 72px",
           }}
         />
@@ -85,7 +85,7 @@ export function Hero() {
           <radialGradient id="hero-droplet" cx="38%" cy="30%" r="75%">
             <stop offset="0%" stopColor="#ffffff" stopOpacity="0.95" />
             <stop offset="45%" stopColor="#9fd3e0" stopOpacity="0.8" />
-            <stop offset="100%" stopColor="#1a8fa8" stopOpacity="0.9" />
+            <stop offset="100%" stopColor="#7e97a1" stopOpacity="0.9" />
           </radialGradient>
         </defs>
       </svg>
@@ -112,7 +112,7 @@ export function Hero() {
             <span className="relative whitespace-nowrap text-teal-700">
               a Work of Art
               <svg className="absolute -bottom-2 left-0 w-full" viewBox="0 0 300 12" fill="none" aria-hidden="true" preserveAspectRatio="none">
-                <path d="M2 9C60 3 150 2 298 7" stroke="#57b1c4" strokeWidth="4" strokeLinecap="round" opacity="0.55" />
+                <path d="M2 9C60 3 150 2 298 7" stroke="#c9a86a" strokeWidth="4" strokeLinecap="round" opacity="0.55" />
               </svg>
             </span>
           </motion.h1>
@@ -153,8 +153,8 @@ export function Hero() {
             {["Licensed & insured", "Free estimates", "Fully custom work"].map((t) => (
               <li key={t} className="flex items-center gap-2">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                  <circle cx="12" cy="12" r="10" fill="#d8edf2" />
-                  <path d="m8 12.5 2.6 2.6L16 9.6" stroke="#0f5e73" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+                  <circle cx="12" cy="12" r="10" fill="#ece4d4" />
+                  <path d="m8 12.5 2.6 2.6L16 9.6" stroke="#6f5426" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
                 {t}
               </li>

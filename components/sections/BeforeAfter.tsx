@@ -191,7 +191,7 @@ export function BeforeAfter() {
                 <span
                   aria-hidden="true"
                   className={clsx(
-                    "absolute left-1/2 top-1/2 h-16 w-16 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-teal-300/70 transition-opacity",
+                    "absolute left-1/2 top-1/2 h-16 w-16 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-white/70 transition-opacity",
                     dragging ? "animate-ping opacity-70" : "opacity-0",
                   )}
                 />

@@ -94,7 +94,7 @@ export function ShowerSceneNew({
       )}
       {!bench && (
         <g transform="translate(70 300)">
-          <TowelBar prefix={p} accent={palette?.accent ?? "#2a93ac"} length={140} />
+          <TowelBar prefix={p} accent={palette?.accent ?? "#b08d57"} length={140} />
         </g>
       )}
 

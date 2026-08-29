@@ -124,7 +124,7 @@ export function BenchSeat({ prefix: p, w = 190 }: { prefix: string; w?: number }
 }
 
 /** Towel bar with a folded towel (origin: left bracket). */
-export function TowelBar({ prefix: p, accent = "#2a93ac", length = 150 }: { prefix: string; accent?: string; length?: number }) {
+export function TowelBar({ prefix: p, accent = "#b08d57", length = 150 }: { prefix: string; accent?: string; length?: number }) {
   return (
     <g>
       <rect x="0" y="0" width={length} height="9" rx="4.5" fill={`url(#${p}-chrome-v)`} />

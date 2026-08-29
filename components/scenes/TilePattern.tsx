@@ -19,8 +19,8 @@ export interface ScenePalette {
 export const DEFAULT_PALETTE: ScenePalette = {
   wall: "#f4f5f4",
   wallShade: "#dfe3e4",
-  accent: "#2a93ac",
-  accentDeep: "#0f5e73",
+  accent: "#b08d57",
+  accentDeep: "#7d6039",
   floor: "#d9dedf",
 };
 

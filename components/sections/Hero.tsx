@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/Button";
 import { useMouseParallax } from "@/lib/hooks/useMouseParallax";
 import { useMotionPrefs } from "@/lib/hooks/useMotionPrefs";
 import { LeadForm } from "@/components/form/LeadForm";
+import { HeroVideoBackground } from "./HeroVideoBackground";
 
 /** Positions a child at a parallax depth (px of travel at full pointer sweep). */
 function Layer({
@@ -59,19 +60,11 @@ export function Hero() {
       {...(interactive ? bind : {})}
       className="relative overflow-hidden pt-36 pb-16 md:pt-44 md:pb-24 lg:min-h-[100svh]"
     >
-      {/* ambient background: soft water gradient + faint tile grid */}
-      <div className="absolute inset-0 -z-20 bg-gradient-to-br from-teal-50 via-porcelain to-mist" aria-hidden="true" />
+      {/* ambient background: the marble-bathroom video, scrimmed for legible copy */}
+      <HeroVideoBackground />
       <Layer x={x} y={y} depth={-10} className="absolute inset-0 -z-10">
-        <div
-          className="absolute inset-0 opacity-[0.5]"
-          style={{
-            backgroundImage:
-              "linear-gradient(rgba(70,70,70,0.05) 1.5px, transparent 1.5px), linear-gradient(90deg, rgba(70,70,70,0.05) 1.5px, transparent 1.5px)",
-            backgroundSize: "72px 72px",
-          }}
-        />
-        <div className="absolute -left-32 top-24 h-96 w-96 rounded-full bg-teal-300/25 blur-3xl" />
-        <div className="absolute -right-24 bottom-0 h-[28rem] w-[28rem] rounded-full bg-teal-500/15 blur-3xl" />
+        <div className="absolute -left-32 top-24 h-96 w-96 rounded-full bg-teal-300/20 blur-3xl" />
+        <div className="absolute -right-24 bottom-0 h-[28rem] w-[28rem] rounded-full bg-teal-500/10 blur-3xl" />
       </Layer>
 
       {/* shared gradient for droplets */}

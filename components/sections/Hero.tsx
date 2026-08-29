@@ -4,10 +4,9 @@ import { motion, useTransform, type MotionValue } from "framer-motion";
 import type { ReactNode } from "react";
 import { siteConfig } from "@/config/site";
 import { Button } from "@/components/ui/Button";
-import { ShowerSceneNew } from "@/components/scenes/ShowerSceneNew";
-import { SceneImage } from "@/components/scenes/SceneImage";
 import { useMouseParallax } from "@/lib/hooks/useMouseParallax";
 import { useMotionPrefs } from "@/lib/hooks/useMotionPrefs";
+import { LeadForm } from "@/components/form/LeadForm";
 
 /** Positions a child at a parallax depth (px of travel at full pointer sweep). */
 function Layer({
@@ -54,10 +53,6 @@ export function Hero() {
   const { desktop, pointerFine, reducedMotion } = useMotionPrefs();
   const interactive = desktop && pointerFine && !reducedMotion;
   const { x, y, bind } = useMouseParallax();
-
-  const rotateY = useTransform(x, [-1, 1], [-4.5, 4.5]);
-  const rotateX = useTransform(y, [-1, 1], [3.5, -3.5]);
-  const glareX = useTransform(x, [-1, 1], ["18%", "62%"]);
 
   return (
     <section
@@ -165,11 +160,11 @@ export function Hero() {
           </motion.ul>
         </div>
 
-        {/* ─── 3D showcase ─── */}
-        <div className="relative z-10 [perspective:1400px]">
+        {/* ─── Estimate form card (like the original homepage) ─── */}
+        <div id="free-estimate" className="relative z-10 scroll-mt-36">
           {/* chrome ring accent behind the card */}
           <Layer x={x} y={y} depth={-18} className="absolute -right-10 -top-14 hidden lg:block">
-            <svg width="176" height="176" viewBox="0 0 176 176" className="animate-float-slow opacity-70">
+            <svg width="176" height="176" viewBox="0 0 176 176" className="animate-float-slow opacity-60">
               <defs>
                 <linearGradient id="hero-ring" x1="0" y1="0" x2="1" y2="1">
                   <stop offset="0" stopColor="#eef3f6" />
@@ -183,26 +178,21 @@ export function Hero() {
           </Layer>
 
           <motion.div
-            initial={{ opacity: 0, y: 34, scale: 0.97 }}
+            initial={{ opacity: 0, y: 34, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 0.7, delay: 0.25 }}
-            style={interactive ? { rotateX, rotateY, transformStyle: "preserve-3d" } : undefined}
-            className="chrome-edge relative overflow-hidden rounded-[1.75rem] shadow-lift"
+            className="glass-panel relative rounded-card p-6 shadow-lift sm:p-8"
           >
-            <SceneImage slot="hero" alt="A finished luxury walk-in shower with marble walls, rainfall showerhead and frameless glass" className="aspect-[4/3]">
-              <ShowerSceneNew prefix="hero" className="h-full w-full" />
-            </SceneImage>
-            {/* moving glass reflection */}
-            {interactive && (
-              <motion.div
-                aria-hidden="true"
-                className="pointer-events-none absolute inset-y-[-20%] w-1/3 rotate-[14deg] bg-gradient-to-r from-transparent via-white/35 to-transparent"
-                style={{ left: glareX }}
-              />
-            )}
+            <h2 className="text-center font-display text-2xl text-ink md:text-[1.7rem]">
+              Get A Free Estimate
+            </h2>
+            <p className="mb-6 mt-1.5 text-center text-sm text-body">
+              Six quick questions — exact quote, zero obligation.
+            </p>
+            <LeadForm />
           </motion.div>
 
-          {/* floating badges + droplets */}
+          {/* floating trust badges */}
           <Layer x={x} y={y} depth={26} className="absolute -left-5 -top-6 md:-left-9">
             <div className="glass-panel animate-float rounded-2xl px-4 py-3 shadow-card">
               <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-teal-700">Many projects done</p>
@@ -220,9 +210,6 @@ export function Hero() {
           </Layer>
           <Layer x={x} y={y} depth={44} className="absolute right-14 -top-8 hidden md:block">
             <div className="animate-float"><Droplet size={30} /></div>
-          </Layer>
-          <Layer x={x} y={y} depth={52} className="absolute -left-10 bottom-16 hidden lg:block">
-            <div className="animate-float-slow"><Droplet size={20} /></div>
           </Layer>
         </div>
       </div>

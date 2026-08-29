@@ -10,7 +10,6 @@ import { Solutions } from "@/components/sections/Solutions";
 import { GallerySection } from "@/components/sections/GallerySection";
 import { BeforeAfter } from "@/components/sections/BeforeAfter";
 import { WhyChooseUs } from "@/components/sections/WhyChooseUs";
-import { LeadFormSection } from "@/components/sections/LeadFormSection";
 import { Contact } from "@/components/sections/Contact";
 import { BrandVideo } from "@/components/sections/BrandVideo";
 
@@ -29,7 +28,6 @@ export default function HomePage() {
         <BeforeAfter />
         <WhyChooseUs />
         <Reviews />
-        <LeadFormSection />
         <Contact />
         <BrandVideo />
       </main>

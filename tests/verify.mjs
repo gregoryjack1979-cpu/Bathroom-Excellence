@@ -73,7 +73,8 @@ const browser = await chromium.launch({ executablePath: "/opt/pw-browsers/chromi
   check("empty multi-select blocked with message",
     (await page.getByRole("alert").count()) > 0);
 
-  // Gallery lightbox: open, arrow, escape
+  // Gallery lightbox: open, arrow, escape (gallery lives on /gallery and /shower-remodels, not home)
+  await page.goto(`${base}/gallery`, { waitUntil: "networkidle" });
   await page.locator("#gallery").scrollIntoViewIfNeeded();
   await page.waitForTimeout(600);
   const firstTitle = await page.locator("#gallery h3").first().textContent();
@@ -95,7 +96,9 @@ const browser = await chromium.launch({ executablePath: "/opt/pw-browsers/chromi
   const cards = await page.locator("#gallery li").count();
   check("category filter narrows grid", cards > 0 && cards < 12);
 
-  // Before/after slider: keyboard + drag
+  // Before/after slider: keyboard + drag (back on the homepage)
+  await page.goto(base, { waitUntil: "networkidle" });
+  await page.waitForTimeout(600);
   await page.locator("#before-after").scrollIntoViewIfNeeded();
   await page.waitForTimeout(500);
   const slider = page.locator("#before-after").getByRole("slider");
@@ -169,8 +172,9 @@ for (const [name, width, height, touch] of [["tablet", 768, 1024, true], ["mobil
   check("service page renders h1", (await page.locator("h1").textContent()).includes("Bathe Comfortably"));
   await page.screenshot({ path: `${dir}/v-service.png` });
   const resp = await page.goto(`${base}/shower-remodels`, { waitUntil: "networkidle" });
-  check("shower-remodels serves the flagship page", resp.ok() &&
-    (await page.locator("h1").textContent()).includes("Work of Art"));
+  check("shower-remodels is a distinct page from home", resp.ok() &&
+    (await page.locator("h1").textContent()).includes("Shower Remodels") &&
+    (await page.getByText("We'll Make Your Old Shower a Work of Art").count()) > 0);
   await page.close();
 }
 

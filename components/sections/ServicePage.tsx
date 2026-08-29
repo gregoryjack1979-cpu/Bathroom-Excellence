@@ -7,7 +7,7 @@ import { Contact } from "@/components/sections/Contact";
 import { GalleryScene } from "@/components/gallery/GalleryScene";
 import { SceneImage } from "@/components/scenes/SceneImage";
 import type { ImageSlotId } from "@/config/site";
-import { siteConfig, withBasePath } from "@/config/site";
+import { siteConfig } from "@/config/site";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { PhotoCtaBand } from "@/components/sections/PhotoCtaBand";
 import type { ServiceInfo } from "@/lib/types";

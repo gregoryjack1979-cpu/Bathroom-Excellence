@@ -103,9 +103,9 @@ export function Hero() {
             transition={{ duration: 0.6, delay: 0.12 }}
             className="text-4xl leading-[1.08] sm:text-5xl lg:text-[3.6rem]"
           >
-            We&rsquo;ll Make Your Old Shower{" "}
+            Your Destination for{" "}
             <span className="relative whitespace-nowrap text-teal-700">
-              a Work of Art
+              Bathroom Remodeling
               <svg className="absolute -bottom-2 left-0 w-full" viewBox="0 0 300 12" fill="none" aria-hidden="true" preserveAspectRatio="none">
                 <path d="M2 9C60 3 150 2 298 7" stroke="#c9a86a" strokeWidth="4" strokeLinecap="round" opacity="0.55" />
               </svg>
@@ -117,11 +117,11 @@ export function Hero() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="mt-6 text-lg leading-relaxed"
           >
-            When your shower starts falling apart, it can put a real damper on
-            your routine. Team up with us for a shower remodel in St. Charles,
-            MO and the Greater St. Louis Area — we&rsquo;ll design and build a shower
-            that&rsquo;s comfortable, convenient and makes your bathroom look
-            incredible. Many projects are finished in as little as a day.{" "}
+            In St. Charles, MO and the Greater St. Louis Area — from shower
+            remodels and tub-to-shower conversions to full bathroom remodels
+            and walk-in bathtubs, we design and build spaces that are
+            comfortable, convenient and beautiful. Many projects are finished
+            in as little as a day.{" "}
             <a href="/services/full-bathroom-remodel" className="font-semibold text-teal-700 underline-offset-2 hover:underline">
               Ask us about our full Bathroom Remodeling services!
             </a>

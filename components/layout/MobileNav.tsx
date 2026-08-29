@@ -114,6 +114,9 @@ export function MobileNav({ open, onClose }: MobileNavProps) {
               <Button href="/#free-estimate" className="w-full">
                 Get a Free Estimate
               </Button>
+              <Button href={siteConfig.bookingUrl} target="_blank" rel="noopener noreferrer" variant="gold" className="w-full">
+                Book Appointment Now
+              </Button>
               <Button href={siteConfig.phoneHref} variant="outline" className="w-full">
                 Call {siteConfig.phoneDisplay}
               </Button>

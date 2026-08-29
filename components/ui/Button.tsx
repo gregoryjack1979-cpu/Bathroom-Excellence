@@ -2,7 +2,7 @@ import Link from "next/link";
 import clsx from "clsx";
 import type { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode } from "react";
 
-type Variant = "primary" | "outline" | "glass" | "dark" | "light";
+type Variant = "primary" | "outline" | "glass" | "dark" | "light" | "gold";
 type Size = "md" | "lg";
 
 const base =
@@ -20,6 +20,9 @@ const variants: Record<Variant, string> = {
     "bg-white text-ink border border-ink/25 shadow-card hover:shadow-lift hover:border-ink/45",
   light:
     "bg-white text-ink border border-white/60 shadow-card hover:shadow-lift hover:bg-porcelain",
+  gold:
+    "bg-gradient-to-b from-teal-500 to-teal-700 text-white border border-white/15 " +
+    "shadow-[0_4px_14px_rgba(138,106,59,0.4)] hover:shadow-[0_10px_28px_rgba(138,106,59,0.5)] hover:from-teal-400 hover:to-teal-600",
   glass:
     "glass-panel text-ink shadow-card hover:shadow-lift hover:bg-white/80",
   dark:

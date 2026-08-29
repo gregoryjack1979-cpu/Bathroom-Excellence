@@ -63,6 +63,9 @@ export const siteConfig = {
   /** Google rating shown in the hero and trust sections */
   rating: { value: "4.8", count: 203 },
 
+  /** Online appointment booking page */
+  bookingUrl: "https://www.bathroomexcellence.com/book",
+
   /** Where "Leave a Review" points — replace with your Google review short link */
   googleReviewUrl:
     "https://www.google.com/search?q=Bathroom+Excellence+St+Charles+MO+reviews",

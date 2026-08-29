@@ -52,8 +52,11 @@ export function SuccessPanel({ payload }: { payload: LeadPayload }) {
       </dl>
 
       <div className="mt-7 flex flex-wrap justify-center gap-3">
+        <Button href={siteConfig.bookingUrl} target="_blank" rel="noopener noreferrer" variant="gold" size="lg">
+          Book Appointment Now
+        </Button>
         <Button href={siteConfig.phoneHref} size="lg">
-          Call to Schedule Now
+          Call to Schedule
         </Button>
         <Button href="/gallery" variant="outline" size="lg">
           Browse the Gallery

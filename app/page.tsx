@@ -9,6 +9,7 @@ import { BeforeAfter } from "@/components/sections/BeforeAfter";
 import { WhyChooseUs } from "@/components/sections/WhyChooseUs";
 import { LeadFormSection } from "@/components/sections/LeadFormSection";
 import { Contact } from "@/components/sections/Contact";
+import { BrandVideo } from "@/components/sections/BrandVideo";
 
 export default function HomePage() {
   return (
@@ -24,6 +25,7 @@ export default function HomePage() {
         <WhyChooseUs />
         <LeadFormSection />
         <Contact />
+        <BrandVideo />
       </main>
       <Footer />
     </>

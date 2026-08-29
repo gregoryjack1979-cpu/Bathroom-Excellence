@@ -7,6 +7,8 @@ import { AnimateIn } from "@/components/ui/AnimateIn";
 import { ShowerSceneOld } from "@/components/scenes/ShowerSceneOld";
 import { ShowerSceneNew } from "@/components/scenes/ShowerSceneNew";
 import { SceneImage } from "@/components/scenes/SceneImage";
+import { waterSplash } from "@/lib/waterSplash";
+import { useMotionPrefs } from "@/lib/hooks/useMotionPrefs";
 
 const projects = [
   {
@@ -39,6 +41,7 @@ export function BeforeAfter() {
   const handleRef = useRef<HTMLDivElement>(null);
   const frame = useRef<number | null>(null);
   const latest = useRef(50);
+  const { reducedMotion } = useMotionPrefs();
 
   const apply = useCallback((value: number) => {
     const v = Math.min(100, Math.max(0, value));
@@ -66,6 +69,7 @@ export function BeforeAfter() {
   const onPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
     (e.target as HTMLElement).setPointerCapture?.(e.pointerId);
     setDragging(true);
+    if (!reducedMotion) waterSplash(e.clientX, e.clientY);
     fromClientX(e.clientX);
   };
   const onPointerMove = (e: React.PointerEvent<HTMLDivElement>) => {

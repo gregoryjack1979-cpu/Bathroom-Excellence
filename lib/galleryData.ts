@@ -15,16 +15,16 @@ export const GALLERY_CATEGORIES: { value: GalleryCategory | "all"; label: string
  * config/site.ts to replace any item with real photography.
  */
 export const galleryItems: GalleryItem[] = [
-  { id: "g1", title: "Marble Serenity Walk-In", description: "Barrier-free entry with a teak bench, rainfall head and designer grab bar.", category: "walk-in", variant: 0 },
-  { id: "g2", title: "Sandstone Spa Retreat", description: "Warm sandstone-look walls with brass accents and a frameless glass door.", category: "popular", variant: 1 },
-  { id: "g3", title: "Coastal Sage Alcove", description: "A compact alcove base wrapped in calming sage panels — big feel, small footprint.", category: "alcove", variant: 2 },
-  { id: "g4", title: "Graphite Statement Shower", description: "Deep graphite walls with polished chrome and a mosaic feature niche.", category: "modern", variant: 3 },
-  { id: "g5", title: "Classic Carrara Refresh", description: "Bright Carrara-look panels and simple chrome trim — a timeless favorite.", category: "popular", variant: 4 },
-  { id: "g6", title: "Two-Piece Comfort Suite", description: "A two-piece wall system with integrated seat, installed in a single day.", category: "multi-piece", variant: 5 },
-  { id: "g7", title: "Accessible Ocean Walk-In", description: "Zero-threshold entry, dual grab bars and a hand-held head within easy reach.", category: "walk-in", variant: 6 },
-  { id: "g8", title: "Three-Piece Family Bath", description: "Durable three-piece surround built for a busy family bathroom.", category: "multi-piece", variant: 7 },
-  { id: "g9", title: "Alcove Base + Glass Combo", description: "New low-curb alcove base paired with clear sliding glass.", category: "alcove", variant: 8 },
-  { id: "g10", title: "Midnight Modern Remodel", description: "Moody slate tones, linear drain and warm recessed lighting.", category: "modern", variant: 9 },
-  { id: "g11", title: "Rainfall Retreat", description: "Ceiling rainfall shower with a bench and full-height mosaic niche.", category: "popular", variant: 10 },
-  { id: "g12", title: "Minimalist Chrome Remodel", description: "Clean white panels, chrome details and nothing you don't need.", category: "modern", variant: 11 },
+  { id: "g1", title: "Marble Spa Shower with Bench", description: "Marble-look walls, corner shelves and a fold-down bench under a handheld rain head.", category: "popular", variant: 0 },
+  { id: "g2", title: "Marble Slider on Navy", description: "Sliding chrome glass door and bright marble surround set against deep navy walls.", category: "popular", variant: 4 },
+  { id: "g3", title: "Subway Classic, Matte Black", description: "Crisp white subway panels with matte-black grab bars and fixtures.", category: "popular", variant: 11 },
+  { id: "g4", title: "Low-Threshold Twin-Seat Walk-In", description: "Barrier-free walk-in with two molded seats and full-width grab bars.", category: "walk-in", variant: 0 },
+  { id: "g5", title: "Biscuit Walk-In with Bench", description: "Warm biscuit tones, built-in bench and storage in an easy-entry layout.", category: "walk-in", variant: 6 },
+  { id: "g6", title: "Bright Two-Piece Suite", description: "A luminous two-piece wall system paired with a black double vanity.", category: "multi-piece", variant: 5 },
+  { id: "g7", title: "Three-Piece Family Shower", description: "A durable three-piece surround built to shrug off busy mornings.", category: "multi-piece", variant: 7 },
+  { id: "g8", title: "Alcove with Mosaic Niche", description: "Compact alcove behind a pivot glass door with a tiled storage niche.", category: "alcove", variant: 2 },
+  { id: "g9", title: "Tan Alcove Refresh", description: "Warm tan surround and chrome slider — a one-day alcove transformation.", category: "alcove", variant: 8 },
+  { id: "g10", title: "Dark Stone Panorama", description: "Dramatic stone-look panels wrap this statement shower corner to corner.", category: "modern", variant: 3 },
+  { id: "g11", title: "Espresso Tile Frameless", description: "Espresso tile, frameless glass and a recessed double niche.", category: "modern", variant: 9 },
+  { id: "g12", title: "Chrome Frameless Slider", description: "Minimalist frameless slider with polished chrome rail and hardware.", category: "modern", variant: 11 },
 ];

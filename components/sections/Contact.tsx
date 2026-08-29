@@ -1,4 +1,4 @@
-import { siteConfig } from "@/config/site";
+import { siteConfig, withBasePath } from "@/config/site";
 import { Button } from "@/components/ui/Button";
 import { AnimateIn } from "@/components/ui/AnimateIn";
 import { FloatingElements } from "./FloatingElements";
@@ -51,6 +51,13 @@ const cards = [
 export function Contact() {
   return (
     <section id="contact" className="relative overflow-hidden bg-gradient-to-b from-deep to-abyss py-20 md:py-28">
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0">
+        <div
+          className="absolute inset-0 bg-cover bg-center opacity-[0.18]"
+          style={{ backgroundImage: `url(${withBasePath("/images/bg-rain.jpg")})` }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-deep/80 via-deep/70 to-abyss" />
+      </div>
       <FloatingElements variant="dark" />
       <div className="relative mx-auto max-w-7xl px-4 text-center sm:px-6">
         <AnimateIn>

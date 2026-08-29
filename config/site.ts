@@ -7,6 +7,15 @@
  * ─────────────────────────────────────────────────────────────────────────────
  */
 
+/**
+ * Deploy-time base path (e.g. "/Bathroom-Excellence" on GitHub Pages).
+ * NEXT_PUBLIC_ so it is inlined into client components too.
+ */
+const bp = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+
+/** Prefix a public-asset path with the deployment base path. */
+export const withBasePath = (path: string) => `${bp}${path}`;
+
 export type ImageSlotId =
   | "hero"
   | "before-after-old"
@@ -93,7 +102,21 @@ export const siteConfig = {
    * e.g.  "hero": "/images/hero.jpg". Components fall back to the SVG scene
    * whenever a slot is unset.
    */
-  imageSlots: {} as Partial<Record<ImageSlotId, string>>,
+  imageSlots: {
+    "hero": withBasePath("/images/hero.jpg"),
+    "gallery-1": withBasePath("/images/gallery-1.jpg"),
+    "gallery-2": withBasePath("/images/gallery-2.jpg"),
+    "gallery-3": withBasePath("/images/gallery-3.jpg"),
+    "gallery-4": withBasePath("/images/gallery-4.jpg"),
+    "gallery-5": withBasePath("/images/gallery-5.jpg"),
+    "gallery-6": withBasePath("/images/gallery-6.jpg"),
+    "gallery-7": withBasePath("/images/gallery-7.jpg"),
+    "gallery-8": withBasePath("/images/gallery-8.jpg"),
+    "gallery-9": withBasePath("/images/gallery-9.jpg"),
+    "gallery-10": withBasePath("/images/gallery-10.jpg"),
+    "gallery-11": withBasePath("/images/gallery-11.jpg"),
+    "gallery-12": withBasePath("/images/gallery-12.jpg"),
+  } as Partial<Record<ImageSlotId, string>>,
 
   /** Identifies this site in webhook payloads */
   leadSource: "shower-remodels-website",

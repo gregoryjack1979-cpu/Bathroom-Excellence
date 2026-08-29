@@ -10,6 +10,8 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { SceneImage } from "@/components/scenes/SceneImage";
 import { GalleryScene } from "@/components/gallery/GalleryScene";
 import { TiltCard } from "@/components/ui/TiltCard";
+import { waterSplash } from "@/lib/waterSplash";
+import { useMotionPrefs } from "@/lib/hooks/useMotionPrefs";
 import type { ImageSlotId } from "@/config/site";
 
 const Lightbox = dynamic(
@@ -27,6 +29,12 @@ interface GallerySectionProps {
 export function GallerySection({ limit, heading = true }: GallerySectionProps) {
   const [category, setCategory] = useState<GalleryCategory | "all">("all");
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+  const { reducedMotion } = useMotionPrefs();
+
+  const openItem = (index: number, e: React.MouseEvent) => {
+    if (!reducedMotion) waterSplash(e.clientX, e.clientY);
+    setLightboxIndex(index);
+  };
 
   const filtered = galleryItems.filter((g) => category === "all" || g.category === category);
   const visible = limit ? filtered.slice(0, limit) : filtered;
@@ -79,7 +87,7 @@ export function GallerySection({ limit, heading = true }: GallerySectionProps) {
                   <TiltCard maxTilt={4} className="overflow-hidden rounded-card bg-white shadow-card transition-shadow duration-300 hover:shadow-lift">
                     <button
                       type="button"
-                      onClick={() => setLightboxIndex(globalIndex)}
+                      onClick={(e) => openItem(globalIndex, e)}
                       className="block w-full text-left"
                       aria-label={`Open ${item.title} in the gallery viewer`}
                     >

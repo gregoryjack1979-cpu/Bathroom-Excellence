@@ -1,0 +1,20 @@
+import { chromium } from "playwright";
+const base = process.argv[2], dir = process.argv[3];
+const browser = await chromium.launch({ executablePath: "/opt/pw-browsers/chromium" });
+const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+await page.goto(base, { waitUntil: "networkidle" });
+await page.waitForTimeout(1800);
+await page.screenshot({ path: `${dir}/photo-hero.png` });
+await page.locator("#gallery").scrollIntoViewIfNeeded();
+await page.waitForTimeout(900);
+await page.screenshot({ path: `${dir}/photo-gallery.png` });
+// click a card and catch the splash mid-burst
+const card = page.getByRole("button", { name: /Open .* in the gallery viewer/ }).nth(1);
+const box = await card.boundingBox();
+await page.mouse.click(box.x + box.width / 2, box.y + box.height / 2.6);
+await page.waitForTimeout(170);
+await page.screenshot({ path: `${dir}/photo-splash.png` });
+await page.waitForTimeout(900);
+await page.screenshot({ path: `${dir}/photo-lightbox.png` });
+await browser.close();
+console.log("done");

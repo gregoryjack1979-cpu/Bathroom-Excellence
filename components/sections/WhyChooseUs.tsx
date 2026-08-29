@@ -1,6 +1,6 @@
 import { AnimateIn } from "@/components/ui/AnimateIn";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { siteConfig } from "@/config/site";
+import { siteConfig, withBasePath } from "@/config/site";
 
 const reasons = [
   { title: "Professional Installation", body: "Our own factory-trained installers — never day-labor subcontractors." },
@@ -23,8 +23,13 @@ const stats = [
 export function WhyChooseUs() {
   return (
     <section id="why-us" className="relative overflow-hidden bg-deep py-20 md:py-28">
-      {/* soft caustic glows */}
+      {/* photographic backdrop + soft caustic glows */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0">
+        <div
+          className="absolute inset-0 bg-cover bg-center opacity-[0.16]"
+          style={{ backgroundImage: `url(${withBasePath("/images/bg-marble.jpg")})` }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-deep via-deep/85 to-deep" />
         <div className="absolute -left-24 top-10 h-80 w-80 rounded-full bg-teal-500/15 blur-3xl" />
         <div className="absolute -right-16 bottom-0 h-96 w-96 rounded-full bg-teal-300/10 blur-3xl" />
       </div>

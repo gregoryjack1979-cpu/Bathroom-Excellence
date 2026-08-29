@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
-import { siteConfig } from "@/config/site";
+import { siteConfig, withBasePath } from "@/config/site";
 import { MotionPrefsProvider } from "@/lib/hooks/useMotionPrefs";
 import { JsonLd } from "@/components/ui/JsonLd";
 import { EffectsMount } from "@/components/effects/EffectsMount";
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     description: siteConfig.seo.description,
   },
   robots: { index: true, follow: true },
-  icons: { icon: `${process.env.BASE_PATH ?? ""}/favicon.svg` },
+  icons: { icon: withBasePath("/favicon.svg") },
 };
 
 export const viewport: Viewport = {

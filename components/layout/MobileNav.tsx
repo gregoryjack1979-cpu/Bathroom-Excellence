@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
 import { siteConfig } from "@/config/site";
@@ -19,7 +20,12 @@ interface MobileNavProps {
 export function MobileNav({ open, onClose }: MobileNavProps) {
   const panelRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
+  const [mounted, setMounted] = useState(false);
   useFocusTrap(panelRef, open);
+
+  // Portal to <body>: the blurred header creates a containing block that
+  // would otherwise trap (and clip) this fixed drawer.
+  useEffect(() => setMounted(true), []);
 
   // Close on route change + Escape; lock body scroll while open.
   useEffect(() => {
@@ -37,7 +43,9 @@ export function MobileNav({ open, onClose }: MobileNavProps) {
     };
   }, [open, onClose]);
 
-  return (
+  if (!mounted) return null;
+
+  return createPortal(
     <AnimatePresence>
       {open && (
         <>
@@ -113,6 +121,7 @@ export function MobileNav({ open, onClose }: MobileNavProps) {
           </motion.div>
         </>
       )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body,
   );
 }

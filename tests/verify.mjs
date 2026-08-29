@@ -166,11 +166,11 @@ for (const [name, width, height, touch] of [["tablet", 768, 1024, true], ["mobil
 {
   const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
   await page.goto(`${base}/services/walk-in-bathtubs`, { waitUntil: "networkidle" });
-  check("service page renders h1", (await page.locator("h1").textContent()).includes("Bathe Safely"));
+  check("service page renders h1", (await page.locator("h1").textContent()).includes("Bathe Comfortably"));
   await page.screenshot({ path: `${dir}/v-service.png` });
   const resp = await page.goto(`${base}/shower-remodels`, { waitUntil: "networkidle" });
   check("shower-remodels serves the flagship page", resp.ok() &&
-    (await page.locator("h1").textContent()).includes("Transform Your"));
+    (await page.locator("h1").textContent()).includes("Work of Art"));
   await page.close();
 }
 

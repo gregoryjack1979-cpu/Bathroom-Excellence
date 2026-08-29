@@ -10,7 +10,7 @@ export function JsonLd() {
     description: siteConfig.seo.description,
     url: siteConfig.url,
     telephone: siteConfig.phoneDisplay,
-    email: siteConfig.email,
+    ...(siteConfig.email ? { email: siteConfig.email } : {}),
     address: {
       "@type": "PostalAddress",
       streetAddress: siteConfig.address.street,

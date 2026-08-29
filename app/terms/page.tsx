@@ -43,7 +43,7 @@ export default function TermsPage() {
           </p>
           <h2>Contact</h2>
           <p>
-            Questions? Email {siteConfig.email} or call {siteConfig.phoneDisplay}.
+            Questions? Call {siteConfig.phoneDisplay}.
           </p>
         </div>
       </main>

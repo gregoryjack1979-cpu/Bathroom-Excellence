@@ -3,6 +3,8 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { TiltCard } from "@/components/ui/TiltCard";
 import { Button } from "@/components/ui/Button";
 import { ShowerSceneNew } from "@/components/scenes/ShowerSceneNew";
+import { SceneImage } from "@/components/scenes/SceneImage";
+import type { ImageSlotId } from "@/config/site";
 
 const featured = [
   {
@@ -46,16 +48,18 @@ export function Solutions() {
         <SectionHeading
           eyebrow="Shower remodeling solutions"
           title="Designed Around You, Built To Last"
-          subtitle="Every remodel is tailored — pick the layout, walls, glass and comfort features, and our team handles the rest."
+          subtitle="We do fully custom work and can handle any size project — pick the layout, walls, glass and comfort features, and our team handles the rest."
         />
 
         <div className="grid gap-6 md:grid-cols-3">
           {featured.map((f, i) => (
             <AnimateIn key={f.title} delay={i * 0.12}>
               <TiltCard className="h-full overflow-hidden rounded-card bg-white shadow-card transition-shadow duration-300 hover:shadow-lift">
-                <div className="aspect-[16/10] overflow-hidden" aria-hidden="true">
+                <div className="aspect-[16/10] overflow-hidden">
                   <div className="h-full w-full transition-transform duration-500 group-hover:scale-[1.045]">
-                    {f.scene}
+                    <SceneImage slot={`solution-${i + 1}` as ImageSlotId} alt={f.title} className="h-full w-full">
+                      {f.scene}
+                    </SceneImage>
                   </div>
                 </div>
                 <div className="p-6">

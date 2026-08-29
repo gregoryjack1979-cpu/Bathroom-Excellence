@@ -3,20 +3,20 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { siteConfig, withBasePath } from "@/config/site";
 
 const reasons = [
-  { title: "Professional Installation", body: "Our own factory-trained installers — never day-labor subcontractors." },
-  { title: "Custom Designs", body: "Layout, walls, glass and fixtures picked with you, for your exact space." },
+  { title: "Unbelievably Affordable", body: "Customers are continuously surprised by our affordability — their words, not ours." },
+  { title: "Fully Custom Work", body: "We do fully custom work and can handle any size project, big or small." },
+  { title: "Skilled Tradespeople", body: "We only hire skilled tradespeople and take the time to do every job right." },
+  { title: "Fast Turnaround", body: "We can complete many projects in as little as a day." },
   { title: "High-Quality Materials", body: "Non-porous walls, tempered glass and fixtures we'd put in our own homes." },
-  { title: "Experienced Remodeling Team", body: "Hundreds of local bathrooms transformed — we've seen your situation before." },
-  { title: "Affordable Options", body: "Straightforward pricing and flexible financing for every budget." },
   { title: "Free Estimates", body: "An in-home visit, exact quote and design ideas — always free, never pushy." },
-  { title: "Customer Satisfaction", body: "We're not finished until you love your new shower. Backed in writing." },
+  { title: "Total Customer Satisfaction", body: "Excellence is in our name, and we always strive for total satisfaction." },
 ];
 
 const stats = [
-  { value: "500+", label: "Showers transformed" },
-  { value: "15 yrs", label: "Serving local homeowners" },
-  { value: "2–4", label: "Days for most installs" },
-  { value: "100%", label: "Workmanship guaranteed" },
+  { value: `${siteConfig.rating.value}★`, label: `Google rating · ${siteConfig.rating.count} reviews` },
+  { value: "100%", label: "Fully custom work" },
+  { value: "1 day", label: "Many installs finished" },
+  { value: "St. Charles", label: "& the Greater St. Louis Area" },
 ];
 
 /** Trust-building reasons + proof stats on a deep-water panel. */
@@ -37,7 +37,7 @@ export function WhyChooseUs() {
         <SectionHeading
           eyebrow="Why homeowners choose us"
           title={<>A Remodel You Can Trust, <span className="text-teal-300">Start to Finish</span></>}
-          subtitle={`${siteConfig.name} treats your bathroom like our own — clean job sites, honest timelines and results that hold up.`}
+          subtitle="You want to know you can trust the people working on your home. Excellence is in our name — and our customers love working with us."
           tone="dark"
         />
 

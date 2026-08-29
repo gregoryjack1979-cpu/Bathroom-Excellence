@@ -14,7 +14,8 @@ const cards = [
       </svg>
     ),
   },
-  {
+  ...(siteConfig.email
+    ? [{
     title: "Email us",
     body: siteConfig.email,
     href: `mailto:${siteConfig.email}`,
@@ -24,7 +25,8 @@ const cards = [
         <path d="m4 7 8 6 8-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     ),
-  },
+  }]
+    : []),
   {
     title: "Service area",
     body: siteConfig.serviceArea.region,

@@ -36,7 +36,7 @@ export default function PrivacyPolicyPage() {
           <p>
             By submitting a form you agree that we may contact you about your project by
             phone, email or text. You can opt out at any time by replying STOP to texts or
-            contacting us at {siteConfig.email}.
+            calling us at {siteConfig.phoneDisplay}.
           </p>
           <h2>Data retention &amp; security</h2>
           <p>
@@ -45,7 +45,7 @@ export default function PrivacyPolicyPage() {
           </p>
           <h2>Contact</h2>
           <p>
-            Questions about this policy? Email {siteConfig.email} or call {siteConfig.phoneDisplay}.
+            Questions about this policy? Call {siteConfig.phoneDisplay}.
           </p>
           <p className="text-sm text-body/70">Last updated: {new Date().getFullYear()}</p>
         </div>

@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { siteConfig } from "@/config/site";
+import Image from "next/image";
+import { siteConfig, withBasePath } from "@/config/site";
 import { Logo } from "./Logo";
 
 const services = siteConfig.nav.filter((n) => n.href.startsWith("/services") || n.href === "/shower-remodels");
@@ -12,6 +13,13 @@ export function Footer() {
         <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
           <div>
             <Logo tone="dark" />
+            <Image
+              src={withBasePath("/images/logo-crest.jpg")}
+              alt="Bathroom Excellence crest"
+              width={180}
+              height={164}
+              className="mt-5 rounded-xl border border-white/10"
+            />
             <p className="mt-4 max-w-xs text-sm leading-relaxed">
               Premium shower and bathroom remodeling — designed around your home,
               installed by our own certified team, and built to be enjoyed every day.
@@ -75,11 +83,13 @@ export function Footer() {
                   {siteConfig.phoneDisplay}
                 </a>
               </li>
-              <li>
-                <a href={`mailto:${siteConfig.email}`} className="transition-colors hover:text-teal-300">
-                  {siteConfig.email}
-                </a>
-              </li>
+              {siteConfig.email && (
+                <li>
+                  <a href={`mailto:${siteConfig.email}`} className="transition-colors hover:text-teal-300">
+                    {siteConfig.email}
+                  </a>
+                </li>
+              )}
               <li>
                 {siteConfig.address.street}
                 <br />

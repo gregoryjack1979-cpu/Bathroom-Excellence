@@ -108,9 +108,9 @@ export function Hero() {
             transition={{ duration: 0.6, delay: 0.12 }}
             className="text-4xl leading-[1.08] sm:text-5xl lg:text-[3.6rem]"
           >
-            We&rsquo;ll Transform Your Old Shower Into{" "}
+            We&rsquo;ll Make Your Old Shower{" "}
             <span className="relative whitespace-nowrap text-teal-700">
-              Something Beautiful
+              a Work of Art
               <svg className="absolute -bottom-2 left-0 w-full" viewBox="0 0 300 12" fill="none" aria-hidden="true" preserveAspectRatio="none">
                 <path d="M2 9C60 3 150 2 298 7" stroke="#57b1c4" strokeWidth="4" strokeLinecap="round" opacity="0.55" />
               </svg>
@@ -122,11 +122,11 @@ export function Hero() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="mt-6 text-lg leading-relaxed"
           >
-            Cracked tile, stubborn mold, a door that won&rsquo;t close, or a shower
-            that&rsquo;s simply hard to step into — whatever is wrong with your shower
-            today, our design-and-install team will replace it with a beautiful,
-            functional, easy-to-clean space you&rsquo;ll love. Most projects are
-            finished in just a few days.
+            When your shower starts falling apart, it can put a real damper on
+            your routine. Team up with us for a shower remodel in St. Charles,
+            MO and the Greater St. Louis Area — we&rsquo;ll design and build a shower
+            that&rsquo;s comfortable, convenient and makes your bathroom look
+            incredible. Many projects are finished in as little as a day.
           </motion.p>
           <motion.div
             initial={{ opacity: 0, y: 24 }}
@@ -150,7 +150,7 @@ export function Hero() {
             transition={{ duration: 0.7, delay: 0.42 }}
             className="mt-9 flex flex-wrap gap-x-7 gap-y-3 text-sm font-medium text-ink/80"
           >
-            {["Licensed & insured", "Free in-home estimates", "Lifetime workmanship warranty"].map((t) => (
+            {["Licensed & insured", "Free estimates", "Fully custom work"].map((t) => (
               <li key={t} className="flex items-center gap-2">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                   <circle cx="12" cy="12" r="10" fill="#d8edf2" />
@@ -202,17 +202,17 @@ export function Hero() {
           {/* floating badges + droplets */}
           <Layer x={x} y={y} depth={26} className="absolute -left-5 -top-6 md:-left-9">
             <div className="glass-panel animate-float rounded-2xl px-4 py-3 shadow-card">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-teal-700">Average install</p>
-              <p className="font-display text-xl text-ink">2–4 days</p>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-teal-700">Many projects done</p>
+              <p className="font-display text-xl text-ink">in a day</p>
             </div>
           </Layer>
           <Layer x={x} y={y} depth={34} className="absolute -bottom-6 right-4 md:right-8">
             <div className="glass-panel animate-float-slow rounded-2xl px-4 py-3 shadow-card">
               <p className="flex items-center gap-1.5 text-sm font-semibold text-ink">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="#e9b949" aria-hidden="true"><path d="m12 2 2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.3 5.9 20.6l1.4-6.8L2.2 9.1l6.9-.8Z" /></svg>
-                Loved by homeowners
+                {siteConfig.rating.value} stars on Google
               </p>
-              <p className="mt-0.5 text-xs text-body">500+ showers transformed</p>
+              <p className="mt-0.5 text-xs text-body">{siteConfig.rating.count} homeowner reviews</p>
             </div>
           </Layer>
           <Layer x={x} y={y} depth={44} className="absolute right-14 -top-8 hidden md:block">

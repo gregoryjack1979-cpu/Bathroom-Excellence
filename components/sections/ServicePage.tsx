@@ -5,6 +5,8 @@ import { AnimateIn } from "@/components/ui/AnimateIn";
 import { LeadFormSection } from "@/components/sections/LeadFormSection";
 import { Contact } from "@/components/sections/Contact";
 import { GalleryScene } from "@/components/gallery/GalleryScene";
+import { SceneImage } from "@/components/scenes/SceneImage";
+import type { ImageSlotId } from "@/config/site";
 import { siteConfig } from "@/config/site";
 import type { ServiceInfo } from "@/lib/types";
 
@@ -34,9 +36,13 @@ export function ServicePage({ service, sceneVariant }: { service: ServiceInfo; s
             </div>
             <AnimateIn delay={0.1}>
               <div className="chrome-edge overflow-hidden rounded-card shadow-lift">
-                <div className="aspect-[4/3]" role="img" aria-label={`Illustration of a finished project: ${service.title}`}>
+                <SceneImage
+                  slot={`service-${service.slug}` as ImageSlotId}
+                  alt={`A finished ${service.title.toLowerCase()} project by Bathroom Excellence`}
+                  className="aspect-[4/3]"
+                >
                   <GalleryScene variant={sceneVariant} prefix={`svc-${service.slug}`} className="h-full w-full" />
-                </div>
+                </SceneImage>
               </div>
             </AnimateIn>
           </div>

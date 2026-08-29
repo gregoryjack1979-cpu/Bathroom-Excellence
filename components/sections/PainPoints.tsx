@@ -89,7 +89,7 @@ export function PainPoints() {
     <section id="problems" className="relative bg-mist py-20 md:py-28">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <SectionHeading
-          eyebrow="Sound familiar?"
+          eyebrow="Wash away your shower&rsquo;s problems"
           title="Is Your Shower Showing Its Age?"
           subtitle="These are the problems homeowners call us about every week — and every one of them is fixable, usually in just a few days."
         />

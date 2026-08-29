@@ -7,7 +7,7 @@ import { siteConfig } from "@/config/site";
 
 export const metadata: Metadata = {
   title: "Contact Us",
-  description: `Get in touch with ${siteConfig.name} — call ${siteConfig.phoneDisplay}, email us, or request your free in-home shower remodeling estimate.`,
+  description: `Get in touch with ${siteConfig.name} — call ${siteConfig.phoneDisplay} or request your free in-home bathroom remodeling estimate in St. Charles, MO.`,
 };
 
 export default function ContactPage() {

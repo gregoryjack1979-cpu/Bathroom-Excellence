@@ -1,7 +1,8 @@
-# Premium Shower Remodeling Website
+# Bathroom Excellence — Shower Remodeling Website
 
-A production-ready, lead-generating website for a shower & bathroom remodeling
-company — built with Next.js (App Router), TypeScript, Tailwind CSS v4 and
+A production-ready, lead-generating website for Bathroom Excellence (St. Charles,
+MO bathroom remodeler) — an enhanced, 3D-interactive rebuild of the original
+bathroomexcellence.com — built with Next.js (App Router), TypeScript, Tailwind CSS v4 and
 Framer Motion, with premium bathroom-themed interactions:
 
 - **3D parallax hero** that responds to mouse movement (glass showcase, floating

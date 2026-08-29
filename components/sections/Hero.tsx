@@ -189,14 +189,14 @@ export function Hero() {
             <LeadForm dark />
           </motion.div>
 
-          {/* floating trust badges */}
-          <Layer x={x} y={y} depth={26} className="absolute -left-5 -top-6 md:-left-9">
+          {/* floating trust badges — hidden on mobile, where there's no room beside the card */}
+          <Layer x={x} y={y} depth={26} className="absolute -left-5 -top-6 hidden md:-left-9 md:block">
             <div className="glass-panel animate-float rounded-2xl px-4 py-3 shadow-card">
               <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-teal-700">Many projects done</p>
               <p className="font-display text-xl text-ink">in a day</p>
             </div>
           </Layer>
-          <Layer x={x} y={y} depth={34} className="absolute -bottom-6 right-4 md:right-8">
+          <Layer x={x} y={y} depth={34} className="absolute -bottom-6 right-4 hidden md:right-8 md:block">
             <div className="glass-panel animate-float-slow rounded-2xl px-4 py-3 shadow-card">
               <p className="flex items-center gap-1.5 text-sm font-semibold text-ink">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="#e9b949" aria-hidden="true"><path d="m12 2 2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.3 5.9 20.6l1.4-6.8L2.2 9.1l6.9-.8Z" /></svg>
@@ -205,6 +205,11 @@ export function Hero() {
               <p className="mt-0.5 text-xs text-body">{siteConfig.rating.count} homeowner reviews</p>
             </div>
           </Layer>
+          {/* compact mobile-only trust strip beneath the card */}
+          <div className="mt-4 flex items-center justify-center gap-2 text-xs font-semibold text-ink/70 md:hidden">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="#e9b949" aria-hidden="true"><path d="m12 2 2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.3 5.9 20.6l1.4-6.8L2.2 9.1l6.9-.8Z" /></svg>
+            {siteConfig.rating.value} stars on Google · {siteConfig.rating.count} reviews · Many projects done in a day
+          </div>
           <Layer x={x} y={y} depth={44} className="absolute right-14 -top-8 hidden md:block">
             <div className="animate-float"><Droplet size={30} /></div>
           </Layer>

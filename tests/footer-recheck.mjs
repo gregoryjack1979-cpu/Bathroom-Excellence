@@ -1,0 +1,13 @@
+import { chromium } from "playwright";
+const browser = await chromium.launch({ executablePath: "/opt/pw-browsers/chromium" });
+const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
+const page = await ctx.newPage();
+await page.goto("http://localhost:3200", { waitUntil: "networkidle" });
+await page.waitForTimeout(1800);
+await page.locator("footer").scrollIntoViewIfNeeded();
+await page.waitForTimeout(1500);
+await page.screenshot({ path: "/tmp/claude-0/-home-user-Bathroom-Excellence/c0110260-2704-5eca-9be2-b116d16c104a/scratchpad/footer-recheck-top.png" });
+await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+await page.waitForTimeout(1200);
+await page.screenshot({ path: "/tmp/claude-0/-home-user-Bathroom-Excellence/c0110260-2704-5eca-9be2-b116d16c104a/scratchpad/footer-recheck-bottom.png" });
+await browser.close();

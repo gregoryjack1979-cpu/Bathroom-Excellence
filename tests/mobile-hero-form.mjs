@@ -1,0 +1,10 @@
+import { chromium } from "playwright";
+const browser = await chromium.launch({ executablePath: "/opt/pw-browsers/chromium" });
+const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
+const page = await ctx.newPage();
+await page.goto("http://localhost:3200", { waitUntil: "networkidle" });
+await page.waitForTimeout(1700);
+await page.locator("#free-estimate").scrollIntoViewIfNeeded();
+await page.waitForTimeout(700);
+await page.screenshot({ path: process.argv[2] + "/home-hero-form.png" });
+await browser.close();

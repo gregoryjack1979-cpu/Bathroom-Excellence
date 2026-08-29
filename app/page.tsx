@@ -4,6 +4,8 @@ import { Hero } from "@/components/sections/Hero";
 import { PainPoints } from "@/components/sections/PainPoints";
 import { ServiceCardsBand } from "@/components/sections/ServiceCardsBand";
 import { DarkIntroPanel } from "@/components/sections/DarkIntroPanel";
+import { TransformChecklist } from "@/components/sections/TransformChecklist";
+import { PhotoCtaBand } from "@/components/sections/PhotoCtaBand";
 import { Reviews } from "@/components/sections/Reviews";
 import { Transformation } from "@/components/sections/Transformation";
 import { Solutions } from "@/components/sections/Solutions";
@@ -21,11 +23,16 @@ export default function HomePage() {
         <Hero />
         <ServiceCardsBand />
         <DarkIntroPanel />
+        <TransformChecklist />
         <PainPoints />
         <Transformation />
         <Solutions />
         <GallerySection limit={6} />
         <BeforeAfter />
+        <PhotoCtaBand
+          title="Turn Your Old Bathtub Into a Beautiful, Spacious Shower"
+          subtitle="We specialize in tub to shower conversions for style, comfort and accessibility"
+        />
         <WhyChooseUs />
         <Reviews />
         <Contact />

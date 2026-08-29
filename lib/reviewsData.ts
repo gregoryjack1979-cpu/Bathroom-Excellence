@@ -1,4 +1,8 @@
-/** Google reviews shown on the original site (SoTellUs widget), copied verbatim. */
+/**
+ * Google reviews shown on the original site via a SoTellUs widget, which
+ * rotates live customer reviews. These are representative reviews captured
+ * from the site — replace with your live widget embed when you have one.
+ */
 export const reviews = [
   {
     name: "Leah Thomas",
@@ -11,5 +15,17 @@ export const reviews = [
   {
     name: "K Ray",
     text: "Jack was great saleman made the sales process easy. Not high pressure to buy. Eloy was fantastic also Carlos was a great guy. Would purchase again.",
+  },
+  {
+    name: "Judy Woehrle",
+    text: "Judy Woehrle gave a 5 star rating on SoTellUs",
+  },
+  {
+    name: "Jonna Ramlall",
+    text: "Jonna Ramlall gave a 5 star rating on SoTellUs",
+  },
+  {
+    name: "Mary Oconner",
+    text: "Mary Oconner gave a 5 star rating on SoTellUs",
   },
 ];

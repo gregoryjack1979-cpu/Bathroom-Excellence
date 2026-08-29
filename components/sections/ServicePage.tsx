@@ -9,6 +9,7 @@ import { SceneImage } from "@/components/scenes/SceneImage";
 import type { ImageSlotId } from "@/config/site";
 import { siteConfig, withBasePath } from "@/config/site";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { PhotoCtaBand } from "@/components/sections/PhotoCtaBand";
 import type { ServiceInfo } from "@/lib/types";
 
 /** Shared template for the lightweight service pages. */
@@ -81,24 +82,7 @@ export function ServicePage({ service, sceneVariant }: { service: ServiceInfo; s
         </section>
 
         {service.ctaBand && (
-          <section
-            aria-label={service.ctaBand.title}
-            className="relative overflow-hidden py-20 text-center md:py-28"
-            style={{ backgroundImage: `linear-gradient(rgb(16 16 16 / 0.78), rgb(16 16 16 / 0.85)), url(${withBasePath("/images/bg-rain.jpg")})`, backgroundSize: "cover", backgroundPosition: "center" }}
-          >
-            <div className="mx-auto max-w-3xl px-4 sm:px-6">
-              <h2 className="font-display text-3xl leading-tight text-white md:text-5xl">{service.ctaBand.title}</h2>
-              <p className="mt-4 text-lg text-white/85">{service.ctaBand.subtitle}</p>
-              <div className="mt-8 flex flex-wrap justify-center gap-4">
-                <Button href="#free-estimate" size="lg" variant="light">
-                  Free Estimate
-                </Button>
-                <Button href={siteConfig.phoneHref} size="lg" variant="dark">
-                  Call Now
-                </Button>
-              </div>
-            </div>
-          </section>
+          <PhotoCtaBand title={service.ctaBand.title} subtitle={service.ctaBand.subtitle} />
         )}
         <LeadFormSection />
         <Contact />

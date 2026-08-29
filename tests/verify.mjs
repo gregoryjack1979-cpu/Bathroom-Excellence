@@ -98,7 +98,7 @@ const browser = await chromium.launch({ executablePath: "/opt/pw-browsers/chromi
   // Before/after slider: keyboard + drag
   await page.locator("#before-after").scrollIntoViewIfNeeded();
   await page.waitForTimeout(500);
-  const slider = page.getByRole("slider");
+  const slider = page.locator("#before-after").getByRole("slider");
   await slider.focus();
   const v0 = await slider.getAttribute("aria-valuenow");
   await page.keyboard.press("ArrowLeft");

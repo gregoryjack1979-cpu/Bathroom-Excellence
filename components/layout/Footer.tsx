@@ -5,24 +5,21 @@ import { Logo } from "./Logo";
 
 const services = siteConfig.nav.filter((n) => n.href.startsWith("/services") || n.href === "/shower-remodels");
 
-/** Clean four-column footer with legal links and social profiles. */
+/**
+ * Footer: a compact nav row for useful links, then a closing bar that
+ * matches the original site's simple layout — address, crest, and a single
+ * combined "Privacy Policy & Terms Of Service" button, with copyright below.
+ */
 export function Footer() {
   return (
     <footer
       className="relative text-teal-100/75"
       style={{ backgroundImage: `linear-gradient(rgb(14 14 14 / 0.88), rgb(14 14 14 / 0.94)), url(${withBasePath("/images/bg-black-marble.jpg")})`, backgroundSize: "auto, 420px" }}
     >
-      <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6">
-        <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
+      <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6">
+        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
           <div>
             <Logo tone="dark" />
-            <Image
-              src={withBasePath("/images/logo-crest.jpg")}
-              alt="Bathroom Excellence crest"
-              width={180}
-              height={164}
-              className="mt-5 rounded-xl border border-white/10"
-            />
             <p className="mt-4 max-w-xs text-sm leading-relaxed">
               Premium shower and bathroom remodeling — designed around your home,
               installed by our own certified team, and built to be enjoyed every day.
@@ -74,8 +71,6 @@ export function Footer() {
               <li><Link href="/#free-estimate" className="transition-colors hover:text-teal-300">Free Estimate</Link></li>
               <li><a href={siteConfig.bookingUrl} target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-teal-300">Book an Appointment</a></li>
               <li><Link href="/contact" className="transition-colors hover:text-teal-300">Contact Us</Link></li>
-              <li><Link href="/privacy-policy" className="transition-colors hover:text-teal-300">Privacy Policy</Link></li>
-              <li><Link href="/terms" className="transition-colors hover:text-teal-300">Terms &amp; Conditions</Link></li>
             </ul>
           </nav>
 
@@ -94,11 +89,6 @@ export function Footer() {
                   </a>
                 </li>
               )}
-              <li>
-                {siteConfig.address.street}
-                <br />
-                {siteConfig.address.city}, {siteConfig.address.state} {siteConfig.address.zip}
-              </li>
               <li className="pt-1 text-teal-100/60">
                 <span className="font-semibold text-teal-100/85">Service area:</span>{" "}
                 {siteConfig.serviceArea.localities.join(" · ")}
@@ -106,13 +96,37 @@ export function Footer() {
             </ul>
           </div>
         </div>
+      </div>
 
-        <div className="mt-12 flex flex-col items-center justify-between gap-3 border-t border-white/10 pt-6 text-xs text-teal-100/50 sm:flex-row">
-          <p>
-            © {new Date().getFullYear()} {siteConfig.legalName}. All rights reserved.
+      {/* Closing bar — matches the original site's simple footer layout */}
+      <div className="border-t border-white/10 bg-black/25">
+        <div className="mx-auto grid max-w-7xl items-center gap-6 px-4 py-8 text-center sm:px-6 md:grid-cols-3 md:text-left">
+          <p className="text-sm text-teal-100/80">
+            {siteConfig.address.street}
+            <br />
+            {siteConfig.address.city}, {siteConfig.address.state} {siteConfig.address.zip}
           </p>
-          <p>{siteConfig.serviceArea.headline}</p>
+          <div className="flex justify-center">
+            <Image
+              src={withBasePath("/images/logo-crest.jpg")}
+              alt="Bathroom Excellence crest"
+              width={140}
+              height={128}
+              className="h-24 w-auto rounded-lg border border-white/10"
+            />
+          </div>
+          <div className="flex justify-center md:justify-end">
+            <Link
+              href="/privacy-policy"
+              className="rounded-md bg-white px-5 py-2.5 text-sm font-semibold text-ink shadow-card transition-colors hover:bg-porcelain"
+            >
+              Privacy Policy &amp; Terms Of Service
+            </Link>
+          </div>
         </div>
+        <p className="border-t border-white/10 px-4 py-5 text-center text-xs text-teal-100/50 sm:px-6">
+          © {new Date().getFullYear()} {siteConfig.legalName}. All rights reserved.
+        </p>
       </div>
     </footer>
   );

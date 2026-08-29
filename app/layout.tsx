@@ -53,7 +53,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${mulish.variable} ${lora.variable}`}>
+    <html lang="en" data-scroll-behavior="smooth" className={`${mulish.variable} ${lora.variable}`}>
       <body>
         <MotionPrefsProvider>
           <PageLoader />

@@ -95,6 +95,10 @@ export interface ServiceInfo {
   title: string;
   heroHeadline: string;
   intro: string;
+  /** Optional heading rendered above the bullets grid */
+  bulletsHeading?: { title: string; subtitle: string };
   bullets: { title: string; body: string }[];
   closing: string;
+  /** Optional photo CTA band rendered before the estimate form */
+  ctaBand?: { title: string; subtitle: string };
 }

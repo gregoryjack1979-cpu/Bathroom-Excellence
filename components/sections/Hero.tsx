@@ -126,7 +126,10 @@ export function Hero() {
             your routine. Team up with us for a shower remodel in St. Charles,
             MO and the Greater St. Louis Area — we&rsquo;ll design and build a shower
             that&rsquo;s comfortable, convenient and makes your bathroom look
-            incredible. Many projects are finished in as little as a day.
+            incredible. Many projects are finished in as little as a day.{" "}
+            <a href="/services/full-bathroom-remodel" className="font-semibold text-teal-700 underline-offset-2 hover:underline">
+              Ask us about our full Bathroom Remodeling services!
+            </a>
           </motion.p>
           <motion.div
             initial={{ opacity: 0, y: 24 }}

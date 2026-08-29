@@ -63,6 +63,10 @@ export const siteConfig = {
   /** Google rating shown in the hero and trust sections */
   rating: { value: "4.8", count: 203 },
 
+  /** Where "Leave a Review" points — replace with your Google review short link */
+  googleReviewUrl:
+    "https://www.google.com/search?q=Bathroom+Excellence+St+Charles+MO+reviews",
+
   /** Social profiles — replace with your real URLs (or remove entries) */
   socials: [
     { label: "Facebook", href: "https://www.facebook.com/yourcompany" },

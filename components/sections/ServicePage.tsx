@@ -7,7 +7,8 @@ import { Contact } from "@/components/sections/Contact";
 import { GalleryScene } from "@/components/gallery/GalleryScene";
 import { SceneImage } from "@/components/scenes/SceneImage";
 import type { ImageSlotId } from "@/config/site";
-import { siteConfig } from "@/config/site";
+import { siteConfig, withBasePath } from "@/config/site";
+import { SectionHeading } from "@/components/ui/SectionHeading";
 import type { ServiceInfo } from "@/lib/types";
 
 /** Shared template for the lightweight service pages. */
@@ -51,7 +52,14 @@ export function ServicePage({ service, sceneVariant }: { service: ServiceInfo; s
         {/* benefits */}
         <section className="py-16 md:py-24">
           <div className="mx-auto max-w-7xl px-4 sm:px-6">
-            <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {service.bulletsHeading && (
+              <SectionHeading
+                eyebrow={service.title}
+                title={service.bulletsHeading.title}
+                subtitle={service.bulletsHeading.subtitle}
+              />
+            )}
+            <ul className={`grid gap-6 sm:grid-cols-2 ${service.bullets.length > 4 ? "lg:grid-cols-3" : "lg:grid-cols-4"}`}>
               {service.bullets.map((b, i) => (
                 <AnimateIn key={b.title} as="li" delay={i * 0.08}>
                   <div className="h-full rounded-card bg-white p-6 shadow-card transition-all duration-300 hover:-translate-y-1 hover:shadow-lift">
@@ -72,6 +80,26 @@ export function ServicePage({ service, sceneVariant }: { service: ServiceInfo; s
           </div>
         </section>
 
+        {service.ctaBand && (
+          <section
+            aria-label={service.ctaBand.title}
+            className="relative overflow-hidden py-20 text-center md:py-28"
+            style={{ backgroundImage: `linear-gradient(rgb(16 16 16 / 0.78), rgb(16 16 16 / 0.85)), url(${withBasePath("/images/bg-rain.jpg")})`, backgroundSize: "cover", backgroundPosition: "center" }}
+          >
+            <div className="mx-auto max-w-3xl px-4 sm:px-6">
+              <h2 className="font-display text-3xl leading-tight text-white md:text-5xl">{service.ctaBand.title}</h2>
+              <p className="mt-4 text-lg text-white/85">{service.ctaBand.subtitle}</p>
+              <div className="mt-8 flex flex-wrap justify-center gap-4">
+                <Button href="#free-estimate" size="lg" variant="light">
+                  Free Estimate
+                </Button>
+                <Button href={siteConfig.phoneHref} size="lg" variant="dark">
+                  Call Now
+                </Button>
+              </div>
+            </div>
+          </section>
+        )}
         <LeadFormSection />
         <Contact />
       </main>

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { AnimateIn } from "@/components/ui/AnimateIn";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { siteConfig, withBasePath } from "@/config/site";
@@ -34,12 +35,27 @@ export function WhyChooseUs() {
         <div className="absolute -right-16 bottom-0 h-96 w-96 rounded-full bg-teal-300/10 blur-3xl" />
       </div>
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6">
-        <SectionHeading
-          eyebrow="Why homeowners choose us"
-          title={<>A Remodel You Can Trust, <span className="text-teal-300">Start to Finish</span></>}
-          subtitle="You want to know you can trust the people working on your home. Excellence is in our name — and our customers love working with us."
-          tone="dark"
-        />
+        <div className="mb-12 grid items-center gap-10 md:mb-16 lg:grid-cols-[1.5fr_1fr]">
+          <SectionHeading
+            eyebrow="Why homeowners choose us"
+            title={<>A Remodel You Can Trust, <span className="text-teal-300">Start to Finish</span></>}
+            subtitle="You want to know you can trust the people working on your home. Excellence is in our name — and our customers love working with us."
+            tone="dark"
+            align="left"
+            className="mb-0 md:mb-0"
+          />
+          <AnimateIn delay={0.15} className="hidden justify-center lg:flex">
+            <div className="animate-float-slow rounded-full p-1.5" style={{ background: "linear-gradient(140deg,#eef3f6,#8fa0ab,#e2e9ee)" }}>
+              <Image
+                src={withBasePath("/images/photo-shower-circle.jpg")}
+                alt="A customer enjoying their new rainfall shower"
+                width={280}
+                height={280}
+                className="h-64 w-64 rounded-full object-cover xl:h-72 xl:w-72"
+              />
+            </div>
+          </AnimateIn>
+        </div>
 
         <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {reasons.map((r, i) => (

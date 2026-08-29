@@ -16,6 +16,10 @@ export const services: ServiceInfo[] = [
       { title: "Grab bars & storage options", body: "If you have accessibility concerns, we keep all of your needs in mind." },
     ],
     closing: "Learn more about bathtub-to-shower conversions when you call today — your shower will be beautiful, comfortable and safe.",
+    ctaBand: {
+      title: "Turn Your Old Bathtub Into a Beautiful, Spacious Shower",
+      subtitle: "We specialize in tub to shower conversions for style, comfort and accessibility",
+    },
   },
   {
     slug: "full-bathroom-remodel",
@@ -24,11 +28,20 @@ export const services: ServiceInfo[] = [
     heroHeadline: "Create a New Style for Your Space",
     intro:
       "Time for a bathroom remodel? Turn to our professionals in the St. Charles, MO and Greater St. Louis area. We manage extensive remodeling projects from start to finish — update this essential space and create a luxurious room that makes you feel right at home.",
+    bulletsHeading: {
+      title: "How You Can Transform Your Bathroom",
+      subtitle: "You won't have to compromise when you work with our bathroom remodeling company. We can update your bathroom however you want, including…",
+    },
     bullets: [
-      { title: "Replace faucets and fixtures", body: "New sinks, toilets, bidets and hardware, professionally plumbed." },
-      { title: "Upgrade your tub or shower", body: "From a total remodel to a tub-to-shower conversion — any size project." },
-      { title: "Build a new vanity", body: "Cabinets and countertops designed around your storage and style." },
-      { title: "Walls, flooring & lighting", body: "Repaint, re-floor and re-light the room so everything feels new." },
+      { title: "Completing a tub to shower conversion", body: "Swap an unused tub for a roomy, easy-access shower." },
+      { title: "Replacing a bathtub", body: "A fresh soaker or deep-soak tub, professionally set and plumbed." },
+      { title: "Installing a walk-in bathtub", body: "Bathe safely with a sealed door, built-in seat and low threshold." },
+      { title: "Renovating a shower", body: "New walls, base, glass and fixtures — remodeled top to bottom." },
+      { title: "Adding a bathtub surround", body: "Seamless, grout-free walls around your tub that wipe clean." },
+      { title: "Installing safety options like grab bars", body: "Rated support that looks like part of the design." },
+      { title: "Replacing cabinets and countertops", body: "A new vanity built around your storage and style." },
+      { title: "Installing new fixtures, sinks, toilets or bidets", body: "Modern hardware, professionally plumbed." },
+      { title: "Replacing flooring, lighting or windows", body: "Finish the room so every surface feels new." },
     ],
     closing: "Turn your boring bathroom into a refreshing space — contact our bathroom remodeling company today to discuss your ideas with a pro.",
   },

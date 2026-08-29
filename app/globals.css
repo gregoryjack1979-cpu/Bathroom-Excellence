@@ -1,0 +1,205 @@
+@import "tailwindcss";
+
+/* ───────────────────────────── Design tokens ───────────────────────────── */
+@theme {
+  /* Palette: deep water teal + chrome silver + warm porcelain white */
+  --color-ink: #13272f;
+  --color-deep: #0b3542;
+  --color-abyss: #082830;
+  --color-teal-700: #0f5e73;
+  --color-teal-600: #17758d;
+  --color-teal-500: #2a93ac;
+  --color-teal-400: #57b1c4;
+  --color-teal-300: #8ccbd8;
+  --color-teal-100: #d8edf2;
+  --color-teal-50: #eff7f9;
+  --color-mist: #f4f8f9;
+  --color-porcelain: #fbfcfc;
+  --color-chrome-light: #f2f5f7;
+  --color-chrome: #c6d0d7;
+  --color-chrome-dark: #8d9ba5;
+  --color-body: #46606c;
+  --color-sand: #efe9df;
+
+  --font-display: var(--font-playfair), Georgia, "Times New Roman", serif;
+  --font-sans: var(--font-inter), system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --shadow-card: 0 2px 6px rgb(19 39 47 / 0.05), 0 12px 32px -8px rgb(19 39 47 / 0.14);
+  --shadow-lift: 0 6px 14px rgb(19 39 47 / 0.08), 0 28px 56px -14px rgb(19 39 47 / 0.25);
+  --shadow-glow: 0 0 0 1px rgb(42 147 172 / 0.15), 0 10px 40px -8px rgb(42 147 172 / 0.35);
+
+  --radius-card: 1.25rem;
+
+  --animate-float: float 7s ease-in-out infinite;
+  --animate-float-slow: float 11s ease-in-out infinite;
+  --animate-drift: drift 16s ease-in-out infinite;
+  --animate-sheen: sheen 2.6s ease-in-out infinite;
+  --animate-steam: steam 6s ease-in-out infinite;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-porcelain);
+  color: var(--color-body);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--color-teal-400) 35%, transparent);
+}
+
+h1, h2, h3, .font-display {
+  font-family: var(--font-display);
+  color: var(--color-ink);
+}
+
+/* Visible focus for keyboard users */
+:focus-visible {
+  outline: 2px solid var(--color-teal-500);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* ─────────────────────────── Material utilities ────────────────────────── */
+
+/* Frosted glass panel (used sparingly: header, badges, overlays) */
+.glass-panel {
+  background: rgb(255 255 255 / 0.66);
+  backdrop-filter: blur(14px) saturate(1.4);
+  -webkit-backdrop-filter: blur(14px) saturate(1.4);
+  border: 1px solid rgb(255 255 255 / 0.55);
+}
+
+.glass-dark {
+  background: rgb(8 40 48 / 0.55);
+  backdrop-filter: blur(14px) saturate(1.2);
+  -webkit-backdrop-filter: blur(14px) saturate(1.2);
+  border: 1px solid rgb(255 255 255 / 0.12);
+}
+
+/* Polished chrome text / edges */
+.chrome-text {
+  background: linear-gradient(175deg, #eef3f6 8%, #b9c6cf 32%, #7f8f9a 50%, #dde6eb 68%, #9fb0ba 92%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.chrome-edge {
+  border: 1px solid transparent;
+  background:
+    linear-gradient(var(--color-porcelain), var(--color-porcelain)) padding-box,
+    linear-gradient(160deg, #e8eef2, #aebbc4 45%, #e2e9ee 75%, #93a3ae) border-box;
+}
+
+/* Moving reflection sweep for CTA buttons (activated on hover) */
+.btn-sheen {
+  position: relative;
+  overflow: hidden;
+}
+.btn-sheen::after {
+  content: "";
+  position: absolute;
+  inset: -40% auto;
+  top: -40%;
+  bottom: -40%;
+  left: -70%;
+  width: 45%;
+  transform: skewX(-22deg) translateX(0);
+  background: linear-gradient(90deg, transparent, rgb(255 255 255 / 0.42), transparent);
+  transition: transform 0.7s cubic-bezier(0.22, 0.61, 0.36, 1);
+  pointer-events: none;
+}
+.btn-sheen:hover::after,
+.btn-sheen:focus-visible::after {
+  transform: skewX(-22deg) translateX(420%);
+}
+
+/* ────────────────────────────── Keyframes ──────────────────────────────── */
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-14px) rotate(2deg); }
+}
+@keyframes drift {
+  0%, 100% { transform: translate(0, 0); }
+  33% { transform: translate(10px, -16px); }
+  66% { transform: translate(-8px, -6px); }
+}
+@keyframes sheen {
+  0% { background-position: -150% 0; }
+  60%, 100% { background-position: 250% 0; }
+}
+@keyframes steam {
+  0% { transform: translateY(0) scale(1); opacity: 0.5; }
+  100% { transform: translateY(-42px) scale(1.35); opacity: 0; }
+}
+
+/* Click ripple + glass flash (nodes created by ClickEffects) */
+@keyframes ripple-ring {
+  0% { transform: translate(-50%, -50%) scale(0.15); opacity: 0.85; }
+  100% { transform: translate(-50%, -50%) scale(1); opacity: 0; }
+}
+@keyframes glass-flash {
+  0% { opacity: 0; }
+  22% { opacity: 0.55; }
+  100% { opacity: 0; }
+}
+.fx-ripple {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 110px;
+  height: 110px;
+  border-radius: 9999px;
+  border: 2px solid rgb(87 177 196 / 0.9);
+  box-shadow: 0 0 18px rgb(87 177 196 / 0.35) inset;
+  animation: ripple-ring 480ms cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+  pointer-events: none;
+}
+.fx-ripple-inner {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: 9999px;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgb(255 255 255 / 0.9) 0%, rgb(199 231 238 / 0.4) 45%, transparent 70%);
+  animation: glass-flash 420ms ease-out forwards;
+  pointer-events: none;
+}
+
+/* ─────────────────────────── Custom cursor rules ───────────────────────── */
+html.has-custom-cursor,
+html.has-custom-cursor a,
+html.has-custom-cursor button,
+html.has-custom-cursor label,
+html.has-custom-cursor summary,
+html.has-custom-cursor [role="button"] {
+  cursor: none;
+}
+/* Keep native cursors where they carry meaning */
+html.has-custom-cursor input,
+html.has-custom-cursor textarea {
+  cursor: text;
+}
+html.has-custom-cursor select {
+  cursor: default;
+}
+
+/* ───────────────────────────── Reduced motion ──────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -1,12 +1,13 @@
 "use client";
 
 import { motion } from "framer-motion";
+import clsx from "clsx";
 import { siteConfig } from "@/config/site";
 import { Button } from "@/components/ui/Button";
 import type { LeadPayload } from "@/lib/types";
 
 /** Post-submit thank-you with the lead summary and consultation CTA. */
-export function SuccessPanel({ payload }: { payload: LeadPayload }) {
+export function SuccessPanel({ payload, dark = false }: { payload: LeadPayload; dark?: boolean }) {
   const high = payload.leadPriority === "High Priority";
   const rows: [string, string][] = [
     ["Project", payload.projectType],
@@ -35,8 +36,8 @@ export function SuccessPanel({ payload }: { payload: LeadPayload }) {
           <path d="m5 12.5 4.5 4.5L19 7.5" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
       </motion.span>
-      <h3 className="mt-5 font-display text-2xl text-ink">Thank you — your estimate request is in!</h3>
-      <p className="mx-auto mt-2 max-w-md text-[15px] leading-relaxed">
+      <h3 className={clsx("mt-5 font-display text-2xl", dark ? "text-white" : "text-ink")}>Thank you — your estimate request is in!</h3>
+      <p className={clsx("mx-auto mt-2 max-w-md text-[15px] leading-relaxed", dark && "text-white/75")}>
         {high
           ? "Your project is a great fit. A design consultant will call you within one business hour to schedule your free in-home consultation."
           : "A design consultant will reach out within one business day to schedule your free in-home consultation."}

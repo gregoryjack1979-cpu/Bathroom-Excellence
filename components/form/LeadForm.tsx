@@ -94,11 +94,12 @@ function Field({
   id,
   label,
   error,
+  dark,
   ...input
-}: { id: string; label: string; error?: string } & React.InputHTMLAttributes<HTMLInputElement>) {
+}: { id: string; label: string; error?: string; dark?: boolean } & React.InputHTMLAttributes<HTMLInputElement>) {
   return (
     <div>
-      <label htmlFor={id} className="mb-1.5 block text-sm font-semibold text-ink">
+      <label htmlFor={id} className={clsx("mb-1.5 block text-sm font-semibold", dark ? "text-white" : "text-ink")}>
         {label}
       </label>
       <input
@@ -122,7 +123,7 @@ function Field({
 }
 
 /** Six-step estimate wizard with scoring + webhook submission. */
-export function LeadForm() {
+export function LeadForm({ dark = false }: { dark?: boolean }) {
   const [state, dispatch] = useReducer(reducer, initialState);
   const { step, data, phase, validation, payload } = state;
   const fieldErrors = validation?.fieldErrors ?? {};
@@ -147,12 +148,12 @@ export function LeadForm() {
   };
 
   if (phase === "success" && payload) {
-    return <SuccessPanel payload={payload} />;
+    return <SuccessPanel payload={payload} dark={dark} />;
   }
 
   return (
     <div>
-      <ProgressBar step={step} total={TOTAL_STEPS} />
+      <ProgressBar step={step} total={TOTAL_STEPS} dark={dark} />
 
       <AnimatePresence mode="wait" initial={false}>
         <motion.div
@@ -162,7 +163,7 @@ export function LeadForm() {
           exit={{ opacity: 0, x: -34 }}
           transition={{ duration: 0.24, ease: [0.22, 0.61, 0.36, 1] }}
         >
-          <h3 className="mb-5 font-display text-xl text-ink md:text-2xl">{stepTitles[step]}</h3>
+          <h3 className={clsx("mb-5 font-display text-xl md:text-2xl", dark ? "text-white" : "text-ink")}>{stepTitles[step]}</h3>
 
           {step === 0 && (
             <div role="radiogroup" aria-label={stepTitles[0]} className="grid gap-3 sm:grid-cols-2">
@@ -233,12 +234,12 @@ export function LeadForm() {
 
           {step === 5 && (
             <form onSubmit={handleSubmit} noValidate className="grid gap-4 sm:grid-cols-2">
-              <Field id="lead-first" label="First Name" autoComplete="given-name" value={data.firstName} error={fieldErrors.firstName} onChange={(e) => dispatch({ type: "SET", patch: { firstName: e.target.value } })} />
-              <Field id="lead-last" label="Last Name" autoComplete="family-name" value={data.lastName} error={fieldErrors.lastName} onChange={(e) => dispatch({ type: "SET", patch: { lastName: e.target.value } })} />
-              <Field id="lead-phone" label="Phone Number" type="tel" inputMode="tel" autoComplete="tel" value={data.phone} error={fieldErrors.phone} onChange={(e) => dispatch({ type: "SET", patch: { phone: e.target.value } })} />
-              <Field id="lead-email" label="Email Address" type="email" autoComplete="email" value={data.email} error={fieldErrors.email} onChange={(e) => dispatch({ type: "SET", patch: { email: e.target.value } })} />
-              <Field id="lead-zip" label="ZIP Code" inputMode="numeric" autoComplete="postal-code" value={data.zip} error={fieldErrors.zip} onChange={(e) => dispatch({ type: "SET", patch: { zip: e.target.value } })} />
-              <Field id="lead-address" label="Street Address (optional)" autoComplete="street-address" value={data.address} onChange={(e) => dispatch({ type: "SET", patch: { address: e.target.value } })} />
+              <Field id="lead-first" dark={dark} label="First Name" autoComplete="given-name" value={data.firstName} error={fieldErrors.firstName} onChange={(e) => dispatch({ type: "SET", patch: { firstName: e.target.value } })} />
+              <Field id="lead-last" dark={dark} label="Last Name" autoComplete="family-name" value={data.lastName} error={fieldErrors.lastName} onChange={(e) => dispatch({ type: "SET", patch: { lastName: e.target.value } })} />
+              <Field id="lead-phone" dark={dark} label="Phone Number" type="tel" inputMode="tel" autoComplete="tel" value={data.phone} error={fieldErrors.phone} onChange={(e) => dispatch({ type: "SET", patch: { phone: e.target.value } })} />
+              <Field id="lead-email" dark={dark} label="Email Address" type="email" autoComplete="email" value={data.email} error={fieldErrors.email} onChange={(e) => dispatch({ type: "SET", patch: { email: e.target.value } })} />
+              <Field id="lead-zip" dark={dark} label="ZIP Code" inputMode="numeric" autoComplete="postal-code" value={data.zip} error={fieldErrors.zip} onChange={(e) => dispatch({ type: "SET", patch: { zip: e.target.value } })} />
+              <Field id="lead-address" dark={dark} label="Street Address (optional)" autoComplete="street-address" value={data.address} onChange={(e) => dispatch({ type: "SET", patch: { address: e.target.value } })} />
               {phase === "error" && (
                 <p role="alert" className="sm:col-span-2 rounded-xl bg-red-50 px-4 py-3 text-sm font-medium text-red-700">
                   {state.errorMessage} —{" "}
@@ -248,12 +249,12 @@ export function LeadForm() {
                 </p>
               )}
               <div className="sm:col-span-2 mt-2 flex items-center justify-between gap-3">
-                <BackButton onClick={() => dispatch({ type: "BACK" })} />
+                <BackButton dark={dark} onClick={() => dispatch({ type: "BACK" })} />
                 <Button type="submit" size="lg" disabled={phase === "submitting"} className={clsx(phase === "submitting" && "opacity-70")}>
                   {phase === "submitting" ? "Sending…" : "Get My Free Estimate"}
                 </Button>
               </div>
-              <p className="sm:col-span-2 text-xs leading-relaxed text-body/70">
+              <p className={clsx("sm:col-span-2 text-xs leading-relaxed", dark ? "text-white/60" : "text-body/70")}>
                 By submitting, you agree to be contacted about your project by phone, email or text.
                 We never sell your information.
               </p>
@@ -261,14 +262,14 @@ export function LeadForm() {
           )}
 
           {validation?.message && step !== 5 && (
-            <p role="alert" className="mt-4 text-sm font-medium text-red-600">
+            <p role="alert" className={clsx("mt-4 text-sm font-medium", dark ? "text-red-400" : "text-red-600")}>
               {validation.message}
             </p>
           )}
 
           {step > 0 && step < 5 && (
             <div className="mt-6 flex items-center justify-between">
-              <BackButton onClick={() => dispatch({ type: "BACK" })} />
+              <BackButton dark={dark} onClick={() => dispatch({ type: "BACK" })} />
               {(step === 1 || step === 2) && (
                 <Button type="button" onClick={() => dispatch({ type: "NEXT" })}>
                   Continue
@@ -282,12 +283,15 @@ export function LeadForm() {
   );
 }
 
-function BackButton({ onClick }: { onClick: () => void }) {
+function BackButton({ onClick, dark }: { onClick: () => void; dark?: boolean }) {
   return (
     <button
       type="button"
       onClick={onClick}
-      className="inline-flex items-center gap-1.5 rounded-full px-3 py-2 text-sm font-semibold text-body transition-colors hover:text-teal-700"
+      className={clsx(
+        "inline-flex items-center gap-1.5 rounded-full px-3 py-2 text-sm font-semibold transition-colors",
+        dark ? "text-white/70 hover:text-teal-300" : "text-body hover:text-teal-700",
+      )}
     >
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true">
         <path d="M14.5 5 8 12l6.5 7" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />

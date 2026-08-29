@@ -178,15 +178,15 @@ export function Hero() {
             initial={{ opacity: 0, y: 34, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 0.7, delay: 0.25 }}
-            className="glass-panel relative rounded-card p-6 shadow-lift sm:p-8"
+            className="glass-dark relative rounded-card p-6 shadow-lift sm:p-8"
           >
-            <h2 className="text-center font-display text-2xl text-ink md:text-[1.7rem]">
+            <h2 className="text-center font-display text-2xl text-white md:text-[1.7rem]">
               Get A Free Estimate
             </h2>
-            <p className="mb-6 mt-1.5 text-center text-sm text-body">
+            <p className="mb-6 mt-1.5 text-center text-sm text-white/70">
               Six quick questions — exact quote, zero obligation.
             </p>
-            <LeadForm />
+            <LeadForm dark />
           </motion.div>
 
           {/* floating trust badges */}

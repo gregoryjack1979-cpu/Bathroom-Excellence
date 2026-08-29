@@ -15,9 +15,9 @@ const variants: Record<Variant, string> = {
   primary:
     "bg-gradient-to-b from-[#2e2e2e] to-[#141414] text-white border border-white/10 " +
     "shadow-[0_4px_14px_rgba(0,0,0,0.35)] hover:shadow-[0_10px_28px_rgba(0,0,0,0.45)] hover:from-[#3a3a3a] hover:to-[#1c1c1c]",
-  /* white button with a thin border — the original's Contact Us / Free Estimate style */
+  /* white button with a bronze/gold border — synced to the site's accent color */
   outline:
-    "bg-white text-ink border border-ink/25 shadow-card hover:shadow-lift hover:border-ink/45",
+    "bg-white text-teal-700 border border-teal-600/40 shadow-card hover:shadow-lift hover:border-teal-700/70 hover:text-teal-800",
   light:
     "bg-white text-ink border border-white/60 shadow-card hover:shadow-lift hover:bg-porcelain",
   gold:

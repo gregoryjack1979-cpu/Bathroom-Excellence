@@ -6,14 +6,15 @@ import { useMotionPrefs } from "@/lib/hooks/useMotionPrefs";
 
 /**
  * Full-bleed ambient video behind the hero — the marble bathroom walkthrough.
- * Plays muted/looped only while the tab is visible; reduced-motion and
- * narrow-screen visitors get the still poster frame instead (same footage,
- * no motion). A gradient scrim keeps the hero copy readable over it.
+ * Plays on desktop and mobile alike (muted + playsInline satisfy iOS/Android
+ * autoplay rules); only reduced-motion visitors get the still poster frame
+ * instead (same footage, no motion). A gradient scrim keeps the hero copy
+ * readable over it.
  */
 export function HeroVideoBackground() {
-  const { reducedMotion, desktop } = useMotionPrefs();
+  const { reducedMotion } = useMotionPrefs();
   const videoRef = useRef<HTMLVideoElement>(null);
-  const showVideo = desktop && !reducedMotion;
+  const showVideo = !reducedMotion;
 
   useEffect(() => {
     if (!showVideo) return;

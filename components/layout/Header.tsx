@@ -52,7 +52,7 @@ export function Header() {
             scrolled ? "py-2.5" : "py-4",
           )}
         >
-          <Link href="/" aria-label={`${siteConfig.name} — home`} className="shrink-0">
+          <Link href="/" aria-label={`${siteConfig.name} — home`} className="min-w-0">
             <Logo tone="dark" />
           </Link>
 

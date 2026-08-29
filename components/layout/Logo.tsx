@@ -11,13 +11,13 @@ export function Logo({ tone = "light", className }: { tone?: "light" | "dark"; c
         src={withBasePath("/images/logo-crest.jpg")}
         alt=""
         aria-hidden="true"
-        width={44}
-        height={40}
-        className="h-10 w-11 rounded-md border border-white/15 object-cover"
+        width={136}
+        height={124}
+        className="h-12 w-[53px] rounded-md border border-white/15 object-cover md:h-14 md:w-[62px]"
       />
       <span
         className={clsx(
-          "font-display text-lg leading-none tracking-tight md:text-xl",
+          "font-display text-xl leading-none tracking-tight md:text-2xl",
           tone === "dark" ? "text-white" : "text-ink",
         )}
       >

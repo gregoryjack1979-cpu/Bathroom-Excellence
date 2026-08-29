@@ -169,7 +169,8 @@ for (const [name, width, height, touch] of [["tablet", 768, 1024, true], ["mobil
   check("service page renders h1", (await page.locator("h1").textContent()).includes("Bathe Safely"));
   await page.screenshot({ path: `${dir}/v-service.png` });
   const resp = await page.goto(`${base}/shower-remodels`, { waitUntil: "networkidle" });
-  check("shower-remodels redirects home", page.url().replace(/\/$/, "") === base.replace(/\/$/, "") && resp.ok());
+  check("shower-remodels serves the flagship page", resp.ok() &&
+    (await page.locator("h1").textContent()).includes("Transform Your"));
   await page.close();
 }
 

@@ -106,6 +106,22 @@ remodel **+20**, shower remodel / tub-to-shower / walk-in **+15**, safety
 With no webhook configured, submissions log to the browser console and show
 the success panel — handy for demos.
 
+## Deploy to GitHub Pages
+
+The repo ships with `.github/workflows/deploy-pages.yml`, which builds a fully
+static export and publishes it on every push to the branch:
+
+1. In the repo go to **Settings → Pages** and set **Source** to
+   **“GitHub Actions”** (not “Deploy from a branch” — that mode serves the raw
+   source through Jekyll and cannot build a Next.js app).
+2. Push (or re-run the workflow from the Actions tab). The site appears at
+   `https://<user>.github.io/<repo>/`.
+
+The workflow sets `STATIC_EXPORT=1` and `BASE_PATH=/<repo>` so links, assets
+and the favicon all resolve under the project subpath. On static hosting the
+`/shower-remodels` nav link serves its own page (canonical → `/`) instead of a
+server redirect.
+
 ## Deploy to Vercel
 
 1. Push this repository to GitHub.

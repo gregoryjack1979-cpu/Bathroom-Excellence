@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     description: siteConfig.seo.description,
   },
   robots: { index: true, follow: true },
-  icons: { icon: "/favicon.svg" },
+  icons: { icon: `${process.env.BASE_PATH ?? ""}/favicon.svg` },
 };
 
 export const viewport: Viewport = {

@@ -4,6 +4,7 @@ import { siteConfig } from "@/config/site";
 import { MotionPrefsProvider } from "@/lib/hooks/useMotionPrefs";
 import { JsonLd } from "@/components/ui/JsonLd";
 import { EffectsMount } from "@/components/effects/EffectsMount";
+import { PageLoader } from "@/components/effects/PageLoader";
 import "./globals.css";
 
 const inter = Inter({
@@ -39,6 +40,7 @@ export const metadata: Metadata = {
     description: siteConfig.seo.description,
   },
   robots: { index: true, follow: true },
+  icons: { icon: "/favicon.svg" },
 };
 
 export const viewport: Viewport = {
@@ -54,6 +56,7 @@ export default function RootLayout({
     <html lang="en" className={`${inter.variable} ${playfair.variable}`}>
       <body>
         <MotionPrefsProvider>
+          <PageLoader />
           {children}
           <EffectsMount />
         </MotionPrefsProvider>

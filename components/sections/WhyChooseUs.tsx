@@ -1,0 +1,68 @@
+import { AnimateIn } from "@/components/ui/AnimateIn";
+import { SectionHeading } from "@/components/ui/SectionHeading";
+import { siteConfig } from "@/config/site";
+
+const reasons = [
+  { title: "Professional Installation", body: "Our own factory-trained installers — never day-labor subcontractors." },
+  { title: "Custom Designs", body: "Layout, walls, glass and fixtures picked with you, for your exact space." },
+  { title: "High-Quality Materials", body: "Non-porous walls, tempered glass and fixtures we'd put in our own homes." },
+  { title: "Experienced Remodeling Team", body: "Hundreds of local bathrooms transformed — we've seen your situation before." },
+  { title: "Affordable Options", body: "Straightforward pricing and flexible financing for every budget." },
+  { title: "Free Estimates", body: "An in-home visit, exact quote and design ideas — always free, never pushy." },
+  { title: "Customer Satisfaction", body: "We're not finished until you love your new shower. Backed in writing." },
+];
+
+const stats = [
+  { value: "500+", label: "Showers transformed" },
+  { value: "15 yrs", label: "Serving local homeowners" },
+  { value: "2–4", label: "Days for most installs" },
+  { value: "100%", label: "Workmanship guaranteed" },
+];
+
+/** Trust-building reasons + proof stats on a deep-water panel. */
+export function WhyChooseUs() {
+  return (
+    <section id="why-us" className="relative overflow-hidden bg-deep py-20 md:py-28">
+      {/* soft caustic glows */}
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0">
+        <div className="absolute -left-24 top-10 h-80 w-80 rounded-full bg-teal-500/15 blur-3xl" />
+        <div className="absolute -right-16 bottom-0 h-96 w-96 rounded-full bg-teal-300/10 blur-3xl" />
+      </div>
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6">
+        <SectionHeading
+          eyebrow="Why homeowners choose us"
+          title={<>A Remodel You Can Trust, <span className="text-teal-300">Start to Finish</span></>}
+          subtitle={`${siteConfig.name} treats your bathroom like our own — clean job sites, honest timelines and results that hold up.`}
+          tone="dark"
+        />
+
+        <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {reasons.map((r, i) => (
+            <AnimateIn key={r.title} as="li" delay={(i % 3) * 0.08}>
+              <div className="glass-dark h-full rounded-2xl p-6 transition-colors duration-300 hover:border-teal-400/40">
+                <span className="mb-4 grid h-10 w-10 place-items-center rounded-full bg-teal-400/15 text-teal-300" aria-hidden="true">
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none">
+                    <path d="m5 12.5 4.5 4.5L19 7.5" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </span>
+                <h3 className="font-sans text-base font-semibold text-white">{r.title}</h3>
+                <p className="mt-1.5 text-sm leading-relaxed text-teal-100/75">{r.body}</p>
+              </div>
+            </AnimateIn>
+          ))}
+        </ul>
+
+        <AnimateIn delay={0.15}>
+          <dl className="mt-14 grid grid-cols-2 gap-6 border-t border-white/10 pt-10 text-center md:grid-cols-4">
+            {stats.map((s) => (
+              <div key={s.label}>
+                <dd className="font-display text-4xl text-white">{s.value}</dd>
+                <dt className="mt-1 text-sm text-teal-100/70">{s.label}</dt>
+              </div>
+            ))}
+          </dl>
+        </AnimateIn>
+      </div>
+    </section>
+  );
+}

@@ -9,6 +9,7 @@ import { PhotoCtaBand } from "@/components/sections/PhotoCtaBand";
 import { Reviews } from "@/components/sections/Reviews";
 import { Transformation } from "@/components/sections/Transformation";
 import { Solutions } from "@/components/sections/Solutions";
+import { TransformationClips } from "@/components/sections/TransformationClips";
 import { BeforeAfter } from "@/components/sections/BeforeAfter";
 import { WhyChooseUs } from "@/components/sections/WhyChooseUs";
 import { Contact } from "@/components/sections/Contact";
@@ -26,6 +27,7 @@ export default function HomePage() {
         <PainPoints />
         <Transformation />
         <Solutions />
+        <TransformationClips />
         <BeforeAfter />
         <PhotoCtaBand
           title="Turn Your Old Bathtub Into a Beautiful, Spacious Shower"

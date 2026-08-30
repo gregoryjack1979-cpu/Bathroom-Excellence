@@ -80,7 +80,7 @@ export function Hero() {
 
       <div className="mx-auto grid max-w-7xl items-center gap-14 px-4 sm:px-6 lg:grid-cols-[1.05fr_1fr] lg:gap-10">
         {/* ─── Copy column ─── */}
-        <div className="relative z-10 max-w-2xl">
+        <div className="relative z-10 min-w-0 max-w-2xl">
           <motion.p
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
@@ -94,10 +94,10 @@ export function Hero() {
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.12 }}
-            className="text-4xl leading-[1.08] sm:text-5xl lg:text-[3.6rem]"
+            className="text-3xl leading-[1.15] sm:text-4xl sm:leading-[1.08] md:text-5xl lg:text-[3.6rem]"
           >
             Your Destination for{" "}
-            <span className="relative whitespace-nowrap text-teal-700">
+            <span className="relative whitespace-normal sm:whitespace-nowrap text-teal-700">
               Bathroom Remodeling
               <svg className="absolute -bottom-2 left-0 w-full" viewBox="0 0 300 12" fill="none" aria-hidden="true" preserveAspectRatio="none">
                 <path d="M2 9C60 3 150 2 298 7" stroke="#c9a86a" strokeWidth="4" strokeLinecap="round" opacity="0.55" />
@@ -158,7 +158,7 @@ export function Hero() {
         </div>
 
         {/* ─── Estimate form card (like the original homepage) ─── */}
-        <div id="free-estimate" className="relative z-10 scroll-mt-36">
+        <div id="free-estimate" className="relative z-10 min-w-0 scroll-mt-36">
           {/* chrome ring accent behind the card */}
           <Layer x={x} y={y} depth={-18} className="absolute -right-10 -top-14 hidden lg:block">
             <svg width="176" height="176" viewBox="0 0 176 176" className="animate-float-slow opacity-60">

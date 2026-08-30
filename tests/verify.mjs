@@ -96,8 +96,8 @@ const browser = await chromium.launch({ executablePath: "/opt/pw-browsers/chromi
   const cards = await page.locator("#gallery li").count();
   check("category filter narrows grid", cards > 0 && cards < 12);
 
-  // Before/after slider: keyboard + drag (back on the homepage)
-  await page.goto(base, { waitUntil: "networkidle" });
+  // Before/after slider: keyboard + drag (lives on /gallery only)
+  await page.goto(`${base}/gallery`, { waitUntil: "networkidle" });
   await page.waitForTimeout(600);
   await page.locator("#before-after").scrollIntoViewIfNeeded();
   await page.waitForTimeout(500);
@@ -134,11 +134,11 @@ const browser = await chromium.launch({ executablePath: "/opt/pw-browsers/chromi
   const page = await ctx.newPage();
   await page.goto(base, { waitUntil: "networkidle" });
   await page.waitForTimeout(900);
-  const tfHeight = await page.evaluate(() => document.querySelector("#transformation")?.offsetHeight ?? 0);
-  check("reduced motion collapses transformation track", tfHeight > 0 && tfHeight < 2200);
   check("reduced motion disables custom cursor", await page.evaluate(() =>
     !document.documentElement.classList.contains("has-custom-cursor")));
-  await page.locator("#transformation").scrollIntoViewIfNeeded();
+  const clipsVideoHidden = await page.evaluate(() =>
+    !document.querySelector("section[aria-label='More transformations in motion'] video"));
+  check("reduced motion falls back to poster for transformation clips", clipsVideoHidden);
   await page.screenshot({ path: `${dir}/v-reduced-motion.png` });
   await ctx.close();
 }

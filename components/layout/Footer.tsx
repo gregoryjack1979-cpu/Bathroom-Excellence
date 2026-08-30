@@ -67,7 +67,7 @@ export function Footer() {
             <ul className="mt-4 space-y-2.5 text-sm">
               <li><Link href="/" className="transition-colors hover:text-teal-300">Home</Link></li>
               <li><Link href="/gallery" className="transition-colors hover:text-teal-300">Project Gallery</Link></li>
-              <li><Link href="/#before-after" className="transition-colors hover:text-teal-300">Before &amp; After</Link></li>
+              <li><Link href="/gallery#before-after" className="transition-colors hover:text-teal-300">Before &amp; After</Link></li>
               <li><Link href="/#free-estimate" className="transition-colors hover:text-teal-300">Free Estimate</Link></li>
               <li><a href={siteConfig.bookingUrl} target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-teal-300">Book an Appointment</a></li>
               <li><Link href="/contact" className="transition-colors hover:text-teal-300">Contact Us</Link></li>

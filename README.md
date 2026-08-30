@@ -7,22 +7,22 @@ Framer Motion, with premium bathroom-themed interactions:
 
 - **3D parallax hero** that responds to mouse movement (glass showcase, floating
   badges, water droplets, chrome ring)
-- **Signature scroll transformation** — a pinned scene that strips an old shower
-  to the studs and rebuilds it into a finished remodel as you scroll
+- **Looping transformation clips** — real bare-room-to-finished-wall video
+  footage on the homepage
 - **Custom water-droplet cursor** with inertia trail (desktop only) and
   water-ripple / glass-flash click effects at the exact click position
 - **Interactive gallery** with category filters and a keyboard/touch lightbox
-- **Draggable before/after reveal** with a chrome-droplet handle (full keyboard
-  support: arrows, Home/End)
+- **Draggable before/after reveal** on the gallery page, with a chrome-droplet
+  handle (full keyboard support: arrows, Home/End)
 - **Six-step lead wizard** with validation, automatic lead scoring, priority
   assignment and webhook delivery
 - Light service pages for every nav item, contact page, privacy/terms, SEO
   metadata, LocalBusiness JSON-LD, sitemap and robots
 
 Accessibility & performance: semantic HTML, focus traps, visible focus rings,
-`prefers-reduced-motion` support everywhere (the transformation renders its
-finished state, cursor/ripples/parallax switch off), no WebGL (so no WebGL
-fallback needed), idle-mounted effects, statically prerendered pages.
+`prefers-reduced-motion` support everywhere (videos fall back to a static
+poster, cursor/ripples/parallax switch off), no WebGL (so no WebGL fallback
+needed), idle-mounted effects, statically prerendered pages.
 
 ## Run locally
 
@@ -144,8 +144,6 @@ node tests/verify.mjs http://localhost:3200 ./shots
 ```
 
 It walks the lead form end-to-end (asserting score 60 / High Priority on the
-logged payload), exercises the lightbox keys, the before/after slider
-(keyboard + drag), reduced-motion behavior, the mobile menu, and captures
-screenshots at desktop/tablet/mobile sizes. `tests/tour.mjs` grabs
-section-by-section screenshots including three stages of the scroll
-transformation.
+logged payload), exercises the lightbox keys, the before/after slider on the
+gallery page (keyboard + drag), reduced-motion behavior, the mobile menu, and
+captures screenshots at desktop/tablet/mobile sizes.

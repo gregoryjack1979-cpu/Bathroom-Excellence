@@ -13,8 +13,7 @@ const stops = [
   ["hero", "#top"],
   ["problems", "#problems"],
   ["solutions", "#solutions"],
-  ["gallery", "#gallery"],
-  ["before-after", "#before-after"],
+  ["clips", "section[aria-label='More transformations in motion']"],
   ["why-us", "#why-us"],
   ["form", "#free-estimate"],
   ["contact", "#contact"],
@@ -22,17 +21,6 @@ const stops = [
 for (const [name, sel] of stops) {
   await page.evaluate((s) => document.querySelector(s)?.scrollIntoView({ behavior: "instant", block: "start" }), sel);
   await page.waitForTimeout(900);
-  await page.screenshot({ path: `${dir}/tour-${name}.png` });
-}
-// transformation at three progress points
-const t = await page.evaluate(() => {
-  const el = document.querySelector("#transformation");
-  const r = el.getBoundingClientRect();
-  return { top: r.top + window.scrollY, height: el.offsetHeight };
-});
-for (const [name, f] of [["tf-0", 0.02], ["tf-mid", 0.5], ["tf-end", 0.92]]) {
-  await page.evaluate(({ top, height, f, wh }) => window.scrollTo(0, top + (height - wh) * f), { ...t, f, wh: 900 });
-  await page.waitForTimeout(1100);
   await page.screenshot({ path: `${dir}/tour-${name}.png` });
 }
 console.log(errors.length ? "CONSOLE ERRORS:\n" + errors.join("\n") : "no console errors");

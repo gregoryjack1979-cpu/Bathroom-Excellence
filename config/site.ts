@@ -98,7 +98,7 @@ export const siteConfig = {
   /** Header navigation. The flagship Shower Remodels experience is the homepage. */
   nav: [
     { label: "Home", href: "/" },
-    { label: "Shower Remodels", href: "/shower-remodels" },
+    { label: "Shower Remodels", href: "/gallery" },
     { label: "Tub to Shower Conversions", href: "/services/tub-to-shower-conversions" },
     { label: "Full Bathroom Remodel", href: "/services/full-bathroom-remodel" },
     { label: "Bathtubs & More", href: "/services/bathtubs-and-more" },

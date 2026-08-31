@@ -7,7 +7,7 @@ const cards = [
   { href: "/services/tub-to-shower-conversions", label: "Tub to Shower Conversions", img: "/images/card-tub-to-shower.jpg" },
   { href: "/services/full-bathroom-remodel", label: "Full Bathroom Remodel", img: "/images/card-full-bathroom.jpg" },
   { href: "/services/walk-in-bathtubs", label: "Walk-In Bathtubs", img: "/images/card-walk-in-tubs.jpg" },
-  { href: "/", label: "Shower Remodels", img: "/images/card-shower-remodels.jpg" },
+  { href: "/gallery", label: "Shower Remodels", img: "/images/card-shower-remodels.jpg" },
 ];
 
 /** The original homepage's four-service photo band (labels are part of the photos). */

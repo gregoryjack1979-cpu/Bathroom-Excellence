@@ -3,7 +3,7 @@ import Image from "next/image";
 import { siteConfig, withBasePath } from "@/config/site";
 import { Logo } from "./Logo";
 
-const services = siteConfig.nav.filter((n) => n.href.startsWith("/services") || n.href === "/shower-remodels");
+const services = siteConfig.nav.filter((n) => n.href.startsWith("/services") || n.label === "Shower Remodels");
 
 /**
  * Footer: a compact nav row for useful links, then a closing bar that

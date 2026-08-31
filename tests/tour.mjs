@@ -11,7 +11,6 @@ await page.waitForTimeout(1600); // let the loader finish
 
 const stops = [
   ["hero", "#top"],
-  ["problems", "#problems"],
   ["solutions", "#solutions"],
   ["clips", "section[aria-label='More transformations in motion']"],
   ["why-us", "#why-us"],

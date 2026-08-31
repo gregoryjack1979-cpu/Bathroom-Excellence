@@ -1,10 +1,8 @@
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Hero } from "@/components/sections/Hero";
-import { PainPoints } from "@/components/sections/PainPoints";
 import { ServiceCardsBand } from "@/components/sections/ServiceCardsBand";
 import { DarkIntroPanel } from "@/components/sections/DarkIntroPanel";
-import { TransformChecklist } from "@/components/sections/TransformChecklist";
 import { PhotoCtaBand } from "@/components/sections/PhotoCtaBand";
 import { Reviews } from "@/components/sections/Reviews";
 import { Solutions } from "@/components/sections/Solutions";
@@ -21,8 +19,6 @@ export default function HomePage() {
         <Hero />
         <ServiceCardsBand />
         <DarkIntroPanel />
-        <TransformChecklist />
-        <PainPoints />
         <Solutions />
         <TransformationClips />
         <PhotoCtaBand

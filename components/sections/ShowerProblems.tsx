@@ -28,10 +28,7 @@ const problems = [
   },
 ];
 
-/**
- * The dedicated Shower Remodels page's compact problem list — distinct from
- * the homepage's broader, six-item PainPoints section.
- */
+/** The dedicated Shower Remodels page's compact problem list. */
 export function ShowerProblems() {
   return (
     <section className="bg-mist py-16 md:py-24">

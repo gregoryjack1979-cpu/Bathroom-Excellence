@@ -33,8 +33,6 @@ await page.screenshot({ path: `${dir}/home-01-hero.png` });
 const sections = [
   ["services-band", "section[aria-label='Our services']"],
   ["dark-panel", "section[aria-label='Why remodel your bathroom']"],
-  ["checklist", "section[aria-labelledby='transform-checklist-heading']"],
-  ["painpoints", "#problems"],
   ["transformation", "#transformation"],
   ["solutions", "#solutions"],
   ["before-after", "#before-after"],

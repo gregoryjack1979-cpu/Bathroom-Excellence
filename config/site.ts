@@ -66,6 +66,13 @@ export const siteConfig = {
   /** Online appointment booking page */
   bookingUrl: "https://www.bathroomexcellence.com/book",
 
+  /**
+   * Our supplier's product configurator — the same tool we use in the home to
+   * walk through every wall pattern, color, door and trim finish. Set to an
+   * empty string to hide the link everywhere it appears.
+   */
+  designerUrl: "https://builder.milestonebathproducts.com/",
+
   /** Where "Leave a Review" points — replace with your Google review short link */
   googleReviewUrl:
     "https://www.google.com/search?q=Bathroom+Excellence+St+Charles+MO+reviews",

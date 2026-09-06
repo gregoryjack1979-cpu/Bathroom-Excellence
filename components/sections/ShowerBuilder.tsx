@@ -8,6 +8,7 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { AnimateIn } from "@/components/ui/AnimateIn";
 import { Button } from "@/components/ui/Button";
 import { useMotionPrefs } from "@/lib/hooks/useMotionPrefs";
+import { siteConfig } from "@/config/site";
 import { EXTRAS, SHOWER_LOOKS } from "@/lib/builderOptions";
 
 /**
@@ -172,6 +173,28 @@ export function ShowerBuilder() {
                 <Button href="/#free-estimate" size="lg" className="mt-4 w-full justify-center">
                   Get a Quote on This Look
                 </Button>
+                {siteConfig.designerUrl && (
+                  <>
+                    <Button
+                      href={siteConfig.designerUrl}
+                      variant="outline"
+                      size="lg"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-3 w-full justify-center"
+                    >
+                      Explore Every Wall &amp; Finish
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                      <span className="sr-only">(opens our supplier&rsquo;s design tool in a new tab)</span>
+                    </Button>
+                    <p className="mt-2.5 text-center text-[12px] leading-relaxed text-body">
+                      Browse every wall pattern, color, door and trim finish in the
+                      same design tool we bring to your home.
+                    </p>
+                  </>
+                )}
               </div>
             </div>
           </AnimateIn>

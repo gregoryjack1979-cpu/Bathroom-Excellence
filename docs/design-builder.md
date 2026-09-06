@@ -65,6 +65,24 @@ scripts/generate-builder-placeholders.py   regenerates the placeholder art
 tests/builder-check.mjs              Playwright checks
 ```
 
+## The starting design and the room renders
+
+The three room backgrounds are made from a supplier render of the blue
+room (`scripts/source/room-blue.png`), cropped to 4:3 and scaled to the
+canvas; green and grey are the same render with the wall paint hue-shifted.
+That render already shows one design — **shower, smooth white walls,
+sliding glass door, chrome** — so that is `DEFAULT_CONFIGURATION`, and the
+builder opens with it pre-selected (the in-home tool opens the same way).
+
+While nothing *inside* the shower has been changed, no layer is drawn and
+the render shows through untouched. Change any interior choice and the wall
+layer covers the alcove, and every layer is drawn from the configuration
+(`interiorIsDefault()` in `rules.ts` is the switch). Changing only the room
+keeps the render's interior.
+
+Because every step starts with a value, progress counts steps the user has
+**reviewed** (opened), not steps with a value.
+
 ## How the preview works
 
 The preview is a stack of absolutely-positioned images on one fixed
@@ -73,7 +91,7 @@ The preview is a stack of absolutely-positioned images on one fixed
 
 | z   | slot       | image comes from                                   |
 | --- | ---------- | -------------------------------------------------- |
-| 0   | room       | `roomThemes[].background` (grey until chosen)      |
+| 0   | room       | `roomThemes[].background`                          |
 | 10  | wall       | `walls/<folder>/<style>.png` (subway: one white field) |
 | 20  | grout      | `walls/grout/<pattern>-<colour>.png`               |
 | 30  | accent     | `accentOptions[].layer`                            |
@@ -92,9 +110,12 @@ are keyed by the trim finish, so one finish choice repaints all of them.
 
 ## Replacing the placeholder images
 
-Every image is a placeholder drawn by `scripts/generate-builder-placeholders.py`.
-Replace any of them by dropping a real file at the **same path** — no code
-changes needed.
+Apart from the room renders, every image is placeholder art drawn by
+`scripts/generate-builder-placeholders.py`, positioned on the render's
+shower alcove. Replace any of them by dropping a real file at the **same
+path** — no code changes needed. A different room render goes in
+`scripts/source/room-blue.png` (then re-run the script, and re-measure the
+alcove constants at the top of it if the shower moved).
 
 **Preview layers** (`public/assets/rooms`, `bathroom-types`, `walls`, `doors`,
 `fixtures`, `storage`, `accents`, `windows`, `safety`):
@@ -149,6 +170,7 @@ needs to know. Existing rules:
 
 Steps that don't apply (grout, for smooth/printed panels) are marked
 "Not applicable", skipped by Next/Back, and excluded from the progress count.
+Reset returns to the starting design, not to an empty one.
 
 ## Saving, restoring and exporting
 
@@ -194,5 +216,5 @@ A few things are approximations until real product data arrives:
 - **Trendz** is drawn as a diamond lattice; the real pattern should replace `walls/grout/trendz-*.png` and its thumbnail.
 - **Illusions** wall types each map to a single matching style (auto-selected). If a printed panel comes in several colourways, list them in that type's `compatibleStyles`.
 - Grout **defaults to silver** when a tile type is chosen so the preview never shows tiles without lines; change `DEFAULT_GROUT` in `configuratorData.ts`.
-- Hardware layers use **chrome until a finish is chosen** (`DEFAULT_HARDWARE_TRIM`).
-- The preview shows the **grey room** until a room is chosen (`FALLBACK_ROOM`).
+- Hardware layers fall back to **chrome** if a design somehow has no finish (`DEFAULT_HARDWARE_TRIM`).
+- The drawn layers are visibly illustrations against the photographic room. Real product layers on the same canvas close that gap.

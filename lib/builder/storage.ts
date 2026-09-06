@@ -97,7 +97,7 @@ export function buildExport(config: Configuration): DesignExport {
   for (const step of steps) {
     const value = describeSelection(config, step.field);
     design[step.field] =
-      value ?? (step.id === "grout" && !groutApplies(config) ? "Not applicable" : "Not selected");
+      value ?? (step.id === "grout" && !groutApplies(config) ? "Not applicable" : "Not chosen");
   }
   return {
     app: "Bathroom Design Builder",

@@ -32,21 +32,29 @@ import type {
   WallTypeId,
 } from "./types";
 
+/**
+ * The starting design — it is exactly what the room renders show, so the
+ * preview and the state agree before anything is touched. (The in-home tool
+ * opens the same way: smooth white walls, sliding door, chrome pre-selected.)
+ */
 export const DEFAULT_CONFIGURATION: Configuration = {
-  bathroomType: null,
-  roomTheme: null,
-  wallType: null,
-  wallStyle: null,
+  bathroomType: "shower",
+  roomTheme: "blue",
+  wallType: "smooth",
+  wallStyle: "white",
   groutColor: null,
-  doorType: null,
-  trimColor: null,
-  storageOption: null,
-  decorativeAccent: null,
-  windowOption: null,
-  safetyOption: null,
+  doorType: "sliding-glass",
+  trimColor: "chrome",
+  storageOption: "none",
+  decorativeAccent: false,
+  windowOption: "none",
+  safetyOption: "none",
 };
 
 export const CONFIGURATION_FIELDS = Object.keys(DEFAULT_CONFIGURATION) as ConfigurationField[];
+
+/** Fields that change what's inside the shower alcove (everything but the room). */
+export const INTERIOR_FIELDS: ConfigurationField[] = CONFIGURATION_FIELDS.filter((f) => f !== "roomTheme");
 
 export const findWallType = (id: WallTypeId | null): WallType | undefined =>
   id ? wallTypes.find((w) => w.id === id) : undefined;
@@ -101,11 +109,16 @@ export function normalizeConfiguration(input: Configuration): Configuration {
   return config;
 }
 
-export const isDefaultConfiguration = (config: Configuration): boolean =>
-  CONFIGURATION_FIELDS.every((f) => config[f] === DEFAULT_CONFIGURATION[f]);
-
 export const configurationsEqual = (a: Configuration, b: Configuration): boolean =>
   CONFIGURATION_FIELDS.every((f) => a[f] === b[f]);
+
+/** True while nothing has been changed from the starting design. */
+export const isDefaultConfiguration = (config: Configuration): boolean =>
+  configurationsEqual(config, DEFAULT_CONFIGURATION);
+
+/** True while the shower interior is still exactly the design the room renders show. */
+export const interiorIsDefault = (config: Configuration): boolean =>
+  INTERIOR_FIELDS.every((f) => config[f] === DEFAULT_CONFIGURATION[f]);
 
 /** Steps that don't apply to the current design are skipped by Next/Back. */
 export function isStepApplicable(config: Configuration, stepId: StepId): boolean {
@@ -113,21 +126,16 @@ export function isStepApplicable(config: Configuration, stepId: StepId): boolean
   return true;
 }
 
-export function getStepStatus(config: Configuration, step: StepDefinition): StepStatus {
+export function getStepStatus(config: Configuration, step: StepDefinition, visited: ReadonlySet<StepId>): StepStatus {
   if (!isStepApplicable(config, step.id)) return "not-applicable";
-  return config[step.field] === null ? "incomplete" : "complete";
+  return visited.has(step.id) ? "reviewed" : "pending";
 }
 
-export const completedStepCount = (config: Configuration): number =>
-  steps.filter((s) => getStepStatus(config, s) === "complete").length;
+export const reviewedStepCount = (config: Configuration, visited: ReadonlySet<StepId>): number =>
+  steps.filter((s) => getStepStatus(config, s, visited) === "reviewed").length;
 
 export const applicableStepCount = (config: Configuration): number =>
   steps.filter((s) => isStepApplicable(config, s.id)).length;
-
-export const firstIncompleteStepIndex = (config: Configuration): number => {
-  const i = steps.findIndex((s) => getStepStatus(config, s) === "incomplete");
-  return i === -1 ? 0 : i;
-};
 
 /** Human-readable value for a field — for the summary panel and the export. */
 export function describeSelection(config: Configuration, field: ConfigurationField): string | null {
@@ -169,8 +177,8 @@ export function describeConfiguration(config: Configuration): string {
   const wallType = describeSelection(config, "wallType");
   if (wall) {
     // "Sandstone 12x12 Tile walls", but not "Calcutta Gold Illusions Calcutta Gold walls"
-    const type = wallType && !wallType.toLowerCase().includes(wall.toLowerCase()) ? ` ${wallType}` : "";
-    parts.push(`${wall}${type} walls`);
+    const t = wallType && !wallType.toLowerCase().includes(wall.toLowerCase()) ? ` ${wallType}` : "";
+    parts.push(`${wall}${t} walls`);
   }
   const grout = describeSelection(config, "groutColor");
   if (grout) parts.push(grout.toLowerCase());

@@ -10,7 +10,7 @@ import { useBuilderUi } from "./BuilderUi";
  * hand-off would start from the same `buildExport()` object.
  */
 export function ExportDesign() {
-  const { configuration, isDefault } = useConfigurator();
+  const { configuration } = useConfigurator();
   const { showToast } = useBuilderUi();
 
   const onExport = () => {
@@ -23,7 +23,6 @@ export function ExportDesign() {
       label="Export"
       title="Download the design summary (JSON)"
       onClick={onExport}
-      disabled={isDefault}
       icon={
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <path d="M12 3v12m0 0 4-4m-4 4-4-4M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" />

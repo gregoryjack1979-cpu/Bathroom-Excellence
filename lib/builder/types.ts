@@ -172,7 +172,11 @@ export interface StepDefinition {
   field: ConfigurationField;
 }
 
-export type StepStatus = "complete" | "incomplete" | "not-applicable";
+/**
+ * Every step starts with a value (the starting design), so progress tracks
+ * which steps the user has actually looked at.
+ */
+export type StepStatus = "reviewed" | "pending" | "not-applicable";
 
 /** What we write to localStorage and to the exported file. */
 export interface SavedDesign {

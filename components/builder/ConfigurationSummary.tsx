@@ -47,11 +47,11 @@ function Rows({ onChange }: { onChange?: () => void }) {
 
 /** Live summary of every choice. Updates as the design changes. */
 export function ConfigurationSummary({ variant, open = false, onOpenChange }: SummaryProps) {
-  const { completedCount, applicableCount } = useConfigurator();
+  const { reviewedCount, applicableCount } = useConfigurator();
   const { reducedMotion } = useMotionPrefs();
   const counter = (
     <span className="font-sans text-[12px] font-semibold text-body">
-      <span className="text-teal-700">{completedCount}</span>/{applicableCount} chosen
+      <span className="text-teal-700">{reviewedCount}</span>/{applicableCount} reviewed
     </span>
   );
 

@@ -107,14 +107,6 @@ export function BathroomPreview({ className }: { className?: string }) {
           )}
         </AnimatePresence>
 
-        {/* empty-state nudge */}
-        {roomReady && configuration.bathroomType === null && (
-          <div className="pointer-events-none absolute inset-x-0 bottom-4 z-[100] flex justify-center px-4">
-            <span className="rounded-full bg-ink/80 px-4 py-2 text-center font-sans text-[13px] font-semibold text-white backdrop-blur">
-              Start with Step 1 — choose your bathroom type
-            </span>
-          </div>
-        )}
       </div>
     </div>
   );

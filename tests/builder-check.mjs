@@ -46,25 +46,31 @@ const pick = (page, name) => page.locator("[role='group'] button", { hasText: na
   await page.goto(URL, { waitUntil: "networkidle" });
   await page.waitForTimeout(1200);
   check("builder loads without console errors", errors.length === 0);
-  check("fallback room shows before any choice", (await layerSrc(page, "room")) === "rooms/grey-room.jpg");
-  check("empty-state nudge visible", (await page.getByText("Start with Step 1").count()) > 0);
-  check("starts on step 1", (await currentStepHeading(page)).includes("Bathroom Type"));
-  await page.screenshot({ path: `${dir}/builder-01-empty.png` });
+  check("starting design shows the blue room render", (await layerSrc(page, "room")) === "rooms/blue-room.jpg");
+  check("starting design draws nothing over the render", (await layerSrc(page, "wall")) === null && (await layerSrc(page, "door")) === null && (await layerSrc(page, "base")) === null);
+  check("summary shows the starting design", (await summaryValue(page, "Bathroom Type")) === "Shower" && (await summaryValue(page, "Shower Door")) === "Sliding Glass Door");
+  check("starts on step 1, 1 of 10 reviewed", (await currentStepHeading(page)).includes("Bathroom Type") && (await page.locator("[role='progressbar']").getAttribute("aria-valuenow")) === "1");
+  await page.screenshot({ path: `${dir}/builder-01-start.png` });
 
-  // Step 1: bathroom type → base layer + summary
+  // Step 1: changing the bathroom type switches the interior to drawn layers
+  await pick(page, "Seated Shower");
+  await page.waitForTimeout(600);
+  check("changing the interior draws the base layer", (await layerSrc(page, "base")) === "bathroom-types/seated-shower.png");
+  check("…and the wall covers the render's shower", (await layerSrc(page, "wall")) === "walls/smooth/white.png");
+  check("…and the door + fixtures are drawn in chrome", (await layerSrc(page, "door")) === "doors/sliding-glass-chrome.png" && (await layerSrc(page, "fixtures")) === "fixtures/chrome.png");
+  check("summary reflects bathroom type", (await summaryValue(page, "Bathroom Type")) === "Seated Shower");
   await pick(page, "Shower");
-  await page.waitForTimeout(500);
-  check("selecting Shower adds the base layer", (await layerSrc(page, "base")) === "bathroom-types/shower.png");
-  check("summary reflects bathroom type", (await summaryValue(page, "Bathroom Type")) === "Shower");
-  check("nudge disappears after first choice", (await page.getByText("Start with Step 1").count()) === 0);
+  await page.waitForTimeout(600);
+  check("back to the starting interior → render shows through again", (await layerSrc(page, "wall")) === null && (await layerSrc(page, "base")) === null);
 
   // Next → Step 2 room
   await page.getByRole("button", { name: /^Next:/ }).click();
   await page.waitForTimeout(400);
   check("Next advances to Room", (await currentStepHeading(page)).includes("Room Environment"));
-  await pick(page, "Blue Room");
+  await pick(page, "Green Room");
   await page.waitForTimeout(500);
-  check("room background swaps to blue", (await layerSrc(page, "room")) === "rooms/blue-room.jpg");
+  check("room background swaps to green", (await layerSrc(page, "room")) === "rooms/green-room.jpg");
+  check("room change alone keeps the render's interior", (await layerSrc(page, "wall")) === null);
 
   // Step 3: subway tile → step 4 shows only subway/decorative styles
   await page.getByRole("button", { name: /^Next:/ }).click();
@@ -144,7 +150,7 @@ const pick = (page, name) => page.locator("[role='group'] button", { hasText: na
   check("grab bar follows the finish", (await layerSrc(page, "safety")) === "safety/grab-bar-matte-black.png");
   check("last step shows Review instead of Next", (await page.getByRole("button", { name: /Review Design/ }).count()) === 1);
   const progress = await page.locator("[role='progressbar']").getAttribute("aria-valuenow");
-  check("all 10 applicable steps complete (grout N/A)", progress === "10" && (await page.locator("[role='progressbar']").getAttribute("aria-valuemax")) === "10");
+  check("all 10 applicable steps reviewed (grout N/A)", progress === "10" && (await page.locator("[role='progressbar']").getAttribute("aria-valuemax")) === "10");
   await page.screenshot({ path: `${dir}/builder-03-complete.png` });
 
   // Rule: bathtub forces door to none and disables the glass door card
@@ -180,7 +186,7 @@ const pick = (page, name) => page.locator("[role='group'] button", { hasText: na
   await page.waitForTimeout(800);
   check("restored design keeps selections", (await summaryValue(page, "Hardware Finish")) === "Matte Black" && (await layerSrc(page, "base")) === "bathroom-types/bathtub.png");
 
-  // Reset → confirm → back to step 1, empty
+  // Reset → confirm → back to step 1 and the starting design (render only)
   await page.getByRole("button", { name: "Reset" }).click();
   await page.getByRole("button", { name: "Reset design" }).click();
   // the old base layer fades out for 350ms before it leaves the DOM
@@ -190,8 +196,8 @@ const pick = (page, name) => page.locator("[role='group'] button", { hasText: na
       return !slots[5]?.querySelector("img");
     }, null, { timeout: 3000 })
     .catch(() => {});
-  check("reset clears the design", (await summaryValue(page, "Bathroom Type")) === "Not chosen" && (await layerSrc(page, "base")) === null);
-  check("reset returns to step 1", (await currentStepHeading(page)).includes("Bathroom Type"));
+  check("reset returns to the starting design", (await summaryValue(page, "Bathroom Type")) === "Shower" && (await layerSrc(page, "base")) === null && (await layerSrc(page, "room")) === "rooms/blue-room.jpg");
+  check("reset returns to step 1 with progress cleared", (await currentStepHeading(page)).includes("Bathroom Type") && (await page.locator("[role='progressbar']").getAttribute("aria-valuenow")) === "1");
 
   // Load brings the explicitly saved design back
   await page.getByRole("button", { name: "Load" }).click();
@@ -236,7 +242,7 @@ const pick = (page, name) => page.locator("[role='group'] button", { hasText: na
   const panelTop = await page.locator("#builder-step-heading").boundingBox();
   check("mobile: preview sits above the steps", previewTop && panelTop && previewTop.y < panelTop.y);
   await page.locator("[role='group'] button", { hasText: "Bathtub" }).first().tap();
-  await page.waitForTimeout(400);
+  await page.waitForTimeout(600);
   check("mobile: tap selects", (await layerSrc(page, "base")) === "bathroom-types/bathtub.png");
   await page.getByRole("button", { name: /Your Bathroom Design/ }).tap();
   await page.waitForTimeout(500);

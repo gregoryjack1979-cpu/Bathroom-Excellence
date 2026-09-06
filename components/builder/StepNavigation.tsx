@@ -12,12 +12,12 @@ function Bubble({ n, status, current }: { n: number; status: StepStatus; current
       aria-hidden="true"
       className={clsx(
         "grid h-7 w-7 shrink-0 place-items-center rounded-full font-sans text-[12px] font-bold transition-colors",
-        status === "complete" && "bg-teal-700 text-white",
-        status === "incomplete" && (current ? "bg-ink text-white" : "border border-ink/20 bg-white text-ink"),
+        status === "reviewed" && "bg-teal-700 text-white",
+        status === "pending" && (current ? "bg-ink text-white" : "border border-ink/20 bg-white text-ink"),
         status === "not-applicable" && "border border-dashed border-ink/25 bg-transparent text-ink/40",
       )}
     >
-      {status === "complete" ? (
+      {status === "reviewed" ? (
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
           <path d="m5 12.5 4.5 4.5L19 7.5" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
@@ -71,7 +71,7 @@ export function StepNavigation() {
                   <span className={clsx("block font-sans text-[14px] leading-tight", current ? "font-semibold text-ink" : "font-medium text-ink")}>
                     {step.title}
                   </span>
-                  <span className={clsx("mt-0.5 block truncate text-[12px]", status === "complete" ? "text-teal-800" : "text-body/80")}>
+                  <span className={clsx("mt-0.5 block truncate text-[12px]", status === "reviewed" ? "text-teal-800" : "text-body/80")}>
                     {statusText(status, value)}
                   </span>
                 </span>
@@ -104,12 +104,12 @@ export function StepNavigation() {
                   aria-hidden="true"
                   className={clsx(
                     "grid h-6 w-6 place-items-center rounded-full text-[11px] font-bold",
-                    status === "complete" && "bg-teal-600 text-white",
-                    status === "incomplete" && (current ? "bg-white/20 text-white" : "bg-porcelain text-ink"),
+                    status === "reviewed" && "bg-teal-600 text-white",
+                    status === "pending" && (current ? "bg-white/20 text-white" : "bg-porcelain text-ink"),
                     status === "not-applicable" && "bg-transparent text-current opacity-50",
                   )}
                 >
-                  {status === "complete" ? "✓" : status === "not-applicable" ? "–" : i + 1}
+                  {status === "reviewed" ? "✓" : status === "not-applicable" ? "–" : i + 1}
                 </span>
                 {step.title}
               </button>

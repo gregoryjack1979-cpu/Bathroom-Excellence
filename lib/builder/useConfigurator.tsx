@@ -21,12 +21,11 @@ import { steps } from "./configuratorData";
 import {
   DEFAULT_CONFIGURATION,
   applicableStepCount,
-  completedStepCount,
-  firstIncompleteStepIndex,
   getStepStatus,
   isDefaultConfiguration,
   isStepApplicable,
   normalizeConfiguration,
+  reviewedStepCount,
 } from "./rules";
 import { clearDraft, loadDraft, saveDraft } from "./storage";
 import type {
@@ -39,6 +38,7 @@ import type {
   SafetyOptionId,
   SavedDesign,
   StepDefinition,
+  StepId,
   StepStatus,
   StorageOptionId,
   TrimColorId,
@@ -50,6 +50,8 @@ import type {
 interface State {
   configuration: Configuration;
   stepIndex: number;
+  /** Steps the user has opened — progress is "reviewed", since every step starts with a value */
+  visited: StepId[];
 }
 
 type Action =
@@ -62,6 +64,8 @@ type Action =
 
 const clamp = (i: number) => Math.max(0, Math.min(steps.length - 1, i));
 
+const INITIAL: State = { configuration: DEFAULT_CONFIGURATION, stepIndex: 0, visited: [steps[0].id] };
+
 /** Next/Back skip steps that don't apply to the current design. */
 function stepFrom(config: Configuration, from: number, dir: 1 | -1): number {
   let i = from + dir;
@@ -72,6 +76,11 @@ function stepFrom(config: Configuration, from: number, dir: 1 | -1): number {
   return from;
 }
 
+function moveTo(state: State, index: number): State {
+  const id = steps[index].id;
+  return { ...state, stepIndex: index, visited: state.visited.includes(id) ? state.visited : [...state.visited, id] };
+}
+
 function reducer(state: State, action: Action): State {
   switch (action.type) {
     case "SET_FIELD":
@@ -80,17 +89,16 @@ function reducer(state: State, action: Action): State {
         configuration: normalizeConfiguration({ ...state.configuration, [action.field]: action.value }),
       };
     case "RESET":
-      return { configuration: DEFAULT_CONFIGURATION, stepIndex: 0 };
-    case "LOAD": {
-      const configuration = normalizeConfiguration(action.configuration);
-      return { configuration, stepIndex: firstIncompleteStepIndex(configuration) };
-    }
+      return INITIAL;
+    case "LOAD":
+      // a loaded design is a finished one — count every step as reviewed
+      return { configuration: normalizeConfiguration(action.configuration), stepIndex: 0, visited: steps.map((s) => s.id) };
     case "GO_TO":
-      return { ...state, stepIndex: clamp(action.index) };
+      return moveTo(state, clamp(action.index));
     case "NEXT":
-      return { ...state, stepIndex: stepFrom(state.configuration, state.stepIndex, 1) };
+      return moveTo(state, stepFrom(state.configuration, state.stepIndex, 1));
     case "PREV":
-      return { ...state, stepIndex: stepFrom(state.configuration, state.stepIndex, -1) };
+      return moveTo(state, stepFrom(state.configuration, state.stepIndex, -1));
   }
 }
 
@@ -100,10 +108,11 @@ export interface ConfiguratorContextValue {
   stepIndex: number;
   currentStep: StepDefinition;
   stepStatus: (step: StepDefinition) => StepStatus;
-  completedCount: number;
+  reviewedCount: number;
   applicableCount: number;
   isFirstStep: boolean;
   isLastStep: boolean;
+  /** Nothing changed from the starting design */
   isDefault: boolean;
 
   setField: <F extends ConfigurationField>(field: F, value: Configuration[F]) => void;
@@ -134,10 +143,10 @@ export interface ConfiguratorContextValue {
 const ConfiguratorContext = createContext<ConfiguratorContextValue | null>(null);
 
 export function ConfiguratorProvider({ children }: { children: ReactNode }) {
-  const [state, dispatch] = useReducer(reducer, { configuration: DEFAULT_CONFIGURATION, stepIndex: 0 });
+  const [state, dispatch] = useReducer(reducer, INITIAL);
   const [pendingRestore, setPendingRestore] = useState<SavedDesign | null>(null);
   // autosave stays off until we've decided what to do with any previous draft,
-  // otherwise the empty initial state would overwrite it before the prompt shows
+  // otherwise the initial state would overwrite it before the prompt shows
   const [restoreSettled, setRestoreSettled] = useState(false);
 
   useEffect(() => {
@@ -159,13 +168,14 @@ export function ConfiguratorProvider({ children }: { children: ReactNode }) {
 
   const value = useMemo<ConfiguratorContextValue>(() => {
     const { configuration, stepIndex } = state;
+    const visited = new Set(state.visited);
     return {
       configuration,
       steps,
       stepIndex,
       currentStep: steps[stepIndex],
-      stepStatus: (step) => getStepStatus(configuration, step),
-      completedCount: completedStepCount(configuration),
+      stepStatus: (step) => getStepStatus(configuration, step, visited),
+      reviewedCount: reviewedStepCount(configuration, visited),
       applicableCount: applicableStepCount(configuration),
       isFirstStep: stepFrom(configuration, stepIndex, -1) === stepIndex,
       isLastStep: stepFrom(configuration, stepIndex, 1) === stepIndex,

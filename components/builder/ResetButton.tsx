@@ -12,7 +12,7 @@ export function ResetButton() {
   const onReset = async () => {
     const ok = await confirm({
       title: "Reset this design?",
-      body: "Every selection will be cleared and you'll go back to Step 1. A design you saved earlier is kept.",
+      body: "Every selection goes back to the starting design and you'll return to Step 1. A design you saved earlier is kept.",
       confirmLabel: "Reset design",
       tone: "danger",
     });

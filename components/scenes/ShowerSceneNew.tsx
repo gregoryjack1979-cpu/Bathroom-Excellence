@@ -19,6 +19,10 @@ interface ShowerSceneNewProps {
   /** Walk-in extras */
   bench?: boolean;
   grabBar?: boolean;
+  /** Recessed corner shelf */
+  niche?: boolean;
+  /** Frameless glass door */
+  door?: boolean;
 }
 
 /**
@@ -33,6 +37,8 @@ export function ShowerSceneNew({
   water = true,
   bench = false,
   grabBar = false,
+  niche = true,
+  door = true,
 }: ShowerSceneNewProps) {
   return (
     <svg
@@ -71,9 +77,11 @@ export function ShowerSceneNew({
       </g>
 
       {/* niche (sits behind the glass) */}
-      <g transform="translate(840 210)">
-        <NicheShelf prefix={p} />
-      </g>
+      {niche && (
+        <g transform="translate(840 210)">
+          <NicheShelf prefix={p} />
+        </g>
+      )}
 
       {/* fixtures */}
       <g transform="translate(330 30)">
@@ -114,9 +122,11 @@ export function ShowerSceneNew({
       </g>
 
       {/* frameless glass door (over the niche side) */}
-      <g transform="translate(640 96)">
-        <GlassDoor prefix={p} w={430} h={560} droplets={water} />
-      </g>
+      {door && (
+        <g transform="translate(640 96)">
+          <GlassDoor prefix={p} w={430} h={560} droplets={water} />
+        </g>
+      )}
 
       {/* greenery for warmth */}
       <g transform="translate(1108 610)">

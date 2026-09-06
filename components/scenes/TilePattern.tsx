@@ -5,6 +5,30 @@
  * ID collisions.
  */
 
+/**
+ * Metal gradient stops. Every fixture in the scene kit paints itself with the
+ * shared `-chrome-v` / `-chrome-h` gradients, so swapping these repaints the
+ * rain head, mixer, grab bar, bench legs, towel bar and glass-door hardware
+ * together — that's what the shower builder's finish picker changes.
+ */
+export interface MetalStops {
+  hi: string;
+  light: string;
+  core: string;
+  sheen: string;
+  edgeV: string;
+  edgeH: string;
+}
+
+export const POLISHED_CHROME: MetalStops = {
+  hi: "#f6f9fb",
+  light: "#c3ced6",
+  core: "#77868f",
+  sheen: "#e6edf1",
+  edgeV: "#98a7b1",
+  edgeH: "#8d9ba5",
+};
+
 export interface ScenePalette {
   /** Marble/wall base tint for the finished shower */
   wall: string;
@@ -14,6 +38,8 @@ export interface ScenePalette {
   accentDeep: string;
   /** Floor tile tone */
   floor: string;
+  /** Fixture finish — defaults to polished chrome */
+  metal?: MetalStops;
 }
 
 export const DEFAULT_PALETTE: ScenePalette = {
@@ -31,6 +57,7 @@ export function SceneDefs({
   prefix: string;
   palette?: ScenePalette;
 }) {
+  const metal = palette.metal ?? POLISHED_CHROME;
   return (
     <defs>
       {/* Finished shower: large-format marble panel */}
@@ -41,20 +68,20 @@ export function SceneDefs({
         <stop offset="1" stopColor={palette.wall} />
       </linearGradient>
 
-      {/* Chrome: vertical + horizontal polished metal */}
+      {/* Fixture metal: vertical + horizontal (chrome unless the palette says otherwise) */}
       <linearGradient id={`${p}-chrome-v`} x1="0" y1="0" x2="1" y2="0">
-        <stop offset="0" stopColor="#f6f9fb" />
-        <stop offset="0.3" stopColor="#c3ced6" />
-        <stop offset="0.52" stopColor="#77868f" />
-        <stop offset="0.72" stopColor="#e6edf1" />
-        <stop offset="1" stopColor="#98a7b1" />
+        <stop offset="0" stopColor={metal.hi} />
+        <stop offset="0.3" stopColor={metal.light} />
+        <stop offset="0.52" stopColor={metal.core} />
+        <stop offset="0.72" stopColor={metal.sheen} />
+        <stop offset="1" stopColor={metal.edgeV} />
       </linearGradient>
       <linearGradient id={`${p}-chrome-h`} x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0" stopColor="#f6f9fb" />
-        <stop offset="0.3" stopColor="#c3ced6" />
-        <stop offset="0.55" stopColor="#77868f" />
-        <stop offset="0.75" stopColor="#e6edf1" />
-        <stop offset="1" stopColor="#8d9ba5" />
+        <stop offset="0" stopColor={metal.hi} />
+        <stop offset="0.3" stopColor={metal.light} />
+        <stop offset="0.55" stopColor={metal.core} />
+        <stop offset="0.75" stopColor={metal.sheen} />
+        <stop offset="1" stopColor={metal.edgeH} />
       </linearGradient>
 
       {/* Aged brass/nickel for the dated fixtures */}

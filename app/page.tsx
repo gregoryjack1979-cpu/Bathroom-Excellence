@@ -6,6 +6,7 @@ import { DarkIntroPanel } from "@/components/sections/DarkIntroPanel";
 import { PhotoCtaBand } from "@/components/sections/PhotoCtaBand";
 import { Reviews } from "@/components/sections/Reviews";
 import { Solutions } from "@/components/sections/Solutions";
+import { ShowerBuilder } from "@/components/sections/ShowerBuilder";
 import { TransformationClips } from "@/components/sections/TransformationClips";
 import { WhyChooseUs } from "@/components/sections/WhyChooseUs";
 import { Contact } from "@/components/sections/Contact";
@@ -20,6 +21,7 @@ export default function HomePage() {
         <ServiceCardsBand />
         <DarkIntroPanel />
         <Solutions />
+        <ShowerBuilder />
         <TransformationClips />
         <PhotoCtaBand
           title="Turn Your Old Bathtub Into a Beautiful, Spacious Shower"

@@ -7,6 +7,7 @@ export const GALLERY_CATEGORIES: { value: GalleryCategory | "all"; label: string
   { value: "multi-piece", label: "Two & Three-Piece Showers" },
   { value: "alcove", label: "Alcove Shower Bases" },
   { value: "modern", label: "Modern Shower Remodels" },
+  { value: "full-bath", label: "Full Bathroom Remodels" },
 ];
 
 /**
@@ -27,4 +28,8 @@ export const galleryItems: GalleryItem[] = [
   { id: "g10", title: "Dark Stone Panorama", description: "Dramatic stone-look panels wrap this statement shower corner to corner.", category: "modern", variant: 3 },
   { id: "g11", title: "Espresso Tile Frameless", description: "Espresso tile, frameless glass and a recessed double niche.", category: "modern", variant: 9 },
   { id: "g12", title: "Chrome Frameless Slider", description: "Minimalist frameless slider with polished chrome rail and hardware.", category: "modern", variant: 11 },
+  { id: "g13", title: "Corner Soaking Tub Retreat", description: "A jetted corner tub set into a warm wood surround with a wide step-over ledge.", category: "full-bath", variant: 6 },
+  { id: "g14", title: "Marble Shower, Matte Black Trim", description: "Veined marble-look walls behind a bypass glass door with matte-black rail and fixtures.", category: "modern", variant: 3 },
+  { id: "g15", title: "Walk-In Marble with Teak Seat", description: "Low-threshold marble walk-in with a fold-down teak seat, grab bar and glass-block daylight.", category: "walk-in", variant: 0 },
+  { id: "g16", title: "Double Vanity in Sage & Brass", description: "Fluted espresso cabinetry, quartz marble tops and brushed-brass fixtures under a full-width mirror.", category: "full-bath", variant: 5 },
 ];

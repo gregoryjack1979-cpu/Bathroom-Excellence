@@ -78,7 +78,8 @@ export type GalleryCategory =
   | "walk-in"
   | "multi-piece"
   | "alcove"
-  | "modern";
+  | "modern"
+  | "full-bath";
 
 export interface GalleryItem {
   id: string;

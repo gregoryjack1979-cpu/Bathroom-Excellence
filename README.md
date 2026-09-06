@@ -68,11 +68,11 @@ imageSlots: {
   "hero": "/images/hero.jpg",
   "before-after-old": "/images/before.jpg",
   "before-after-new": "/images/after.jpg",
-  "gallery-1": "/images/project-1.jpg",   // gallery-1 … gallery-12
+  "gallery-1": "/images/project-1.jpg",   // gallery-1 … gallery-16
 },
 ```
 
-All 13 slots ship pre-mapped to real project photography in `public/images/`
+All slots ship pre-mapped to real project photography in `public/images/`
 (extracted from the reference-site captures the owner provided) — replace any
 file, or unmap a slot to fall back to its SVG scene.
 Gallery titles/descriptions live in `lib/galleryData.ts`; service page copy in

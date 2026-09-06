@@ -1,151 +1,177 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useState } from "react";
+import Image from "next/image";
 import clsx from "clsx";
+import { motion, AnimatePresence } from "framer-motion";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { AnimateIn } from "@/components/ui/AnimateIn";
 import { Button } from "@/components/ui/Button";
-import { ShowerSceneNew } from "@/components/scenes/ShowerSceneNew";
 import { useMotionPrefs } from "@/lib/hooks/useMotionPrefs";
-import {
-  DEFAULT_EXTRAS,
-  EXTRAS,
-  FINISHES,
-  WALL_STYLES,
-  buildPalette,
-  type ExtraId,
-} from "@/lib/builderOptions";
+import { EXTRAS, SHOWER_LOOKS } from "@/lib/builderOptions";
 
 /**
- * "Design Your Shower" — an interactive configurator. Every option repaints
- * the same layered SVG scene live, so there's no per-combination artwork to
- * ship. The running summary doubles as the brief a visitor hands us when they
- * click through to the estimate form.
+ * "Choose Your Look" — a configurator laid out like the in-home design tool:
+ * collapsible option groups on the right, the result on the left. Picking a
+ * style swaps in a photograph of a real finished job rather than a rendering,
+ * and the extras build a short brief the visitor carries into the estimate.
  */
 export function ShowerBuilder() {
-  const [wallId, setWallId] = useState(WALL_STYLES[0].id);
-  const [finishId, setFinishId] = useState(FINISHES[0].id);
-  const [extras, setExtras] = useState<Record<ExtraId, boolean>>(DEFAULT_EXTRAS);
+  const [lookId, setLookId] = useState(SHOWER_LOOKS[0].id);
+  const [extras, setExtras] = useState<string[]>([]);
+  const [openGroup, setOpenGroup] = useState<string | null>("style");
   const { reducedMotion } = useMotionPrefs();
 
-  const wall = WALL_STYLES.find((w) => w.id === wallId) ?? WALL_STYLES[0];
-  const finish = FINISHES.find((f) => f.id === finishId) ?? FINISHES[0];
-  const palette = useMemo(() => buildPalette(wall, finish), [wall, finish]);
+  const look = SHOWER_LOOKS.find((l) => l.id === lookId) ?? SHOWER_LOOKS[0];
+  const chosen = EXTRAS.filter((e) => extras.includes(e.id));
 
-  const chosenExtras = EXTRAS.filter((e) => extras[e.id]);
-  const toggle = (id: ExtraId) => setExtras((prev) => ({ ...prev, [id]: !prev[id] }));
+  const toggleExtra = (id: string) =>
+    setExtras((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]));
 
   return (
     <section id="design-your-shower" className="bg-mist py-20 md:py-28">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <SectionHeading
-          eyebrow="Design your shower"
-          title="See It Your Way Before We Build It"
-          subtitle="Pick your walls, finish and features — the preview updates as you go. Bring your design to us and we'll quote it exactly."
+          eyebrow="Choose your look"
+          title="Find the Style You Want"
+          subtitle="Every look here is a real shower we built. Pick the one closest to what you have in mind, add the features you want, and bring it to your free estimate."
         />
 
-        <div className="grid gap-8 lg:grid-cols-[1.15fr_1fr] lg:items-start">
-          {/* live preview */}
+        <div className="grid gap-8 lg:grid-cols-[1.25fr_1fr] lg:items-start">
+          {/* the result */}
           <AnimateIn className="min-w-0">
             <div className="chrome-edge overflow-hidden rounded-card shadow-lift">
-              <div className="aspect-[3/2] w-full">
-                <ShowerSceneNew
-                  prefix="builder"
-                  className="h-full w-full"
-                  palette={palette}
-                  water={!reducedMotion}
-                  door={extras.door}
-                  niche={extras.niche}
-                  grabBar={extras.grabBar}
-                  bench={extras.bench}
-                />
+              <div className="relative aspect-[4/3] w-full bg-porcelain">
+                <AnimatePresence mode="wait" initial={false}>
+                  <motion.div
+                    key={look.id}
+                    initial={reducedMotion ? false : { opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={reducedMotion ? undefined : { opacity: 0 }}
+                    transition={{ duration: 0.35 }}
+                    className="absolute inset-0"
+                  >
+                    <Image
+                      src={look.image}
+                      alt={look.alt}
+                      fill
+                      sizes="(max-width: 1024px) 100vw, 60vw"
+                      className="object-cover"
+                    />
+                  </motion.div>
+                </AnimatePresence>
               </div>
             </div>
-            <p aria-live="polite" className="mt-3 text-center text-sm text-body">
-              <span className="font-semibold text-ink">{wall.label}</span> walls ·{" "}
-              <span className="font-semibold text-ink">{finish.label}</span>
-              {chosenExtras.length > 0 && (
-                <> · {chosenExtras.map((e) => e.label).join(", ")}</>
-              )}
-            </p>
+            <div aria-live="polite" className="mt-4">
+              <h3 className="font-sans text-lg font-semibold text-ink">{look.label}</h3>
+              <p className="mt-1 text-[15px] leading-relaxed">{look.caption}</p>
+              <p className="mt-2 text-[13px] text-body">
+                <span className="font-semibold text-ink">Walls:</span> {look.walls}
+                <span className="px-2 text-ink/25">|</span>
+                <span className="font-semibold text-ink">Finish:</span> {look.finish}
+              </p>
+            </div>
           </AnimateIn>
 
-          {/* option pickers */}
+          {/* option groups */}
           <AnimateIn delay={0.1} className="min-w-0">
-            <div className="rounded-card bg-white p-6 shadow-card sm:p-8">
-              <OptionGroup label="Wall Style">
-                <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-                  {WALL_STYLES.map((w) => (
-                    <SwatchButton
-                      key={w.id}
-                      selected={w.id === wallId}
-                      swatch={w.swatch}
-                      label={w.label}
-                      onClick={() => setWallId(w.id)}
-                    />
-                  ))}
-                </div>
+            <div className="overflow-hidden rounded-card bg-white shadow-card">
+              <OptionGroup
+                id="style"
+                label="Wall Style &amp; Finish"
+                summary={look.label}
+                open={openGroup === "style"}
+                onToggle={setOpenGroup}
+                reducedMotion={reducedMotion}
+              >
+                <ul role="list">
+                  {SHOWER_LOOKS.map((l) => {
+                    const on = l.id === lookId;
+                    return (
+                      <li key={l.id}>
+                        <button
+                          type="button"
+                          aria-pressed={on}
+                          onClick={() => setLookId(l.id)}
+                          className={clsx(
+                            "flex w-full items-center gap-3 px-5 py-2.5 text-left transition-colors",
+                            on ? "bg-teal-50 text-teal-800" : "text-body hover:bg-porcelain",
+                          )}
+                        >
+                          <span aria-hidden="true" className="grid h-4 w-4 shrink-0 place-items-center text-teal-700">
+                            {on && (
+                              <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                                <path d="m5 12.5 4.5 4.5L19 7.5" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+                              </svg>
+                            )}
+                          </span>
+                          <span className="relative h-10 w-14 shrink-0 overflow-hidden rounded-md">
+                            <Image src={l.image} alt="" fill sizes="56px" className="object-cover" />
+                          </span>
+                          <span className={clsx("text-[14px]", on ? "font-semibold" : "font-medium")}>{l.label}</span>
+                        </button>
+                      </li>
+                    );
+                  })}
+                </ul>
               </OptionGroup>
 
-              <OptionGroup label="Fixture Finish">
-                <div className="grid grid-cols-3 gap-3">
-                  {FINISHES.map((f) => (
-                    <SwatchButton
-                      key={f.id}
-                      selected={f.id === finishId}
-                      swatch={f.swatch}
-                      label={f.label}
-                      onClick={() => setFinishId(f.id)}
-                    />
-                  ))}
-                </div>
+              <OptionGroup
+                id="features"
+                label="Features"
+                summary={chosen.length ? `${chosen.length} selected` : "None yet"}
+                open={openGroup === "features"}
+                onToggle={setOpenGroup}
+                reducedMotion={reducedMotion}
+              >
+                <ul role="list">
+                  {EXTRAS.map((e) => {
+                    const on = extras.includes(e.id);
+                    return (
+                      <li key={e.id}>
+                        <button
+                          type="button"
+                          aria-pressed={on}
+                          onClick={() => toggleExtra(e.id)}
+                          className={clsx(
+                            "flex w-full items-start gap-3 px-5 py-2.5 text-left transition-colors",
+                            on ? "bg-teal-50" : "hover:bg-porcelain",
+                          )}
+                        >
+                          <span
+                            aria-hidden="true"
+                            className={clsx(
+                              "mt-0.5 grid h-[18px] w-[18px] shrink-0 place-items-center rounded border transition-colors",
+                              on ? "border-teal-700 bg-teal-700 text-white" : "border-ink/25 bg-white",
+                            )}
+                          >
+                            {on && (
+                              <svg width="11" height="11" viewBox="0 0 24 24" fill="none">
+                                <path d="m5 12.5 4.5 4.5L19 7.5" stroke="currentColor" strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round" />
+                              </svg>
+                            )}
+                          </span>
+                          <span className="min-w-0">
+                            <span className={clsx("block text-[14px] leading-tight", on ? "font-semibold text-teal-800" : "font-medium text-ink")}>
+                              {e.label}
+                            </span>
+                            <span className="mt-0.5 block text-[12px] leading-snug text-body">{e.hint}</span>
+                          </span>
+                        </button>
+                      </li>
+                    );
+                  })}
+                </ul>
               </OptionGroup>
 
-              <OptionGroup label="Features">
-                <div className="grid gap-3 sm:grid-cols-2">
-                  {EXTRAS.map((e) => (
-                    <button
-                      key={e.id}
-                      type="button"
-                      aria-pressed={extras[e.id]}
-                      onClick={() => toggle(e.id)}
-                      className={clsx(
-                        "flex items-start gap-3 rounded-2xl border p-4 text-left transition-all duration-200",
-                        extras[e.id]
-                          ? "border-teal-600/45 bg-teal-50/70 shadow-card"
-                          : "border-ink/10 bg-white hover:border-teal-500/30 hover:shadow-card",
-                      )}
-                    >
-                      <span
-                        aria-hidden="true"
-                        className={clsx(
-                          "mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-md border transition-colors",
-                          extras[e.id] ? "border-teal-700 bg-teal-700 text-white" : "border-ink/25 bg-white",
-                        )}
-                      >
-                        {extras[e.id] && (
-                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
-                            <path d="m5 12.5 4.5 4.5L19 7.5" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
-                          </svg>
-                        )}
-                      </span>
-                      <span className="min-w-0">
-                        <span className="block font-sans text-[15px] font-semibold text-ink">{e.label}</span>
-                        <span className="mt-0.5 block text-[13px] leading-snug text-body">{e.hint}</span>
-                      </span>
-                    </button>
-                  ))}
-                </div>
-              </OptionGroup>
-
-              <div className="mt-8 border-t border-ink/10 pt-6">
-                <Button href="/#free-estimate" size="lg" className="w-full justify-center">
-                  Get a Quote on This Design
-                </Button>
-                <p className="mt-3 text-center text-[13px] leading-relaxed text-body">
-                  Every option here is something we actually install — bring your
-                  combination to the estimate and we&rsquo;ll price it as drawn.
+              <div className="border-t border-ink/10 p-6">
+                <p className="text-[13px] leading-relaxed text-body">
+                  <span className="font-semibold text-ink">Your pick:</span> {look.label}
+                  {chosen.length > 0 && <> with {chosen.map((e) => e.label.toLowerCase()).join(", ")}</>}
                 </p>
+                <Button href="/#free-estimate" size="lg" className="mt-4 w-full justify-center">
+                  Get a Quote on This Look
+                </Button>
               </div>
             </div>
           </AnimateIn>
@@ -155,49 +181,64 @@ export function ShowerBuilder() {
   );
 }
 
-function OptionGroup({ label, children }: { label: string; children: React.ReactNode }) {
-  return (
-    <fieldset className="mb-7 last:mb-0">
-      <legend className="mb-3 font-sans text-xs font-semibold uppercase tracking-[0.18em] text-teal-700">
-        {label}
-      </legend>
-      {children}
-    </fieldset>
-  );
-}
-
-function SwatchButton({
-  selected,
-  swatch,
+/** One collapsible option group — header always visible, list expands. */
+function OptionGroup({
+  id,
   label,
-  onClick,
+  summary,
+  open,
+  onToggle,
+  reducedMotion,
+  children,
 }: {
-  selected: boolean;
-  swatch: string;
+  id: string;
   label: string;
-  onClick: () => void;
+  summary: string;
+  open: boolean;
+  onToggle: (id: string | null) => void;
+  reducedMotion: boolean;
+  children: React.ReactNode;
 }) {
   return (
-    <button
-      type="button"
-      aria-pressed={selected}
-      onClick={onClick}
-      className={clsx(
-        "group rounded-2xl border p-2 text-center transition-all duration-200",
-        selected
-          ? "border-teal-600/45 bg-teal-50/70 shadow-card"
-          : "border-ink/10 bg-white hover:border-teal-500/30 hover:shadow-card",
-      )}
-    >
-      <span
-        aria-hidden="true"
-        className={clsx(
-          "block h-12 w-full rounded-xl border transition-transform duration-200 group-hover:scale-[1.03]",
-          selected ? "border-teal-700/40" : "border-ink/10",
+    <div className="border-b border-ink/10">
+      <h3>
+        <button
+          type="button"
+          aria-expanded={open}
+          aria-controls={`group-${id}`}
+          onClick={() => onToggle(open ? null : id)}
+          className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left transition-colors hover:bg-porcelain"
+        >
+          <span className="font-sans text-[15px] font-semibold text-ink">{label}</span>
+          <span className="flex items-center gap-2.5">
+            <span className="truncate text-[13px] text-body">{summary}</span>
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              aria-hidden="true"
+              className={clsx("shrink-0 text-ink/45 transition-transform duration-200", open && "rotate-180")}
+            >
+              <path d="m6 9 6 6 6-6" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </span>
+        </button>
+      </h3>
+      <AnimatePresence initial={false}>
+        {open && (
+          <motion.div
+            id={`group-${id}`}
+            initial={reducedMotion ? false : { height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={reducedMotion ? undefined : { height: 0, opacity: 0 }}
+            transition={{ duration: 0.25, ease: "easeInOut" }}
+            className="overflow-hidden"
+          >
+            <div className="pb-3">{children}</div>
+          </motion.div>
         )}
-        style={{ backgroundColor: swatch }}
-      />
-      <span className="mt-2 block text-[12px] font-semibold leading-tight text-ink">{label}</span>
-    </button>
+      </AnimatePresence>
+    </div>
   );
 }

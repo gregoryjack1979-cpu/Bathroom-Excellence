@@ -46,22 +46,21 @@ const pick = (page, name) => page.locator("[role='group'] button", { hasText: na
   await page.goto(URL, { waitUntil: "networkidle" });
   await page.waitForTimeout(1200);
   check("builder loads without console errors", errors.length === 0);
-  check("starting design shows the blue room render", (await layerSrc(page, "room")) === "rooms/blue-room.jpg");
-  check("starting design draws nothing over the render", (await layerSrc(page, "wall")) === null && (await layerSrc(page, "door")) === null && (await layerSrc(page, "base")) === null);
+  check("starting design shows the blue room", (await layerSrc(page, "room")) === "rooms/blue-room.jpg");
+  check("starting design stacks white walls, chrome door and fixtures", (await layerSrc(page, "wall")) === "walls/smooth/white.png" && (await layerSrc(page, "door")) === "doors/sliding-glass-chrome.png" && (await layerSrc(page, "fixtures")) === "fixtures/chrome.png");
+  check("plain shower has no base layer (pan is in the room image)", (await layerSrc(page, "base")) === null);
   check("summary shows the starting design", (await summaryValue(page, "Bathroom Type")) === "Shower" && (await summaryValue(page, "Shower Door")) === "Sliding Glass Door");
   check("starts on step 1, 1 of 10 reviewed", (await currentStepHeading(page)).includes("Bathroom Type") && (await page.locator("[role='progressbar']").getAttribute("aria-valuenow")) === "1");
   await page.screenshot({ path: `${dir}/builder-01-start.png` });
 
-  // Step 1: changing the bathroom type switches the interior to drawn layers
+  // Step 1: bathroom type
   await pick(page, "Seated Shower");
   await page.waitForTimeout(600);
-  check("changing the interior draws the base layer", (await layerSrc(page, "base")) === "bathroom-types/seated-shower.png");
-  check("…and the wall covers the render's shower", (await layerSrc(page, "wall")) === "walls/smooth/white.png");
-  check("…and the door + fixtures are drawn in chrome", (await layerSrc(page, "door")) === "doors/sliding-glass-chrome.png" && (await layerSrc(page, "fixtures")) === "fixtures/chrome.png");
+  check("seated shower adds the seat layer", (await layerSrc(page, "base")) === "bathroom-types/seated-shower.png");
   check("summary reflects bathroom type", (await summaryValue(page, "Bathroom Type")) === "Seated Shower");
   await pick(page, "Shower");
   await page.waitForTimeout(600);
-  check("back to the starting interior → render shows through again", (await layerSrc(page, "wall")) === null && (await layerSrc(page, "base")) === null);
+  check("back to a plain shower removes the seat", (await layerSrc(page, "base")) === null);
 
   // Next → Step 2 room
   await page.getByRole("button", { name: /^Next:/ }).click();
@@ -70,7 +69,7 @@ const pick = (page, name) => page.locator("[role='group'] button", { hasText: na
   await pick(page, "Green Room");
   await page.waitForTimeout(500);
   check("room background swaps to green", (await layerSrc(page, "room")) === "rooms/green-room.jpg");
-  check("room change alone keeps the render's interior", (await layerSrc(page, "wall")) === null);
+  check("room change keeps the interior layers", (await layerSrc(page, "wall")) === "walls/smooth/white.png");
 
   // Step 3: subway tile → step 4 shows only subway/decorative styles
   await page.getByRole("button", { name: /^Next:/ }).click();
@@ -196,7 +195,7 @@ const pick = (page, name) => page.locator("[role='group'] button", { hasText: na
       return !slots[5]?.querySelector("img");
     }, null, { timeout: 3000 })
     .catch(() => {});
-  check("reset returns to the starting design", (await summaryValue(page, "Bathroom Type")) === "Shower" && (await layerSrc(page, "base")) === null && (await layerSrc(page, "room")) === "rooms/blue-room.jpg");
+  check("reset returns to the starting design", (await summaryValue(page, "Bathroom Type")) === "Shower" && (await layerSrc(page, "base")) === null && (await layerSrc(page, "room")) === "rooms/blue-room.jpg" && (await layerSrc(page, "door")) === "doors/sliding-glass-chrome.png");
   check("reset returns to step 1 with progress cleared", (await currentStepHeading(page)).includes("Bathroom Type") && (await page.locator("[role='progressbar']").getAttribute("aria-valuenow")) === "1");
 
   // Load brings the explicitly saved design back

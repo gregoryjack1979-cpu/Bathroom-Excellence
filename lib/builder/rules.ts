@@ -53,9 +53,6 @@ export const DEFAULT_CONFIGURATION: Configuration = {
 
 export const CONFIGURATION_FIELDS = Object.keys(DEFAULT_CONFIGURATION) as ConfigurationField[];
 
-/** Fields that change what's inside the shower alcove (everything but the room). */
-export const INTERIOR_FIELDS: ConfigurationField[] = CONFIGURATION_FIELDS.filter((f) => f !== "roomTheme");
-
 export const findWallType = (id: WallTypeId | null): WallType | undefined =>
   id ? wallTypes.find((w) => w.id === id) : undefined;
 
@@ -115,10 +112,6 @@ export const configurationsEqual = (a: Configuration, b: Configuration): boolean
 /** True while nothing has been changed from the starting design. */
 export const isDefaultConfiguration = (config: Configuration): boolean =>
   configurationsEqual(config, DEFAULT_CONFIGURATION);
-
-/** True while the shower interior is still exactly the design the room renders show. */
-export const interiorIsDefault = (config: Configuration): boolean =>
-  INTERIOR_FIELDS.every((f) => config[f] === DEFAULT_CONFIGURATION[f]);
 
 /** Steps that don't apply to the current design are skipped by Next/Back. */
 export function isStepApplicable(config: Configuration, stepId: StepId): boolean {

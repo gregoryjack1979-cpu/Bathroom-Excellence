@@ -41,7 +41,7 @@ export const bathroomTypes: BathroomType[] = [
     name: "Shower",
     description: "Walk-in shower on a low-profile base.",
     image: asset("thumbs/bathroom-types/shower.png"),
-    layer: asset("bathroom-types/shower.png"),
+    // no layer: the room image already shows the shower pan
   },
   {
     id: "bathtub",

@@ -81,8 +81,8 @@ export interface BaseOption<Id extends string = string> {
 }
 
 export interface BathroomType extends BaseOption<BathroomTypeId> {
-  /** Preview layer: the pan / tub / seat */
-  layer: string;
+  /** Preview layer: tub / seat. The plain shower pan is part of the room image. */
+  layer?: string;
 }
 
 export interface RoomTheme extends BaseOption<RoomThemeId> {

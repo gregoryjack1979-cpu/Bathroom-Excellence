@@ -22,7 +22,6 @@ import {
   wallTypes,
   windowOptions,
 } from "./configuratorData";
-import { interiorIsDefault } from "./rules";
 import type { Configuration, PreviewLayer, RoomThemeId } from "./types";
 
 /** Every layer image is authored on this canvas. */
@@ -32,24 +31,15 @@ export const PREVIEW_HEIGHT = 1200;
 /** Shown if a design somehow has no room. */
 export const FALLBACK_ROOM: RoomThemeId = "blue";
 
+/**
+ * The room images are the supplier's render with the door and fixtures
+ * removed (an open shower with a pan). Every product is a cut-out of, or is
+ * lit by, that same render, so stacking them reproduces it faithfully — the
+ * starting design (smooth white, sliding door, chrome) composites back to
+ * the original photograph.
+ */
 export function resolvePreviewLayers(config: Configuration): PreviewLayer[] {
   const room = roomThemes.find((r) => r.id === (config.roomTheme ?? FALLBACK_ROOM));
-
-  // The room renders already show the starting design inside the shower
-  // (smooth white walls, sliding door, chrome). While that's untouched, let
-  // the photograph speak for itself; once anything inside changes, the wall
-  // layer covers the alcove and every layer is drawn from the configuration.
-  if (interiorIsDefault(config)) {
-    return [
-      { id: "room", zIndex: 0, src: room?.background ?? null, label: "Room" },
-      ...["wall", "grout", "accent", "window", "base", "fixtures", "spout", "storage", "safety", "door"].map((id, i) => ({
-        id,
-        zIndex: 10 * (i + 1),
-        src: null,
-        label: id,
-      })),
-    ];
-  }
 
   const bathroomType = bathroomTypes.find((b) => b.id === config.bathroomType);
   const wallType = wallTypes.find((w) => w.id === config.wallType);

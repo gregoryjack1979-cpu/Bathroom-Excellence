@@ -38,6 +38,17 @@ npm run build
 npm run start
 ```
 
+## Bathroom Design Builder
+
+An interactive configurator lives at **`/design-builder`**: eleven steps
+(bathroom type, room, wall panels, grout, door, hardware finish, storage,
+accent, window, safety) drive a layered preview, with save/restore in the
+browser and a JSON export. It ships with generated placeholder art that real
+product photography replaces file-for-file. Everything about it — how the
+preview engine works, replacing images, adding options and rules, and where
+future CRM/pricing integrations plug in — is in
+[`docs/design-builder.md`](docs/design-builder.md).
+
 ## Replace the business information
 
 Everything brandable lives in **`config/site.ts`** — company name, phone,

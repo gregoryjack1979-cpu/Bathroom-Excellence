@@ -305,13 +305,19 @@ export function toCsv(rows, columns) {
   return lines.join("\n") + "\n";
 }
 
-/** Write `<dir>/<name>.csv` and/or `.json`; returns the written paths. */
-export function writeDataset(dir, name, rows, format = "both") {
+/**
+ * Write `<dir>/<name>.csv` and/or `.json`; returns the written paths.
+ * `columns` fixes the CSV column order and, importantly, still emits the header
+ * row when there are no rows — so an empty export reads as "no data in this
+ * window" rather than as a broken file. Omit it for datasets whose columns vary
+ * between rows (lead form submissions), where the union of keys is used instead.
+ */
+export function writeDataset(dir, name, rows, format = "both", columns) {
   fs.mkdirSync(dir, { recursive: true });
   const written = [];
   if (format === "csv" || format === "both") {
     const file = path.join(dir, `${name}.csv`);
-    fs.writeFileSync(file, toCsv(rows));
+    fs.writeFileSync(file, toCsv(rows, columns));
     written.push(file);
   }
   if (format === "json" || format === "both") {

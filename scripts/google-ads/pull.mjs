@@ -214,7 +214,7 @@ async function campaigns(client, customerId, ctx, outDir) {
   }));
   for (const d of data) d.costPerLead = d.allConversions ? round(d.cost / d.allConversions) : "";
   printTable(data, ["campaign", "status", "channel", "impressions", "clicks", "cost", "allConversions", "costPerLead", "phoneCalls"], { limit: LIMIT });
-  exported(writeDataset(outDir, "campaigns", data, FORMAT));
+  exported(writeDataset(outDir, "campaigns", data, FORMAT, ["campaignId", "campaign", "status", "channel", "locationTargeting", "impressions", "clicks", "cost", "conversions", "allConversions", "conversionValue", "phoneCalls", "costPerLead"]));
 }
 
 /* ─────────────────────────────────── leads ───────────────────────────────── */
@@ -244,7 +244,7 @@ async function leads(client, customerId, ctx, outDir) {
     isLeadCategory: LEAD_CATEGORIES.has(pick(r, "conversionAction.category")),
   }));
   printTable(actions, ["conversionAction", "category", "type", "status", "allConversions", "conversionValue"], { limit: LIMIT });
-  exported(writeDataset(outDir, "lead-conversions-by-action", actions, FORMAT));
+  exported(writeDataset(outDir, "lead-conversions-by-action", actions, FORMAT, ["conversionActionId", "conversionAction", "category", "type", "status", "primaryForGoal", "allConversions", "conversions", "conversionValue", "isLeadCategory"]));
 
   /* 2 ── Same thing split by campaign, so you can see which campaign the leads came from */
   section("Lead conversions by campaign");
@@ -263,7 +263,7 @@ async function leads(client, customerId, ctx, outDir) {
     conversionValue: round(pick(r, "metrics.conversionsValue", 0)),
   }));
   printTable(byCampaign, ["campaign", "conversionAction", "category", "allConversions"], { limit: LIMIT });
-  exported(writeDataset(outDir, "lead-conversions-by-campaign", byCampaign, FORMAT));
+  exported(writeDataset(outDir, "lead-conversions-by-campaign", byCampaign, FORMAT, ["campaignId", "campaign", "conversionAction", "category", "allConversions", "conversionValue"]));
 
   /* 3 ── Lead form asset submissions (the actual names / phones / answers) */
   section("Lead form submissions (Google lead form assets)");
@@ -295,7 +295,14 @@ async function leads(client, customerId, ctx, outDir) {
       return out;
     });
   printTable(submissions, ["submittedAt", "campaign", "FULL_NAME", "PHONE_NUMBER", "EMAIL", "POSTAL_CODE", "CITY"], { limit: LIMIT });
-  exported(writeDataset(outDir, "lead-form-submissions", submissions, FORMAT));
+  // Identity columns are fixed so the file has a header even with no rows; the
+  // answered fields vary per lead, so they extend it in first-seen order.
+  const submissionBase = ["submissionId", "submittedAt", "campaign", "adGroup", "gclid"];
+  const submissionCols = [
+    ...submissionBase,
+    ...new Set(submissions.flatMap((r) => Object.keys(r)).filter((k) => !submissionBase.includes(k))),
+  ];
+  exported(writeDataset(outDir, "lead-form-submissions", submissions, FORMAT, submissionCols));
 
   /* 4 ── Phone calls from call assets / call-only ads (Google forwarding numbers) */
   section("Phone call leads (call reporting)");
@@ -319,7 +326,7 @@ async function leads(client, customerId, ctx, outDir) {
     adGroup: pick(r, "adGroup.name"),
   }));
   printTable(calls, ["startedAt", "durationSeconds", "callerAreaCode", "status", "callType", "campaign"], { limit: LIMIT });
-  exported(writeDataset(outDir, "phone-calls", calls, FORMAT));
+  exported(writeDataset(outDir, "phone-calls", calls, FORMAT, ["startedAt", "endedAt", "durationSeconds", "callerAreaCode", "callerCountry", "status", "callType", "displayLocation", "campaign", "adGroup"]));
 
   /* 5 ── Local Services Ads leads (only if the account runs LSA) */
   section("Local Services Ads leads");
@@ -363,7 +370,7 @@ async function leads(client, customerId, ctx, outDir) {
     note: pick(r, "localServicesLead.note.description", ""),
   }));
   printTable(lsa, ["createdAt", "leadType", "status", "category", "consumerName", "phone", "charged"], { limit: LIMIT });
-  exported(writeDataset(outDir, "local-services-leads", lsa, FORMAT));
+  exported(writeDataset(outDir, "local-services-leads", lsa, FORMAT, ["leadId", "createdAt", "leadType", "status", "category", "service", "consumerName", "phone", "charged", "note"]));
 
   /* 6 ── One-line summary */
   const totalLeads = round(actions.filter((a) => a.isLeadCategory).reduce((s, a) => s + a.allConversions, 0));
@@ -431,10 +438,11 @@ async function serviceArea(client, customerId, ctx, outDir) {
     };
   });
   printTable(targets, ["campaign", "exclude", "location", "locationType", "targetingMode", "bidModifier"], { limit: LIMIT });
-  exported(writeDataset(outDir, "location-targets", targets, FORMAT));
+  exported(writeDataset(outDir, "location-targets", targets, FORMAT, ["campaignId", "campaign", "campaignStatus", "targetingMode", "exclude", "type", "location", "locationType", "geoTargetId", "bidModifier"]));
 
   /* 2 ── Where the clicks / leads actually came from */
   const granularity = BY_POSTAL ? "ZIP code" : "city";
+  const key = BY_POSTAL ? "postalCode" : "city";
   section(`Performance by ${granularity} (where searchers were, or what area they searched for)`);
   const segment = BY_POSTAL ? "segments.geo_target_postal_code" : "segments.geo_target_city";
   const perfRows = await client.search(customerId, `
@@ -475,10 +483,9 @@ async function serviceArea(client, customerId, ctx, outDir) {
       phoneCalls: Number(pick(r, "metrics.phoneCalls", 0)),
     };
   });
-  exported(writeDataset(outDir, `geo-performance-by-${BY_POSTAL ? "postal-code" : "city"}`, perf, FORMAT));
+  exported(writeDataset(outDir, `geo-performance-by-${BY_POSTAL ? "postal-code" : "city"}`, perf, FORMAT, ["campaignId", "campaign", key, "region", "locationType", "geoTargetId", "impressions", "clicks", "cost", "conversions", "allConversions", "conversionValue", "phoneCalls"]));
 
   /* 3 ── Roll-up across campaigns: the service-area leaderboard */
-  const key = BY_POSTAL ? "postalCode" : "city";
   const summary = new Map();
   for (const p of perf) {
     const id = `${p[key]}|${p.region}`;
@@ -502,7 +509,7 @@ async function serviceArea(client, customerId, ctx, outDir) {
     }))
     .sort((a, b) => b.allConversions - a.allConversions || b.clicks - a.clicks);
   printTable(leaderboard, [key, "region", "impressions", "clicks", "cost", "allConversions", "costPerLead", "phoneCalls"], { limit: LIMIT });
-  exported(writeDataset(outDir, `service-area-summary-by-${BY_POSTAL ? "postal-code" : "city"}`, leaderboard, FORMAT));
+  exported(writeDataset(outDir, `service-area-summary-by-${BY_POSTAL ? "postal-code" : "city"}`, leaderboard, FORMAT, [key, "region", "geoTargetId", "impressions", "clicks", "cost", "allConversions", "conversionValue", "phoneCalls", "costPerLead", "inServiceArea"]));
 
   const outside = leaderboard.filter((l) => !l.inServiceArea && l.cost > 0);
   if (!BY_POSTAL && outside.length) {

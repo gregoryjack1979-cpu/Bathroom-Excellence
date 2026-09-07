@@ -113,6 +113,8 @@ function parseApiError(status, data) {
   const details = Array.isArray(err.details) ? err.details : [];
   const failure = details.find((d) => Array.isArray(d.errors));
   const errors = (failure?.errors ?? []).map((e) => ({
+    // errorCode is a one-of, e.g. { queryError: "UNFILTERABLE_FIELD" } — keep both halves.
+    type: Object.keys(e.errorCode ?? {})[0] ?? "unknownError",
     code: Object.values(e.errorCode ?? {})[0] ?? "UNKNOWN",
     message: e.message ?? "",
     field: (e.location?.fieldPathElements ?? []).map((f) => f.fieldName).join("."),
@@ -126,6 +128,20 @@ function parseApiError(status, data) {
   return new GoogleAdsApiError(
     `Google Ads API ${status}${err.status ? ` ${err.status}` : ""}\n  ${lines.join("\n  ")}`,
     { status, requestId: failure?.requestId, errors, body: data, hint },
+  );
+}
+
+/**
+ * True when the API rejected the *shape* of a query (a field that cannot be
+ * filtered, sorted or selected) rather than the request as a whole. Callers use
+ * this to retry with a simpler query and narrow the results client-side.
+ */
+export function isQueryShapeError(err) {
+  return (
+    err instanceof GoogleAdsApiError &&
+    err.errors.some(
+      (e) => e.type === "queryError" && /UNFILTERABLE|UNSORTABLE|UNSELECTABLE|INVALID_OPERATOR|OPERATOR_FIELD_MISMATCH|INVALID_VALUE/.test(e.code),
+    )
   );
 }
 

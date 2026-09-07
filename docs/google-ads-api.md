@@ -235,7 +235,7 @@ pick `--format csv` or `json`).
 | `lead-conversions-by-campaign` | The same conversions split by campaign. | `campaign` segmented by `conversion_action_name` |
 | `lead-form-submissions` | Individual submissions from Google **lead form assets** (name, phone, email, ZIP, custom question answers), with campaign and GCLID. Google only keeps these for a limited window, so pull regularly. | `lead_form_submission_data` |
 | `phone-calls` | Every tracked call from call assets / call ads: start and end time, duration, caller area code, status, campaign. | `call_view` |
-| `local-services-leads` | Local Services Ads leads (message / call / booking), status, whether it was charged, consumer name and phone. Skipped automatically if the account does not run LSA. | `local_services_lead` |
+| `local-services-leads` | Local Services Ads leads (message / call / booking), status, whether it was charged, consumer name and phone. If the API refuses to filter on the lead creation date, the script re-runs the query unfiltered and narrows the window locally, so the output is the same either way. Skipped automatically if the account does not run LSA. | `local_services_lead` |
 
 The website's own estimate-request form posts to your CRM webhook
 (`NEXT_PUBLIC_WEBHOOK_URL`, see the README) and is **not** part of this data:

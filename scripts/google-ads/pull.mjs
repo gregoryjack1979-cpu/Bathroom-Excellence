@@ -25,6 +25,7 @@ import {
   loadEnv,
   getConfig,
   createClient,
+  isQueryShapeError,
   parseArgs,
   reportError,
   pick,
@@ -322,15 +323,34 @@ async function leads(client, customerId, ctx, outDir) {
 
   /* 5 ── Local Services Ads leads (only if the account runs LSA) */
   section("Local Services Ads leads");
-  const lsaRows = await client.search(customerId, `
-    SELECT local_services_lead.id, local_services_lead.creation_date_time, local_services_lead.lead_type,
-           local_services_lead.lead_status, local_services_lead.category_id, local_services_lead.service_id,
-           local_services_lead.contact_details.consumer_name, local_services_lead.contact_details.phone_number,
-           local_services_lead.lead_charged, local_services_lead.note.description, local_services_lead.locale
-    FROM local_services_lead
-    WHERE local_services_lead.creation_date_time >= '${start} 00:00:00'
-    ORDER BY local_services_lead.creation_date_time DESC`).catch(skip("Local Services Ads leads (account may not run LSA)"));
-  const lsa = lsaRows.map((r) => ({
+  const lsaFields = `
+    local_services_lead.id, local_services_lead.creation_date_time, local_services_lead.lead_type,
+    local_services_lead.lead_status, local_services_lead.category_id, local_services_lead.service_id,
+    local_services_lead.contact_details.consumer_name, local_services_lead.contact_details.phone_number,
+    local_services_lead.lead_charged, local_services_lead.note.description, local_services_lead.locale`;
+  const lsaRows = await client
+    .search(customerId, `
+      SELECT ${lsaFields}
+      FROM local_services_lead
+      WHERE local_services_lead.creation_date_time >= '${start} 00:00:00'
+      ORDER BY local_services_lead.creation_date_time DESC`)
+    .catch((err) => {
+      // Not every API version lets creation_date_time be filtered or sorted on.
+      // Pull the resource plainly instead and narrow the window below.
+      if (!isQueryShapeError(err)) throw err;
+      console.log("  (creation_date_time is not filterable here — pulling unfiltered and narrowing locally)");
+      return client.search(customerId, `SELECT ${lsaFields} FROM local_services_lead`);
+    })
+    .catch(skip("Local Services Ads leads (account may not run LSA)"));
+  // Always narrow and sort client-side, so both query paths yield the same window.
+  const lsa = lsaRows
+    .filter((r) => String(pick(r, "localServicesLead.creationDateTime", "")).slice(0, 10) >= start)
+    .sort((a, b) =>
+      String(pick(b, "localServicesLead.creationDateTime", "")).localeCompare(
+        String(pick(a, "localServicesLead.creationDateTime", "")),
+      ),
+    )
+    .map((r) => ({
     leadId: pick(r, "localServicesLead.id"),
     createdAt: pick(r, "localServicesLead.creationDateTime"),
     leadType: pick(r, "localServicesLead.leadType"),

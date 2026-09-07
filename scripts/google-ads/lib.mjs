@@ -92,19 +92,40 @@ export class GoogleAdsApiError extends Error {
   }
 }
 
+// Meanings taken from the AuthorizationError / AuthenticationError enums in the
+// Google Ads API protos; the hints say what to change here.
 const HINTS = {
   DEVELOPER_TOKEN_NOT_APPROVED:
-    "Your developer token only has Test Account access. Either point GOOGLE_ADS_CUSTOMER_ID at a test account, or wait for Explorer/Basic access (docs/google-ads-api.md → Step 1).",
+    "The developer token is approved for test accounts only. Apply for Basic access in the API Center, wait for Explorer access, or point GOOGLE_ADS_CUSTOMER_ID at a test account (docs/google-ads-api.md → Step 1).",
+  DEVELOPER_TOKEN_NOT_ON_ALLOWLIST:
+    "The developer token is not on Google's allow-list yet. Check its status in the API Center of the manager account that owns it.",
   DEVELOPER_TOKEN_PROHIBITED:
-    "This developer token belongs to a different manager account than the one you are logging in with. Use the token from the manager account in GOOGLE_ADS_LOGIN_CUSTOMER_ID.",
+    "This developer token is not allowed with the Google Cloud project behind these OAuth credentials. Use the OAuth client from the Cloud project the token is associated with, or associate the token with this project in the API Center.",
   DEVELOPER_TOKEN_INVALID: "GOOGLE_ADS_DEVELOPER_TOKEN is not a valid token. Copy it again from the API Center.",
+  MISSING_TOS: "Nobody has accepted the Google Ads API Terms of Service for this developer token. Sign them at https://ads.google.com/aw/apicenter.",
+  PROJECT_DISABLED: "The Google Cloud project may not call the Google Ads API. Enable the API in the project (docs/google-ads-api.md → Step 2a).",
+  CLOUD_PROJECT_NOT_APPROVED_FOR_PRODUCTION:
+    "The Cloud project is approved for test accounts only. Apply for Explorer, Basic or Standard access before querying a production account.",
+  CLOUD_PROJECT_NOT_UNDER_ORGANIZATION: "The Cloud project must sit under the organization associated with the developer token.",
+  ORGANIZATION_NOT_ASSOCIATED_WITH_DEVELOPER_TOKEN:
+    "The Cloud organization behind this project is not associated with the developer token. Use the OAuth client from the project that owns the token.",
   USER_PERMISSION_DENIED:
-    "The Google account that authorised the refresh token cannot access this customer. Check the account has access in Google Ads, and that GOOGLE_ADS_LOGIN_CUSTOMER_ID is the manager account that links this client (or is unset when authorising as the client account itself).",
-  CUSTOMER_NOT_FOUND: "GOOGLE_ADS_CUSTOMER_ID does not exist or is not visible to this login. Run `npm run ads:pull -- accounts` to list what you can reach.",
-  CUSTOMER_NOT_ENABLED: "The customer account is cancelled or not yet activated in Google Ads.",
-  NOT_ADS_USER: "The Google account that authorised the refresh token has no Google Ads account. Authorise with the account that manages Bathroom Excellence's ads.",
-  OAUTH_TOKEN_INVALID: "The refresh token was rejected. Re-run `npm run ads:auth` to mint a new one.",
-  OAUTH_TOKEN_REVOKED: "The refresh token was revoked (or expired after 7 days because the OAuth app is still in 'Testing'). Publish the app and re-run `npm run ads:auth`.",
+    "The Google account that authorised the refresh token cannot access this customer. When reading a client account through a manager, GOOGLE_ADS_LOGIN_CUSTOMER_ID must be that manager. When the account is accessed directly, leave it empty.",
+  INVALID_LOGIN_CUSTOMER_ID_SERVING_CUSTOMER_ID_COMBINATION:
+    "GOOGLE_ADS_LOGIN_CUSTOMER_ID names a manager that has no access to GOOGLE_ADS_CUSTOMER_ID. Link the account under that manager, or clear GOOGLE_ADS_LOGIN_CUSTOMER_ID if the authorising user reaches the account directly.",
+  CUSTOMER_NOT_FOUND: "No customer exists with that ID. Run `npm run ads:pull -- accounts` to list what this login can reach.",
+  CUSTOMER_NOT_ENABLED: "The account is not yet enabled, or has been deactivated, in Google Ads.",
+  ACCESS_DENIED_FOR_ACCOUNT_TYPE: "That customer ID belongs to another ads system, not Google Ads.",
+  ACTION_NOT_PERMITTED_FOR_SUSPENDED_ACCOUNT: "The Google Ads account is suspended.",
+  INCOMPLETE_SIGNUP: "The Google Ads account signup is not finished. Complete it in the Google Ads UI first.",
+  METRIC_ACCESS_DENIED: "This login may not read one of the metrics in the query.",
+  NOT_ADS_USER:
+    "The Google account that authorised the refresh token has no Google Ads account. Re-run `npm run ads:auth` and sign in with the account that manages the ads.",
+  OAUTH_TOKEN_INVALID: "The OAuth token was rejected. Re-run `npm run ads:auth` to mint a new refresh token.",
+  OAUTH_TOKEN_EXPIRED: "The OAuth token expired. Re-run `npm run ads:auth`.",
+  OAUTH_TOKEN_DISABLED: "The OAuth token has been disabled. Re-run `npm run ads:auth`.",
+  OAUTH_TOKEN_REVOKED:
+    "The refresh token was revoked (or expired after 7 days because the OAuth app is still in 'Testing'). Publish the app and re-run `npm run ads:auth`.",
   UNRECOGNIZED_FIELD: "A field in the GAQL query does not exist in this API version. Check GOOGLE_ADS_API_VERSION.",
 };
 

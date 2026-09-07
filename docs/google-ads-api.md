@@ -33,16 +33,45 @@ regular advertiser account.
 
 ### 1a. Make sure there is a manager account
 
-- If Bathroom Excellence's ads are already run from a manager account (an agency
-  MCC or your own), use that one. The manager must have the Bathroom Excellence
-  client account linked under it.
-- If not, create one at <https://ads.google.com/home/tools/manager-accounts/>
-  (free, a few minutes), then in the new manager account go to
-  **Accounts → Sub-account settings → + → Link existing account** and enter the
-  Bathroom Excellence customer ID. Someone with admin access on the Bathroom
-  Excellence account accepts the invitation.
-- The manager account must be a **production** account, not a test manager
-  account. Tokens created from test managers can never be upgraded.
+Open <https://ads.google.com/aw/apicenter> signed in as someone with admin
+access. What you see decides the next move:
+
+- **The API Center loads.** A manager account already exists. Skip to 1b.
+- **"The API Center is only available to manager accounts."** The Bathroom
+  Excellence account is a standalone advertiser account, and you must create a
+  manager account before any token can be issued. This is the expected state
+  for a business that has never used the API.
+
+To create one:
+
+1. Go to <https://ads.google.com/home/tools/manager-accounts/> and choose
+   **Create a manager account**. It is free and takes a few minutes.
+2. Name it after the business (for example `Bathroom Excellence – Manager`),
+   pick **Manage other accounts** as the purpose, and set country, time zone
+   and currency. The manager's currency is only used for consolidated billing;
+   it does not have to match the advertiser account.
+3. If Google refuses the email because it already has a Google Ads account,
+   create the manager with a second address you control and invite the original
+   address to it afterwards.
+
+Make it a **production** manager account, not a test manager. Tokens issued
+from a test manager can never be upgraded to production access.
+
+**Do you also have to link the advertiser account underneath it?** Not
+necessarily. The developer token identifies the software and does not need a
+relationship with the account being read. Two working arrangements:
+
+| Arrangement | `GOOGLE_ADS_LOGIN_CUSTOMER_ID` | Requires linking |
+|---|---|---|
+| The authorising Google user has direct access to the advertiser account | leave empty | no |
+| You read the advertiser account through the manager | the manager's ID | yes |
+
+Start with the first, since it needs no linking and no invitation to accept. If
+a call fails with `USER_PERMISSION_DENIED` or
+`INVALID_LOGIN_CUSTOMER_ID_SERVING_CUSTOMER_ID_COMBINATION`, switch to the
+second: in the manager account go to **Accounts → + → Link existing account**,
+enter the advertiser customer ID, then accept the invitation from the
+advertiser account under **Admin → Access and security → Managers**.
 
 ### 1b. Request the token
 
@@ -271,8 +300,11 @@ The scripts print Google's error code plus a hint. The usual ones:
 | Error | Meaning / fix |
 |---|---|
 | `DEVELOPER_TOKEN_NOT_APPROVED` | Token still at *Test Account access* and you targeted a production account. Wait for Explorer/Basic, or use a test account (Step 1d). |
-| `DEVELOPER_TOKEN_PROHIBITED` | The token belongs to a different manager than `GOOGLE_ADS_LOGIN_CUSTOMER_ID`. |
+| `DEVELOPER_TOKEN_PROHIBITED` | The token is not allowed with the Cloud project behind your OAuth client. Use the OAuth client from the project the token is associated with. |
+| `MISSING_TOS` | Nobody has accepted the API Terms of Service for this token. Sign them in the API Center. |
 | `USER_PERMISSION_DENIED` | The authorised Google user cannot see that customer, or `GOOGLE_ADS_LOGIN_CUSTOMER_ID` is wrong / missing. Run `accounts`. |
+| `INVALID_LOGIN_CUSTOMER_ID_SERVING_CUSTOMER_ID_COMBINATION` | The manager in `GOOGLE_ADS_LOGIN_CUSTOMER_ID` has no access to the target account. Link it, or clear the variable if the user reaches the account directly (Step 1a). |
+| `CLOUD_PROJECT_NOT_APPROVED_FOR_PRODUCTION` | The Cloud project itself is limited to test accounts. Apply for Explorer, Basic or Standard access. |
 | `CUSTOMER_NOT_FOUND` | Typo in a customer ID (dashes are fine, letters are not). |
 | `OAuth token refresh failed … invalid_grant` | Refresh token revoked, or expired after 7 days because the OAuth app is in *Testing*. Publish the app (Step 2b) and re-run `ads:auth`. |
 | `403 … Google Ads API has not been used in project …` | Enable the API in the Cloud project (Step 2a). |

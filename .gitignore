@@ -28,3 +28,8 @@ next-env.d.ts
 # testing
 /test-results/
 /playwright-report/
+
+# google ads api (see docs/google-ads-api.md)
+/exports/
+client_secret*.json
+google-ads.yaml

@@ -120,6 +120,25 @@ remodel **+20**, shower remodel / tub-to-shower / walk-in **+15**, safety
 With no webhook configured, submissions log to the browser console and show
 the success panel — handy for demos.
 
+## Google Ads: leads & service-area reports
+
+`scripts/google-ads/` pulls the Google Ads side of the funnel — conversions per
+conversion action and campaign, lead-form-asset submissions, tracked phone
+calls, Local Services Ads leads, plus every campaign's location targets and
+performance by city / ZIP — into CSV and JSON under `exports/google-ads/`.
+
+```bash
+cp .env.google-ads.example .env.google-ads.local   # developer token, OAuth client, account IDs
+npm run ads:auth -- --credentials client_secret.json --save   # one-time: mint the refresh token
+npm run ads:pull -- accounts                        # confirm which accounts the login can reach
+npm run ads:pull -- leads                           # or: campaigns | service-area | all
+```
+
+Applying for the developer token, creating the OAuth client in Google Cloud
+Console, access levels, and what each export contains are all covered in
+[`docs/google-ads-api.md`](docs/google-ads-api.md). The scripts are read-only
+and use the REST API directly — no extra dependencies.
+
 ## Deploy to GitHub Pages
 
 The repo ships with `.github/workflows/deploy-pages.yml`, which builds a fully

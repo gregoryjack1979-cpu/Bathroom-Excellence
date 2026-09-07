@@ -5,7 +5,9 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "ads:auth": "node scripts/google-ads/get-refresh-token.mjs",
+    "ads:pull": "node scripts/google-ads/pull.mjs"
   },
   "dependencies": {
     "clsx": "^2.1.1",

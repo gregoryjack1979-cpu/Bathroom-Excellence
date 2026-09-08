@@ -20,6 +20,7 @@
  * Exports land in <out>/<customer-id>/<YYYY-MM-DD>/<dataset>.{csv,json}.
  * Setup: docs/google-ads-api.md
  */
+import fs from "node:fs";
 import path from "node:path";
 import {
   loadEnv,
@@ -74,8 +75,39 @@ const LEAD_CATEGORIES = new Set([
 
 const PII_FIELDS = new Set(["FULL_NAME", "FIRST_NAME", "LAST_NAME", "EMAIL", "WORK_EMAIL", "PHONE_NUMBER", "WORK_PHONE", "STREET_ADDRESS"]);
 
-/** Localities from config/site.ts (kept in sync by hand — this script runs without the TS build). */
-const SERVICE_AREA_LOCALITIES = ["st. charles", "st charles", "saint charles", "st. peters", "st peters", "saint peters", "o'fallon", "ofallon", "cottleville", "chesterfield", "st. louis", "st louis", "saint louis"];
+/**
+ * Service area from config/service-area.json — the ZIP list Jack supplied.
+ * Postal codes are exact and authoritative; the locality names only support
+ * city-level reporting, where a name match is necessarily approximate.
+ */
+const SERVICE_AREA = loadServiceArea();
+
+function loadServiceArea() {
+  const file = path.resolve("config/service-area.json");
+  try {
+    const data = JSON.parse(fs.readFileSync(file, "utf8"));
+    return {
+      postalCodes: new Set(data.counties.flatMap((c) => c.postalCodes)),
+      localities: (data.localities ?? []).map((l) => l.toLowerCase()),
+    };
+  } catch (err) {
+    console.warn(`  (could not read config/service-area.json — in/out-of-area flagging disabled: ${err.message})`);
+    return { postalCodes: new Set(), localities: [] };
+  }
+}
+
+/**
+ * Is this reported location inside the service area? Exact for ZIP codes.
+ * For cities it is a name match against the locality list, so a city we serve
+ * but never named reads as outside — treat the city-level flag as a hint.
+ */
+function inServiceArea(name, byPostal) {
+  const value = String(name ?? "").trim();
+  if (!value) return false;
+  if (byPostal) return SERVICE_AREA.postalCodes.has(value);
+  const lower = value.toLowerCase();
+  return SERVICE_AREA.localities.some((l) => lower.includes(l));
+}
 
 try {
   const cfg = getConfig({ required: ["developerToken", "clientId", "clientSecret", "refreshToken"] });
@@ -505,16 +537,20 @@ async function serviceArea(client, customerId, ctx, outDir) {
       allConversions: round(s.allConversions),
       conversionValue: round(s.conversionValue),
       costPerLead: s.allConversions ? round(s.cost / s.allConversions) : "",
-      inServiceArea: SERVICE_AREA_LOCALITIES.some((l) => String(s[key]).toLowerCase().includes(l)),
+      inServiceArea: inServiceArea(s[key], BY_POSTAL),
     }))
     .sort((a, b) => b.allConversions - a.allConversions || b.clicks - a.clicks);
   printTable(leaderboard, [key, "region", "impressions", "clicks", "cost", "allConversions", "costPerLead", "phoneCalls"], { limit: LIMIT });
   exported(writeDataset(outDir, `service-area-summary-by-${BY_POSTAL ? "postal-code" : "city"}`, leaderboard, FORMAT, [key, "region", "geoTargetId", "impressions", "clicks", "cost", "allConversions", "conversionValue", "phoneCalls", "costPerLead", "inServiceArea"]));
 
   const outside = leaderboard.filter((l) => !l.inServiceArea && l.cost > 0);
-  if (!BY_POSTAL && outside.length) {
+  if (outside.length) {
     const wasted = round(outside.reduce((s, l) => s + l.cost, 0));
-    console.log(`\n  ${outside.length} ${granularity}(s) with spend fall outside the configured service area (config/site.ts) — ${ctx.currency} ${wasted} in the window. Review "location-targets" above.`);
+    console.log(
+      `\n  ${outside.length} ${granularity}(s) with spend fall outside the service area in config/service-area.json` +
+        ` — ${ctx.currency} ${wasted} in the window. Review "location-targets" above.` +
+        (BY_POSTAL ? "" : "\n  (City names are matched by name, so this count is approximate — re-run with --by postal_code for the exact answer.)"),
+    );
   }
   console.log();
 }

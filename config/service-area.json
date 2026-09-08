@@ -1,0 +1,26 @@
+{
+  "$comment": "Bathroom Excellence service area, supplied by Jack Hogrebe on 2026-09-08. Drives location targeting in Google Ads and Local Services, and the in/out-of-area flag in scripts/google-ads/pull.mjs. Postal codes are authoritative; the locality names are a convenience for city-level reporting only.",
+  "updated": "2026-09-08",
+  "localities": [
+    "St. Charles", "St. Peters", "O'Fallon", "Cottleville", "Chesterfield",
+    "St. Louis", "Ballwin", "Wildwood", "Kirkwood", "Webster Groves",
+    "Florissant", "Fenton", "Arnold", "Wentzville", "Lake St. Louis",
+    "Belleville", "Edwardsville", "Alton", "Granite City", "Collinsville"
+  ],
+  "counties": [
+    { "state": "IL", "county": "Calhoun",       "postalCodes": ["62036"] },
+    { "state": "IL", "county": "Clinton",       "postalCodes": ["62293"] },
+    { "state": "IL", "county": "Jersey",        "postalCodes": ["62012","62022","62028","62037","62052"] },
+    { "state": "IL", "county": "Macoupin",      "postalCodes": ["62014","62088"] },
+    { "state": "IL", "county": "Madison",       "postalCodes": ["62010","62234","62018","62021","62025","62026","62034","62040","62046","62048","62249","62058","62061","62062","62067","62084","62281","62087","62294","62090","62097"] },
+    { "state": "IL", "county": "Monroe",        "postalCodes": ["62236","62295","62298"] },
+    { "state": "IL", "county": "Saint Clair",   "postalCodes": ["62220","62222","62223","62226","62232","62240","62208","62254","62260","62071","62225","62285","62289"] },
+    { "state": "MO", "county": "Franklin",      "postalCodes": ["63015","63039","63041","63055","63061","63069","63072","63073","63084","63089","63090"] },
+    { "state": "MO", "county": "Jefferson",     "postalCodes": ["63010","63012","63016","63019","63020","63023","63047","63048","63049","63050","63051","63052","63053","63057","63065","63066","63070"] },
+    { "state": "MO", "county": "Lincoln",       "postalCodes": ["63362","63369","63389"] },
+    { "state": "MO", "county": "Saint Charles", "postalCodes": ["63332","63338","63341","63346","63348","63367","63365","63366","63368","63373","63301","63302","63303","63304","63376","63385","63386"] },
+    { "state": "MO", "county": "Saint Louis City", "postalCodes": ["63101","63102","63155","63156","63157","63158","63160","63163","63164","63166","63169","63171","63177","63178","63179","63180","63188","63195","63197","63199"] },
+    { "state": "MO", "county": "Saint Louis",   "postalCodes": ["63011","63021","63022","63024","63044","63005","63006","63017","63045","63025","63026","63099","63038","63040","63043","63074","63105","63117","63119","63122","63123","63124","63125","63126","63127","63128","63129","63130","63131","63132","63140","63141","63143","63144","63145","63146","63151","63167"] },
+    { "state": "MO", "county": "Warren",        "postalCodes": ["63342","63380","63390"] }
+  ]
+}

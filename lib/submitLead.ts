@@ -1,5 +1,6 @@
 import { siteConfig } from "@/config/site";
 import { scoreLead } from "./leadScoring";
+import { trackLeadConversion } from "./googleAdsConversion";
 import {
   FEATURE_OPTIONS,
   HOMEOWNER_OPTIONS,
@@ -51,6 +52,7 @@ export async function submitLead(data: LeadFormData): Promise<SubmitResult> {
 
   if (!url) {
     console.info("[lead] NEXT_PUBLIC_WEBHOOK_URL not set — payload:", payload);
+    trackLeadConversion(data, payload);
     return { ok: true, payload };
   }
 
@@ -66,6 +68,7 @@ export async function submitLead(data: LeadFormData): Promise<SubmitResult> {
     if (!res.ok) {
       return { ok: false, payload, error: `Request failed (${res.status})` };
     }
+    trackLeadConversion(data, payload);
     return { ok: true, payload };
   } catch {
     return { ok: false, payload, error: "Network error — please try again." };

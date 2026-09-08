@@ -5,6 +5,7 @@ import { MotionPrefsProvider } from "@/lib/hooks/useMotionPrefs";
 import { JsonLd } from "@/components/ui/JsonLd";
 import { EffectsMount } from "@/components/effects/EffectsMount";
 import { PageLoader } from "@/components/effects/PageLoader";
+import { GoogleAdsTag } from "@/components/analytics/GoogleAdsTag";
 import "./globals.css";
 
 const mulish = Mulish({
@@ -55,6 +56,7 @@ export default function RootLayout({
   return (
     <html lang="en" data-scroll-behavior="smooth" className={`${mulish.variable} ${lora.variable}`}>
       <body>
+        <GoogleAdsTag />
         <MotionPrefsProvider>
           <PageLoader />
           {children}

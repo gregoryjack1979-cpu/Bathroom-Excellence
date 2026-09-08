@@ -19,6 +19,14 @@ All of it lives in `.env.google-ads.local` (git-ignored; template in
 `.env.google-ads.example`). Nothing here needs to be deployed with the website —
 these are back-office scripts run from a laptop or a scheduled job.
 
+> **Where we got to on 8 Sep 2026.** Steps 1 and 4 are done. A production
+> manager account was created and its developer token was granted
+> **Explorer access** immediately, which reaches production accounts at up to
+> 2,880 operations a day — ample for these reports, and no Basic access
+> application is needed. Steps 2 and 3 remain: the Cloud project, the OAuth
+> client, and the refresh token. Both customer IDs are recorded in
+> `.env.google-ads.local`, never in this file.
+
 > Versions: the scripts default to Google Ads API **v25** (released July 2026,
 > scheduled to sunset August 2027). Override with `GOOGLE_ADS_API_VERSION` when
 > Google ships v26. Google sunsets each version roughly a year after release.
@@ -232,6 +240,13 @@ UI. Fill in:
   developer token and has the Bathroom Excellence account linked. If the user
   who authorised in Step 3 accesses the Bathroom Excellence account directly
   (not through a manager), leave this empty.
+
+  **For our setup, leave it empty.** The manager account exists only to hold the
+  developer token; it was deliberately never linked to the advertiser account,
+  and the authorising Google user has direct admin access there instead. Naming
+  the manager here would fail with
+  `INVALID_LOGIN_CUSTOMER_ID_SERVING_CUSTOMER_ID_COMBINATION`, because a manager
+  can only front for accounts it actually manages.
 - `GOOGLE_ADS_CUSTOMER_ID` — the **Bathroom Excellence** advertiser account.
 
 Not sure which is which? Run the discovery command; it lists every account the

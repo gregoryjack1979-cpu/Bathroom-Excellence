@@ -1,6 +1,7 @@
 import { siteConfig } from "@/config/site";
 import { scoreLead } from "./leadScoring";
 import { trackLeadConversion } from "./googleAdsConversion";
+import { attributionFields, getAttribution } from "./attribution";
 import {
   FEATURE_OPTIONS,
   HOMEOWNER_OPTIONS,
@@ -31,6 +32,9 @@ export function buildLeadPayload(data: LeadFormData): LeadPayload {
     leadPriority: priority,
     submissionDate: new Date().toISOString(),
     page: typeof window !== "undefined" ? window.location.pathname : "/",
+    // gclid / utm_* when the visitor arrived from an ad — the join key that
+    // lets a signed job be traced back to the campaign that produced it.
+    ...attributionFields(getAttribution()),
   };
 }
 

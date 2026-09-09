@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import type { Metadata, Viewport } from "next";
 import { Lora, Mulish } from "next/font/google";
 import { siteConfig, withBasePath } from "@/config/site";
@@ -6,6 +7,7 @@ import { JsonLd } from "@/components/ui/JsonLd";
 import { EffectsMount } from "@/components/effects/EffectsMount";
 import { PageLoader } from "@/components/effects/PageLoader";
 import { GoogleAdsTag } from "@/components/analytics/GoogleAdsTag";
+import { AttributionCapture } from "@/components/analytics/AttributionCapture";
 import "./globals.css";
 
 const mulish = Mulish({
@@ -57,6 +59,9 @@ export default function RootLayout({
     <html lang="en" data-scroll-behavior="smooth" className={`${mulish.variable} ${lora.variable}`}>
       <body>
         <GoogleAdsTag />
+        <Suspense fallback={null}>
+          <AttributionCapture />
+        </Suspense>
         <MotionPrefsProvider>
           <PageLoader />
           {children}

@@ -54,7 +54,7 @@ export interface LeadFormData {
  * Webhook payload — flat, human-readable keys so it drops straight into
  * Zapier / Make.com / n8n / GoHighLevel field mapping.
  */
-export interface LeadPayload {
+export interface LeadPayload extends AttributionFields {
   firstName: string;
   lastName: string;
   phone: string;
@@ -71,6 +71,31 @@ export interface LeadPayload {
   leadPriority: LeadPriority;
   submissionDate: string;
   page: string;
+}
+
+/**
+ * How the visitor arrived. Every field is optional — organic and direct traffic
+ * carries none of them — and each is a flat key so CRM field mapping stays a
+ * drag-and-drop job. The click identifiers are what let a signed job be traced
+ * back to the campaign that produced it. See lib/attribution.ts.
+ */
+export interface AttributionFields {
+  /** Google Ads click identifier, appended to landing URLs by auto-tagging. */
+  gclid?: string;
+  /** Google Ads, iOS app-to-web journeys. */
+  gbraid?: string;
+  /** Google Ads, iOS web-to-app journeys. */
+  wbraid?: string;
+  msclkid?: string;
+  fbclid?: string;
+  utm_source?: string;
+  utm_medium?: string;
+  utm_campaign?: string;
+  utm_term?: string;
+  utm_content?: string;
+  referrer?: string;
+  landingPage?: string;
+  attributionCapturedAt?: string;
 }
 
 export type GalleryCategory =

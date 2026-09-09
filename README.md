@@ -108,8 +108,28 @@ fields directly:
   "leadScore": 60,
   "leadPriority": "High Priority",
   "submissionDate": "2026-08-29T…",
-  "page": "/"
+  "page": "/",
+
+  "gclid": "Cj0KCQ…",
+  "utm_source": "google",
+  "utm_campaign": "bathroom-remodel-2026",
+  "referrer": "https://www.google.com/",
+  "landingPage": "/services/full-bathroom-remodel"
 }
+```
+
+The attribution keys at the end appear only when the visitor arrived from an ad
+or a tagged link; organic and direct traffic carries none of them. They are read
+from the landing URL and kept for 90 days, so a click in March still credits a
+job signed in May. Map `gclid` into your CRM: it is what lets a signed job be
+traced back to the campaign, ad group and keyword that produced it, and what
+lets sale values be pushed back to Google so bidding optimises toward revenue
+rather than form fills. See `lib/attribution.ts`.
+
+Check the whole chain against a served build with:
+
+```bash
+node tests/attribution-check.mjs http://localhost:3210
 ```
 
 Scoring (`lib/leadScoring.ts`): homeowner **+20**; timeline ASAP **+20** /
